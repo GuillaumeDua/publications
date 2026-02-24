@@ -6,4 +6,7 @@
 
 ---
 
-WIP: migration from [my gist](https://gist.github.com/GuillaumeDua).
+WIP:
+
+- migration from [my gist](https://gist.github.com/GuillaumeDua).
+- publication CI -> Jekyll, apply CSS

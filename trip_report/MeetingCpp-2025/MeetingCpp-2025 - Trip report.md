@@ -6,6 +6,9 @@
 | Author                | Guillaume Dua                                                |
 | Date                  | 11/06/2025 - 11/08/2025                                      |
 | My attendance sponsor | [Fairmat](https://www.fairmat.tech/)                         |
+| Revision              | R1                                                           |
+
+---
 
 <style>
   img {
@@ -25,7 +28,7 @@
     text-align: center;
   }
 
-  img[alt~="top_left"] {
+  img[alt~="inline_circle"] {
     border-radius: 50%;
     object-fit: cover;
     display: inline-block;
@@ -1793,17 +1796,16 @@ Influencers, federal agencies, and politicians content reaches far beyond engine
 
 Take for instance those two posts [2025 Will Be the Year of Rust-Why Big Tech Is Ditching C++](https://dev.to/dev_tips/2025-will-be-the-year-of-rust-why-big-tech-is-ditching-c-178p) and [Stop Coding In C and C++, Feds Say](https://www.itjungle.com/2024/12/02/stop-coding-in-c-and-c-feds-say/). It uses the same - often, fallacious - arguments, claiming:
 
-| argument                                                | my perspective                                                                                        |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Rust is not a drop-in replacement for C++               | Agree                                                                                                 |
-| C++ Build system (CMake) is a pain                      | Partially Agree. CMake is a de-facto build system for many languages.                                 |
-| C++ does not fit high-risk                              | Legacy C++ don't. Contemporain does.                                                                  |
-| Poor memory safety                                      | Ever heard of `{ type value; }` ? `std::unique_ptr` ?  etc.                                           |
-| Tech-debt, maintaining cost endanger teams productivity | Not a language-specific thing                                                                         |
-| Lack of consistent formatting                           | `clang-format` and other tools are meant for that                                                     |
-| Need to modernize with modern language features         | Not a language-specific thing. No need, but one should.                                               |
-| Lack of safe concurrency primitives                     | STL's [concurrency support library](https://en.cppreference.com/w/cpp/thread.html),                   |
-|                                                         | [P2300 sender-receiver](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2300r10.html), etc. |
+| Argument                                                | My perspective                                                                                                                                                                            |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rust is not a drop-in replacement for C++               | Agree                                                                                                                                                                                     |
+| C++ Build system (CMake) is a pain                      | Partially Agree. CMake is a de-facto build system for many languages.                                                                                                                     |
+| C++ does not fit high-risk                              | Legacy C++ don't. Contemporain does.                                                                                                                                                      |
+| Poor memory safety                                      | Ever heard of `{ type value; }` ? `std::unique_ptr` ?  etc.                                                                                                                               |
+| Tech-debt, maintaining cost endanger teams productivity | Not a language-specific thing                                                                                                                                                             |
+| Lack of consistent formatting                           | `clang-format` and other tools are meant for that                                                                                                                                         |
+| Need to modernize with modern language features         | Not a language-specific thing. No need, but one should.                                                                                                                                   |
+| Lack of safe concurrency primitives                     | STL's [concurrency support library](https://en.cppreference.com/w/cpp/thread.html), [P2300 sender-receiver](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2300r10.html), etc. |
 
 Also:
 
@@ -2023,7 +2025,7 @@ If you enjoyed this paper:
 
 ## About
 
-![smaller top_left](../../resources/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline_circle](../../resources/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
 I specialize in technical audits and recovery missions, helping teams stabilize complex or struggling projects, and establish reliable foundations for new ones.

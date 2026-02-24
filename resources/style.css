@@ -1,0 +1,22 @@
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+img[alt~="smaller"] { max-width: 20%; }
+img[alt~="small"]   { max-width: 30%; }
+img[alt~="medium"]  { max-width: 60%; }
+img[alt~="full"]    { max-width: 100%; }
+img[alt~="center"]  {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+img[alt~="inline_circle"] {
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+}

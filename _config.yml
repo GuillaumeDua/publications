@@ -1,0 +1,9 @@
+title: Publications
+markdown: kramdown
+theme: minima
+highlighter: rouge
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

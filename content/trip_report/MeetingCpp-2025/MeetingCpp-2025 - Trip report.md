@@ -1,3 +1,8 @@
+---
+layout: default
+title: Meeting C++ 2025 Trip Report
+---
+
 # Conference - Meeting Cpp 2025 - Trip report
 
 |                       |                                                              |
@@ -2025,7 +2030,7 @@ If you enjoyed this paper:
 
 ## About
 
-![smaller inline_circle](../../resources/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline_circle](../../../assets/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
 I specialize in technical audits and recovery missions, helping teams stabilize complex or struggling projects, and establish reliable foundations for new ones.

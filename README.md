@@ -1,3 +1,8 @@
+---
+layout: default
+title: Publications
+---
+
 # My publications
 
 ## Trip reports

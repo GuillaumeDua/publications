@@ -7,7 +7,9 @@ title: Publications
 
 ## Trip reports
 
-- [Meeting C++ 2025](./trip_report/MeetingCpp-2025/MeetingCpp-2025%20-%20Trip%20report.md)
+- [Meeting C++ 2025]({{ '/trip_report/MeetingCpp-2025/' | relative_url }})
+- [Meeting C++ 2025](./trip_report/MeetingCpp-2025/MeetingCpp-2025.md)
+- [Meeting C++ 2025](./content/trip_report/MeetingCpp-2025/MeetingCpp-2025.md)
 
 ---
 

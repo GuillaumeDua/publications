@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Meeting C++ 2025 Trip Report
+permalink: /trip_report/MeetingCpp-2025/
 ---
 
 # Conference - Meeting Cpp 2025 - Trip report

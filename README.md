@@ -15,3 +15,8 @@ WIP:
 
 - migration from [my gist](https://gist.github.com/GuillaumeDua).
 - publication CI -> Jekyll, apply CSS
+
+## License
+
+- Textual content is licensed under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](./LICENSE)
+- ⚠️ Personal data, personal photographs, and any content depicting identifiable individuals are **NOT covered by this license**. See [PRIVACY.md](./PRIVACY.md) for details.

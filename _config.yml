@@ -1,6 +1,6 @@
 title: Publications
 markdown: kramdown
-theme: minima
+theme: jekyll-theme-hacker
 highlighter: rouge
 defaults:
   - scope:

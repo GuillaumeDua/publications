@@ -12,7 +12,7 @@ jobs:
 
       - name: Generates host page (README)
         run: |
-          cp README.md content/
+          cp README.md content/index.md
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

@@ -5,11 +5,12 @@ description: Personal publications
 url: https://guillaumedua.github.io/publications
 baseurl: /publications
 
-theme: jekyll-theme-hydejack
+remote_theme: hydecorp/hydejack@v9.2.1
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-remote-theme
 
 hydejack:
   no_inline_css: true

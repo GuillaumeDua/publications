@@ -20,3 +20,20 @@ img[alt~="inline_circle"] {
     object-fit: cover;
     display: inline-block;
 }
+
+pre code {
+  font-size: 0.9rem;
+}
+
+img + em {
+  display: block;
+  text-align: center;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.note {
+  border-left: 4px solid #4da3ff;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+}

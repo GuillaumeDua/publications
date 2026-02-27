@@ -1,9 +1,0 @@
-title: Publications
-markdown: kramdown
-theme: jekyll-theme-hacker
-highlighter: rouge
-defaults:
-  - scope:
-      path: ""
-    values:
-      layout: default

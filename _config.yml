@@ -1,0 +1,18 @@
+title: Guillaume Dua - Publications
+tagline: A blog about C++, conference trip reports and publications
+description: Personal publications
+
+url: https://guillaumedua.github.io/publications
+baseurl: /publications
+
+theme: jekyll-theme-hydejack
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+hydejack:
+  no_inline_css: true
+
+styles:
+  - /assets/css/custom.css

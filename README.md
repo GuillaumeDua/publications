@@ -1,22 +1,17 @@
----
-layout: default
-title: Publications
----
-
-# My publications
+# Guillaume Dua - publications
 
 ## Trip reports
 
-- [Meeting C++ 2025]({{ '/trip_report/MeetingCpp-2025/' | relative_url }})
-- [Meeting C++ 2025](./trip_report/MeetingCpp-2025/MeetingCpp-2025.md)
-- [Meeting C++ 2025](./content/trip_report/MeetingCpp-2025/MeetingCpp-2025.md)
+- [](./_posts/2025-02-01-meeting-cpp-2025-trip-report.md), [Meeting C++ 2025](./assets/images/meeting-cpp-2025/screenshots)
 
 ---
 
 WIP:
 
-- migration from [my gist](https://gist.github.com/GuillaumeDua).
+- don't copy the README -> add a dedicated index.md file
 - publication CI -> Jekyll, apply CSS
+- migration from [my gist](https://gist.github.com/GuillaumeDua).
+- add some like counter ?
 
 ## License
 

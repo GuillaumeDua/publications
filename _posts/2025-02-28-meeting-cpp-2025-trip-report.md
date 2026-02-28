@@ -2,7 +2,7 @@
 layout: post
 title: "Meeting Cpp 2025 - Trip Report"
 image: /assets/images/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
-image-path: /assets/images/meeting-cpp-2025/screenshots
+image_path: /assets/images/meeting-cpp-2025/screenshots
 ---
 
 # Conference - Meeting Cpp 2025 - Trip report
@@ -14,6 +14,15 @@ image-path: /assets/images/meeting-cpp-2025/screenshots
 | Date                  | 11/06/2025 - 11/08/2025                                      |
 | My attendance sponsor | [Fairmat](https://www.fairmat.tech/)                         |
 | Revision              | R1                                                           |
+
+---
+
+WIP:
+
+![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](
+  {{ page.image_path }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg
+)
+![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg)
 
 ---
 
@@ -209,7 +218,7 @@ Attendees were encouraged to share messages for Rainer's family and community vi
 [Klaus Iglberger](https://www.linkedin.com/in/klaus-iglberger) (one of my favorite conference speaker) will continue carrying Cippi at future conferences, preserving Rainer's memory and acknowledging his impact.  
 This tribute was a heartfelt reminder of the human connections that bind the C++ community together. ❤️
 
-![Jens Weller: Meeting C++ update - survey]({{ page.image-path }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)
+![Jens Weller: Meeting C++ update - survey]({{ page.image_path }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)
 
 ### 🗣️**Anthony Williams**: Software and safety (Opening Keynote)
 
@@ -273,7 +282,7 @@ No single measure is sufficient, but combined they create resilience thus trust.
 - **Static analysis tools**: [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [CodeQL](https://codeql.github.com/), [SonarQube](https://www.sonarsource.com/products/sonarqube/)
 - Sanitizers
 
-![Anthony Willians - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image-path }}/01-anthony-willians-software-and-safety-opening-keynote.jpg)
+![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg)
 
 #### The Arene Base library
 
@@ -384,7 +393,7 @@ int f(const int x)
 int f(const int x);   // redecl. without contract is ok
 ```
 
-![Sebastian Theophil: To Err is Human: Robust Error Handling in C++26 - contract customization]({{ page.image-path }}/02-sebastian-theophil-to-err-is-human-robust-error-handling-in-cpp26.jpg)
+![Sebastian Theophil: To Err is Human: Robust Error Handling in C++26 - contract customization]({{ page.image_path }}/02-sebastian-theophil-to-err-is-human-robust-error-handling-in-cpp26.jpg)
 
 #### Library hardening in C++26
 
@@ -506,7 +515,7 @@ toe
 
 See example [here on godbolt](https://godbolt.org/z/3oW4jr33h)
 
-![Nicolai Josuttis: Using `std::generator<>` in Practice - `std::generator<>`]({{ page.image-path }}/03-nicolai-josuttis-std-generator-in-practice.jpg)
+![Nicolai Josuttis: Using `std::generator<>` in Practice - `std::generator<>`]({{ page.image_path }}/03-nicolai-josuttis-std-generator-in-practice.jpg)
 
 ```cpp
 #include <cstdint>
@@ -530,7 +539,7 @@ for (auto element : view) {
 }
 ```
 
-![Nicolai Josuttis: Using `std::generator<>` in Practice - `generator<>` vs. class]({{ page.image-path }}/03-2-nicolai-josuttis-std-generator-in-practice.jpg)
+![Nicolai Josuttis: Using `std::generator<>` in Practice - `generator<>` vs. class]({{ page.image_path }}/03-2-nicolai-josuttis-std-generator-in-practice.jpg)
 
 #### Pitfalls and caveats
 
@@ -616,7 +625,7 @@ Interestingly, This reminds me of the [Gherkin language](https://en.wikipedia.or
 that I use on daily basis to create backlog entries (features specs, issues, bugs, etc.).  
 The key idea here is to produce a predictable, narrative format that helps reduce ambiguity and clarifies intent and legitimacy.
 
-![Sandor Dargo: Code Reviews: Building Better Code and Stronger Teams - AIR formula]({{ page.image-path }}/04-sandor-dargo-building-better-code-and-stronger-teams-air.jpg)
+![Sandor Dargo: Code Reviews: Building Better Code and Stronger Teams - AIR formula]({{ page.image_path }}/04-sandor-dargo-building-better-code-and-stronger-teams-air.jpg)
 
 #### My takeaway
 
@@ -733,7 +742,7 @@ CPUs reorder far more than we imagine.
 
 Not *"did instruction X run before Y ?"*, but *"does X happen-before Y ?"*
 
-![Anders Schau Knatten: The Two Memory Models - TSO example]({{ page.image-path }}/05-anders-schau-knatten-the-two-memory-models.jpg)
+![Anders Schau Knatten: The Two Memory Models - TSO example]({{ page.image_path }}/05-anders-schau-knatten-the-two-memory-models.jpg)
 
 #### My takeaway
 
@@ -764,7 +773,7 @@ I love the feeling of being humbled - *if not a bit dumb* - by a talk - it means
 
 Jens opened day 2 sharing how he designed and implemented - using [Qt](https://www.qt.io/) - this year's conference merchs design for [T-shirts, hoodies (Spreadshirt)](https://meetingcpp.myspreadshop.de/) and [calendars (Etsy)](https://www.etsy.com/shop/meetingcpp).
 
-![meeting-cpp-2025-tshirt-logo]({{ page.image-path }}/meeting-cpp-2025-tshirt-logo.jpg)
+![meeting-cpp-2025-tshirt-logo]({{ page.image_path }}/meeting-cpp-2025-tshirt-logo.jpg)
 
 He also talked about his ongoing projects, including the Meeting C++ CMS and a small game-like ecosystem simulation with plants and animals acting as agents - which resonated with me, since creating entities simulations, implementing their behaviors and watching them evolve is a genuine passion of mine.  
 From my perspective, it's a great way to learn (about ECS, determinism, reproducibility vs. repeatability, software-design, performances, rendering, etc.) while having lots of fun.
@@ -816,7 +825,7 @@ France closed with challenges for everyone:
 - Read a book
 - Give a talk.
 
-![Frances Buontempo: Center Keynote - Stoopid Questions - who never]({{ page.image-path }}/06-frances-buontempo-stoopid-questions.jpg)
+![Frances Buontempo: Center Keynote - Stoopid Questions - who never]({{ page.image_path }}/06-frances-buontempo-stoopid-questions.jpg)
 
 #### My takeaway
 
@@ -896,7 +905,7 @@ Jonathan highlighted how even small layout decisions influence cache footprint:
 - Misaligned or sparsely laid-out data wastes precious cache space
 - Bitfields can sometimes hurt due to extra work the compiler must generate
 
-![Jonathan Müller: Cache-Friendly C++ - struct members ordering]({{ page.image-path }}/07-01-jonathan-muller-cache-friendly-cpp-layout-members-ordering.jpg)
+![Jonathan Müller: Cache-Friendly C++ - struct members ordering]({{ page.image_path }}/07-01-jonathan-muller-cache-friendly-cpp-layout-members-ordering.jpg)
 
 #### Prefetching & cache lines
 
@@ -914,7 +923,7 @@ CPU instructions are stored in memory
 
 Jonathan mentioned that sum then increments rather than increments the sum can be significantly - if not, way - faster on some CPU, which feels kinda bizard.
 
-![Jonathan Müller: Cache-Friendly C++ - takeaway]({{ page.image-path }}/07-02-jonathan-muller-cache-friendly-cpp-takeaway.jpg)
+![Jonathan Müller: Cache-Friendly C++ - takeaway]({{ page.image_path }}/07-02-jonathan-muller-cache-friendly-cpp-takeaway.jpg)
 
 #### Data-Oriented Design (DOD)
 
@@ -924,8 +933,8 @@ He emphasized thinking in terms of algorithms and data flows, not objects.
 - Re-organize your data to match access patterns
 - Leverage SoA - rather than AoS - layouts when appropriate
 
-![Jonathan Müller: Cache-Friendly C++ - DOD]({{ page.image-path }}/07-03-jonathan-muller-cache-friendly-cpp-dod-example.jpg)
-![Jonathan Müller: Cache-Friendly C++ - DOD benchmarks]({{ page.image-path }}/07-04-jonathan-muller-cache-friendly-cpp-dod-performances.jpg)
+![Jonathan Müller: Cache-Friendly C++ - DOD]({{ page.image_path }}/07-03-jonathan-muller-cache-friendly-cpp-dod-example.jpg)
+![Jonathan Müller: Cache-Friendly C++ - DOD benchmarks]({{ page.image_path }}/07-04-jonathan-muller-cache-friendly-cpp-dod-performances.jpg)
 
 #### Multicore pitfalls
 
@@ -971,8 +980,8 @@ Andreas demonstrated a broad range of features, each tied to a concrete use-case
 
 Overall, the talk was a tour of "modern tools solving common/old embedded problems" shown through minimal, digestible and realistic/plausible examples.
 
-![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - bit-cast]({{ page.image-path }}/08-01-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-bit-cast.jpg)
-![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - start-lifetime]({{ page.image-path }}/08-02-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-start-lifetime.jpg)
+![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - bit-cast]({{ page.image_path }}/08-01-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-bit-cast.jpg)
+![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - start-lifetime]({{ page.image_path }}/08-02-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-start-lifetime.jpg)
 
 #### My takeaway
 
@@ -1031,9 +1040,9 @@ Key points included:
 
 Overall, her talk showed a clear trajectory: the language and the standard library are evolving toward practical, opt-in safety - without abandoning performance.
 
-![Daniela Engert: Towards Safety and Security in C++26 - MSVC hardened STL]({{ page.image-path }}/09-01-daniela-engert-towards-safety-and-security-in-cpp26-hardened-stl.jpg)
-![Daniela Engert: Towards Safety and Security in C++26 - contracts]({{ page.image-path }}/09-02-daniela-engert-towards-safety-and-security-in-cpp26-contracts.jpg)
-![Daniela Engert: Towards Safety and Security in C++26 - contracts semantic]({{ page.image-path }}/09-03-daniela-engert-towards-safety-and-security-in-cpp26-contracts-semantic.jpg)
+![Daniela Engert: Towards Safety and Security in C++26 - MSVC hardened STL]({{ page.image_path }}/09-01-daniela-engert-towards-safety-and-security-in-cpp26-hardened-stl.jpg)
+![Daniela Engert: Towards Safety and Security in C++26 - contracts]({{ page.image_path }}/09-02-daniela-engert-towards-safety-and-security-in-cpp26-contracts.jpg)
+![Daniela Engert: Towards Safety and Security in C++26 - contracts semantic]({{ page.image_path }}/09-03-daniela-engert-towards-safety-and-security-in-cpp26-contracts-semantic.jpg)
 
 #### My takeaway
 
@@ -1085,7 +1094,7 @@ Raymi walked through the multi-year process of fixing and improving AoE pathfind
 
 It was also framed in the context of remastering/modernizing old codebases - balancing "don't break the game the community loves" vs. "fix the long-standing problems players always complained about."
 
-![Raymi Klingers: 25+ Years of pathfinding problems with C++ - The path of robustness]({{ page.image-path }}/10-raymi-klingers-25-years-of-pathfinding-problems-with-cpp.jpg)
+![Raymi Klingers: 25+ Years of pathfinding problems with C++ - The path of robustness]({{ page.image_path }}/10-raymi-klingers-25-years-of-pathfinding-problems-with-cpp.jpg)
 
 #### My takeaway
 
@@ -1240,11 +1249,11 @@ Klaus closed with one of the strongest messages of the whole conference:
 His point was not to shame developers, but to remind the experts - us - to teach, mentor, write, and correct misconceptions.  
 👉 If we don't, loud voices will drive the narrative, not factual ones.
 
-![Klaus Iglberger: The Real Problem of C++ - my personnal opinion]({{ page.image-path }}/11-01-klaus-iglberger-the-real-problem-of-cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - expert's opinion]({{ page.image-path }}/11-02-klaus-iglberger-the-real-problem-of-cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - current state of discussion]({{ page.image-path }}/11-03-klaus-iglberger-the-real-problem-of-cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - about reference semantic]({{ page.image-path }}/11-04-klaus-iglberger-the-real-problem-of-cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - conclusion]({{ page.image-path }}/11-05-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - my personnal opinion]({{ page.image_path }}/11-01-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - expert's opinion]({{ page.image_path }}/11-02-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - current state of discussion]({{ page.image_path }}/11-03-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - about reference semantic]({{ page.image_path }}/11-04-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - conclusion]({{ page.image_path }}/11-05-klaus-iglberger-the-real-problem-of-cpp.jpg)
 
 #### My takeaway
 
@@ -1339,7 +1348,7 @@ Technical leadership should not be exclusive to extroverts or natural talkers, b
 - Rotate projects leaderships
 - Every project can (and should) have a different project lead.
 
-![Roth Michaels: How to become obsolete: a guide to software engineering mentorship - identifying leaders]({{ page.image-path }}/12-ruth-michaels-how-to-gbecome-obsolete.jpg)
+![Roth Michaels: How to become obsolete: a guide to software engineering mentorship - identifying leaders]({{ page.image_path }}/12-ruth-michaels-how-to-gbecome-obsolete.jpg)
 
 #### Practical mentorship techniques
 
@@ -1454,7 +1463,7 @@ A **dependency** is any external component (library, framework, module, service�
 
 Semantic **versioning** *(`major.minor.patch`)* is a contract between library authors and users, and reproducible builds require consistent source, environment, and instructions.
 
-![Kerstin Keller: Why managing C++ dependencies is hard - dependency graph]({{ page.image-path }}/13-00-kerstin-keller-why-managing-cpp-dependencies-is-hard-graph.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - dependency graph]({{ page.image_path }}/13-00-kerstin-keller-why-managing-cpp-dependencies-is-hard-graph.jpg)
 
 #### How developers handle dependencies nowadays ?
 
@@ -1469,7 +1478,7 @@ Dependency managers help solve multi-version graphs, transitive dependencies, an
 
 > 💡 Pin major versions, avoid broad ranges.
 
-![Kerstin Keller: Why managing C++ dependencies is hard - survey]({{ page.image-path }}/13-01-kerstin-keller-why-managing-cpp-dependencies-is-hard-survey.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - survey]({{ page.image_path }}/13-01-kerstin-keller-why-managing-cpp-dependencies-is-hard-survey.jpg)
 
 #### Why C++ dependencies management is unique and hard ?
 
@@ -1486,8 +1495,8 @@ Three main challenges:
   
   > 💡 Both [CMake](https://www.kitware.com/navigating-cmake-dependencies-with-cps/) and [Meson](https://mesonbuild.com/) are experimenting with [CPS](https://cps-org.github.io/cps/overview.html) support.
 
-![Kerstin Keller: Why managing C++ dependencies is hard - dependency manager purpose]({{ page.image-path }}/13-02-kerstin-keller-why-managing-cpp-dependencies-is-hard-dependency-manager-purpose.jpg)
-![Kerstin Keller: Why managing C++ dependencies is hard - providing dependencies]({{ page.image-path }}/13-03-kerstin-keller-why-managing-cpp-dependencies-is-hard-providing-dependencies.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - dependency manager purpose]({{ page.image_path }}/13-02-kerstin-keller-why-managing-cpp-dependencies-is-hard-dependency-manager-purpose.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - providing dependencies]({{ page.image_path }}/13-03-kerstin-keller-why-managing-cpp-dependencies-is-hard-providing-dependencies.jpg)
 
 #### Inputs from the Q&A
 
@@ -1544,7 +1553,7 @@ Like every year, Jens Weller shared a transparent update on the state of `Meetin
 While the conference reaches nearly **100000 online visitors** compared to about **230 onsite attendees**, 2025 has been economically challenging: frozen training budgets, fewer committed sponsors, and rising fixed costs - especially for hybrid events hosted in high-quality venues.  
 Despite this, Meeting C++ is still standing after **13 years**, this iteration being described by Jens as *"the best conference in the worst year"*, though just barely breaking even. Jens was clear: **the conference must continue to evolve & adapt**, as running it the same way has become too risky.
 
-![Jens Weller: Meeting C++ update - survey]({{ page.image-path }}/14-01-jens-weller-meeting-cpp-update-survey.jpg)
+![Jens Weller: Meeting C++ update - survey]({{ page.image_path }}/14-01-jens-weller-meeting-cpp-update-survey.jpg)
 
 #### What's next ?
 
@@ -1565,7 +1574,7 @@ Jens also shared the symbolic journey of [Cippi](https://www.modernescpp.org/cip
 
 👉 Go check [Cippi's blog](https://www.modernescpp.org/category/project-cippi/) !
 
-![Jens Weller: Meeting C++ update - Cippi and Rainer]({{ page.image-path }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)  
+![Jens Weller: Meeting C++ update - Cippi and Rainer]({{ page.image_path }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)  
 *(I put this screenshot twice on purpose)*
 
 ### ⚡Lightning talks
@@ -1591,7 +1600,7 @@ Beyond the technical aspect, this once again demonstrates how important it is fo
 
 From my perspective, that's what C++ is fundamentally about: **continuously expanding what's possible to achieve with code**.
 
-![James McNellis: Our most teacherous adversary - 3 states of booleans]({{ page.image-path }}/15-james-mcnellis-our-most-teacherous-adversary.jpg)
+![James McNellis: Our most teacherous adversary - 3 states of booleans]({{ page.image_path }}/15-james-mcnellis-our-most-teacherous-adversary.jpg)
 
 ---
 
@@ -1615,7 +1624,7 @@ As a solution, she presented [catpie](https://catpie.compscicomp.de/), an access
 - [Conference paper, on ResearchGate](https://www.researchgate.net/publication/395534441-Cats-Code-and-Concepts-Learn-to-Program-with-Catpie)
 - [Project's sources, on Gitlab](https://scm.cms.hu-berlin.de/engelrah/catpie)
 
-![screenshot - Rahel Natalie Engel - let them eat cake - catpie]({{ page.image-path }}/16-rahel-natalie-engel-let-them-eat-cake-catpie.jpg)
+![screenshot - Rahel Natalie Engel - let them eat cake - catpie]({{ page.image_path }}/16-rahel-natalie-engel-let-them-eat-cake-catpie.jpg)
 
 💡 A thoughtful reminder that the tools **we choose for beginners often shape their long-term learning path**.  
 Making programming accessible & fun is crucial, but we must also ensure learners can gradually grow into full programming languages without unnecessary friction.
@@ -1652,7 +1661,7 @@ consteval auto range-to-array() {
 }
 ```
 
-![Robin Savenen Soderholm: vector to array - usage]({{ page.image-path }}/17-robin-savenen-soderholm-vector-to-array-usage.jpg)
+![Robin Savenen Soderholm: vector to array - usage]({{ page.image_path }}/17-robin-savenen-soderholm-vector-to-array-usage.jpg)
 
 #### ⚡ **Ganest Rengasamy** - Meet Qt
 
@@ -1672,7 +1681,7 @@ Additional resources:
 - [Qt: Exporting from Blender](https://doc.qt.io/qt-6/quick3d-asset-conditioning-export-blender.html)
 - [Qt: The Fastest Way to Bring Figma Designs to the Product](https://www.qt.io/development/gui-design-figma)
 
-![Ganest Rengasamy: Meet Qt]({{ page.image-path }}/18-ganest-rengasamy-meet-qt.jpg)
+![Ganest Rengasamy: Meet Qt]({{ page.image_path }}/18-ganest-rengasamy-meet-qt.jpg)
 
 #### ⚡ **Hannah Lenk** - Start teaching C++
 
@@ -1686,7 +1695,7 @@ If we want better C++ code and fewer misconceptions, we should **start teaching 
 instead of letting **loud, uninformed voices dominate the narrative**.  
 Teachers have a huge responsibility here: they should stop teaching C++98 or that so-called "C/C++", and start teaching modern, simple, elegant and safe contemporain C++. C++ in 2026 feels like another language that C++98.
 
-![Hannah Lenk: Start teaching C++]({{ page.image-path }}/19-hannah-lenk-start-teaching-cpp.jpg)
+![Hannah Lenk: Start teaching C++]({{ page.image_path }}/19-hannah-lenk-start-teaching-cpp.jpg)
 
 #### ⚡ **Jens Weller** - binary trees
 
@@ -1719,7 +1728,7 @@ From my perspective, this creates a feedback loop.
 👉 LLMs largely reflect the datasets they were trained on, which means they tend to echo and amplify outdated practices. These patterns then get reused for learning, ramp-up, and ultimately copied verbatim into production code and pull requests.  
 The talk was a timely reminder that contemporain C++ requires discernment: tools can assist us, but responsibility for evaluating design choices - and updating our mental models - still firmly rests with us.
 
-![Jens Weller: binary trees]({{ page.image-path }}/20-jens-weller-binary-trees.jpg)
+![Jens Weller: binary trees]({{ page.image_path }}/20-jens-weller-binary-trees.jpg)
 
 ### 🗣️ **James McNellis** - Closing Keynote - A little introduction to control flow integrity
 
@@ -1740,10 +1749,10 @@ James explained how [shadow stacks](https://en.wikipedia.org/wiki/Shadow-stack) 
 
 The second half of the talk addressed (no pune intended) - function pointers and virtual dispatch - covering [Microsoft's Control Flow Guard](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard), [Clang CFI](https://clang.llvm.org/docs/ControlFlowIntegrity.html), and hardware-assisted mechanisms like [Intel's Indirect Branch Tracking (IBT)](https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/branch-history-injection.html) and [ARM's Branch Target Identifier (BTI)](https://newsroom.arm.com/blog/pac-bti), all designed to restrict execution to valid control-flow targets.
 
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - Calls and Returns]({{ page.image-path }}/21-01-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - PAC]({{ page.image-path }}/21-02-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - return address protection with PAC]({{ page.image-path }}/21-03-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - Control flow guard vs. Clang CFI]({{ page.image-path }}/21-04-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - Calls and Returns]({{ page.image_path }}/21-01-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - PAC]({{ page.image_path }}/21-02-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - return address protection with PAC]({{ page.image_path }}/21-03-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - Control flow guard vs. Clang CFI]({{ page.image_path }}/21-04-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
 
 #### My takeaway
 

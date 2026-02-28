@@ -9,12 +9,6 @@ image_path: /assets/img/meeting-cpp-2025/screenshots
 
 DEBUGGING images pathes:
 
-{% include figure
-   image_path="/assets/img/meeting-cpp-2025/screenshots/01-anthony-willians-software-and-safety-opening-keynote.jpg"
-   alt="Anthony Willians – Software and Safety opening keynote"
-   caption="Anthony Willians – Software and Safety (Opening Keynote)"
-%}
-
 ![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](
   {{ page.image_path | relative_url }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg
 )

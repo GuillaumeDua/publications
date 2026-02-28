@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Meeting Cpp 2025 - Trip Report"
-image: /assets/images/meeting-cpp-2025/screenshots/meeting_cpp_2025_tshirt_logo.jpg
-image_path: /assets/images/meeting-cpp-2025/screenshots
+image: /assets/images/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
+image-path: /assets/images/meeting-cpp-2025/screenshots
 ---
 
 # Conference - Meeting Cpp 2025 - Trip report
@@ -209,7 +209,7 @@ Attendees were encouraged to share messages for Rainer's family and community vi
 [Klaus Iglberger](https://www.linkedin.com/in/klaus-iglberger) (one of my favorite conference speaker) will continue carrying Cippi at future conferences, preserving Rainer's memory and acknowledging his impact.  
 This tribute was a heartfelt reminder of the human connections that bind the C++ community together. ❤️
 
-![Jens Weller: Meeting C++ update - survey](/assets/images/meeting-cpp-2025/screenshots/14_02_Jens_Weller__Meeting_Cpp_update__Cippi_and_Rainer.jpg)
+![Jens Weller: Meeting C++ update - survey]({{ page.image-path }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)
 
 ### 🗣️**Anthony Williams**: Software and safety (Opening Keynote)
 
@@ -256,13 +256,13 @@ while in others, they might choose to continue or abort cleanly.
 
 #### Defense in depth, using appropriate strategy and tools
 
-Anthony described safety as a [**Swiss Cheese** model](https://en.wikipedia.org/wiki/Swiss_cheese_model): multiple imperfect layers together form a strong defense.
+Anthony described safety as a [**Swiss Cheese** model](https://en.wikipedia.org/wiki/Swiss-cheese-model): multiple imperfect layers together form a strong defense.
 No single measure is sufficient, but combined they create resilience thus trust.
 
 - **Design checks**: prevent problems upstream and by-design.
   - Initialize all your variables
   - Use safe APIs: ranges `at` instead of `operator[]`, etc.
-  - No raw pointers: prefer [std::span](https://en.cppreference.com/w/cpp/container/span.html), [std::string_view](https://en.cppreference.com/w/cpp/string/basic_string_view.html), etc.
+  - No raw pointers: prefer [std::span](https://en.cppreference.com/w/cpp/container/span.html), [std::string-view](https://en.cppreference.com/w/cpp/string/basic-string-view.html), etc.
   - No indexing: prefer range-based for-loops
   - Use RAII to manage lifetime
   - Use contracts: [C++26 contracts](https://en.cppreference.com/w/cpp/language/contracts.html), or even just documentation as it's better than nothing.
@@ -273,12 +273,12 @@ No single measure is sufficient, but combined they create resilience thus trust.
 - **Static analysis tools**: [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [CodeQL](https://codeql.github.com/), [SonarQube](https://www.sonarsource.com/products/sonarqube/)
 - Sanitizers
 
-![Anthony Willians - Software and safety (opening_keynote) - Swiss Cheese model](/assets/images/meeting-cpp-2025/screenshots/01_Anthony_Willians__Software_and_safety__opening_keynote.jpg)
+![Anthony Willians - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image-path }}/01-anthony-willians-software-and-safety-opening-keynote.jpg)
 
 #### The Arene Base library
 
-Woven by Toyota is developing [Arene](https://woven.toyota/en/arene/) Base Library *(will be available in open-source soon)*, a foundation for safety-critical software that meets [AUTOSAR](https://en.wikipedia.org/wiki/AUTOSAR) and [MISRA](https://en.wikipedia.org/wiki/Motor_Industry_Software_Reliability_Association) guidelines *(so it's C++14/17 for now 😥 tho)*.  
-It includes static containers (inline_vector, inline_map, inline_string, etc.), backports of modern feature like non-owning ranges (span, string_view, mdspan), and enforced precondition checks.
+Woven by Toyota is developing [Arene](https://woven.toyota/en/arene/) Base Library *(will be available in open-source soon)*, a foundation for safety-critical software that meets [AUTOSAR](https://en.wikipedia.org/wiki/AUTOSAR) and [MISRA](https://en.wikipedia.org/wiki/Motor-Industry-Software-Reliability-Association) guidelines *(so it's C++14/17 for now 😥 tho)*.  
+It includes static containers (inline-vector, inline-map, inline-string, etc.), backports of modern feature like non-owning ranges (span, string-view, mdspan), and enforced precondition checks.
 
 #### My takeaway
 
@@ -350,7 +350,7 @@ Sebastian highlighted [std::expected](https://en.cppreference.com/w/cpp/utility/
 
 - structured like return values
 - **expressive** like exceptions
-- and backed by a useful monadic API - [like std::optional](https://en.cppreference.com/w/cpp/utility/optional.html) - *(transform, transform_error, and_then, or_else, etc.)*.  
+- and backed by a useful monadic API - [like std::optional](https://en.cppreference.com/w/cpp/utility/optional.html) - *(transform, transform-error, and-then, or-else, etc.)*.  
 
 This feature encourages **deliberate handling** without the unpredictability of exception-based control flow,  
 which from my perspective best in many, many designs.
@@ -359,7 +359,7 @@ which from my perspective best in many, many designs.
 
 He then connected this with C++26 [contracts](https://en.cppreference.com/w/cpp/language/contracts.html), which offer customizable assertion mechanisms for expressing **preconditions** and **postconditions**.  
 
-This is a great replacement for "documented by not checked" runtime requirements, just like [constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints.html) did for [named requirements](https://en.cppreference.com/w/cpp/named_req.html) at compile-time.
+This is a great replacement for "documented by not checked" runtime requirements, just like [constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints.html) did for [named requirements](https://en.cppreference.com/w/cpp/named-req.html) at compile-time.
 
 Bonus, `contracts` support exceptions (leading to contract violation), and are supported in constexpr contexts !
 
@@ -377,14 +377,14 @@ int f(const int x)
     pre(x != 0)       // implicitly const
     post(r : r != x)  // r is const, x must be const
 {
-    contract_assert(0 <= x);
+    contract-assert(0 <= x);
     return x + 1;
 }
 
 int f(const int x);   // redecl. without contract is ok
 ```
 
-![Sebastian Theophil: To Err is Human: Robust Error Handling in C++26 - contract customization](/assets/images/meeting-cpp-2025/screenshots/02_Sebastian_Theophil__To_Err_is_Human_Robust__Error_Handling_in_cpp26.jpg)
+![Sebastian Theophil: To Err is Human: Robust Error Handling in C++26 - contract customization]({{ page.image-path }}/02-sebastian-theophil-to-err-is-human-robust-error-handling-in-cpp26.jpg)
 
 #### Library hardening in C++26
 
@@ -393,8 +393,8 @@ The upcoming standards - see the [standard library hardening](https://isocpp.org
 Compiler vendors already provide early support, offering (partially) hardened library modes:
 
 - GCC's [-fhardened](https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html#index-fhardened)
-- Clang's [LIBCPP_HARDENING_MODE](https://libcxx.llvm.org/Hardening.html)
-- MSVC's [MSVC_STL_HARDENING](https://github.com/microsoft/STL/wiki/STL-Hardening).
+- Clang's [LIBCPP-HARDENING-MODE](https://libcxx.llvm.org/Hardening.html)
+- MSVC's [MSVC-STL-HARDENING](https://github.com/microsoft/STL/wiki/STL-Hardening).
 
 #### Practical rules for real-world code
 
@@ -463,7 +463,7 @@ Using the right tools - debuggers, static analyzers, runtime sanitizers, and ade
 [Nicolai](https://www.josuttis.com/) gave an accessible tour of what [std::generator](https://en.cppreference.com/w/cpp/coroutine/generator.html) brings to C++23, and how it finally sits on top of the coroutine machinery introduced in C++20.  
 I appreciated how he framed coroutines not as something exotic dark wizardry/witchcraft, but simply as stackless (in C++) - yet stateful -, suspendable/resumable functions.
 
-I was surprised to learn that [Melvin Conway](https://en.wikipedia.org/wiki/Melvin_Conway) coined the term as early as 1958.  
+I was surprised to learn that [Melvin Conway](https://en.wikipedia.org/wiki/Melvin-Conway) coined the term as early as 1958.  
 It immediately reminded me of Peter Sommerlad's talk from last year here at the Meeting C++ conference - [Collective Amnesia?](https://www.youtube.com/watch?v=g6QYGW-TwwY) - which explored how many supposedly "modern" ideas actually have deep roots in earlier programming models, along with several other invaluable insights for developers. (If you haven't seen it yet, go watch it !).
 
 #### What coroutines are (and aren't)
@@ -471,24 +471,24 @@ It immediately reminded me of Peter Sommerlad's talk from last year here at the 
 C++ coroutines are **functions** that can **pause** and later **resumed** exactly where they left off.  
 C++ coroutines are **stackless**: instead of relying on the stack, their **state** lives separately, which lets you write code that looks perfectly sequential while actually running asynchronously or producing values lazily-even infinite sequences if you want.
 
-In practice, any function that includes any of the `co_yield`, `co_await`, or `co_return` keywords becomes a coroutine, it's that simple.
+In practice, any function that includes any of the `co-yield`, `co-await`, or `co-return` keywords becomes a coroutine, it's that simple.
 
 #### What [std::generator](https://en.cppreference.com/w/cpp/coroutine/generator.html) brings
 
 The talk really clicked when transitioning from the low-level coroutine model to the high-level `std::generator<T>` abstraction. Seeing generators used as range-like, lazy value producers made the mechanics intuitive and ready-to-use:
 
-- `begin()` starts running the coroutine until the first co_yield
+- `begin()` starts running the coroutine until the first co-yield
 - `operator*` accesses the yielded value
 - `operator++` resumes execution until the next suspension point
 
-He illustrated this with simple examples such as [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_sequence) generation and building a `concurrent_queue` reader coroutine.  
+He illustrated this with simple examples such as [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci-sequence) generation and building a `concurrent-queue` reader coroutine.  
 The contrast with old user-defined stateful functors made it obvious how much cleaner and straight-forward generators are.
 
 ```cpp
 std::generator<std::string> coro() {
     std::array coll{ "tic", "tac", "toe" };
     for (int i = 0; i < coll.size(); ++i)
-        co_yield coll[i]; // suspend with value
+        co-yield coll[i]; // suspend with value
 }
 
 for (auto value: coro()){
@@ -506,17 +506,17 @@ toe
 
 See example [here on godbolt](https://godbolt.org/z/3oW4jr33h)
 
-![Nicolai Josuttis: Using `std::generator<>` in Practice - `std::generator<>`](/assets/images/meeting-cpp-2025/screenshots/03_Nicolai_Josuttis__std_generator_in_practice.jpg)
+![Nicolai Josuttis: Using `std::generator<>` in Practice - `std::generator<>`]({{ page.image-path }}/03-nicolai-josuttis-std-generator-in-practice.jpg)
 
 ```cpp
 #include <cstdint>
 #include <generator>
 #include <print>
 
-std::generator<std::uint64_t> fibonacci() {
-    std::uint64_t a = 0, b = 1;
+std::generator<std::uint64-t> fibonacci() {
+    std::uint64-t a = 0, b = 1;
     while (true) {
-        co_yield a;
+        co-yield a;
         auto next = a + b;
         a = b;
         b = next;
@@ -530,11 +530,11 @@ for (auto element : view) {
 }
 ```
 
-![Nicolai Josuttis: Using `std::generator<>` in Practice - `generator<>` vs. class](/assets/images/meeting-cpp-2025/screenshots/03_2_Nicolai_Josuttis__std_generator_in_practice.jpg)
+![Nicolai Josuttis: Using `std::generator<>` in Practice - `generator<>` vs. class]({{ page.image-path }}/03-2-nicolai-josuttis-std-generator-in-practice.jpg)
 
 #### Pitfalls and caveats
 
-Nicolai didn't shy away from discussing the limitations, and I genuinely appreciated that. Few things are more frustrating than seeing a conference talk showcase something impressive, only to have it fall apart the moment you try to use it in the real world, immediatly falling from the "peak of mount Stupid" down to the "valley of despair" ([Dunning-Kruger effect](https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect)).
+Nicolai didn't shy away from discussing the limitations, and I genuinely appreciated that. Few things are more frustrating than seeing a conference talk showcase something impressive, only to have it fall apart the moment you try to use it in the real world, immediatly falling from the "peak of mount Stupid" down to the "valley of despair" ([Dunning-Kruger effect](https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger-effect)).
 
 Important points:
 
@@ -560,14 +560,14 @@ Despite coroutines having been introduced in C++20, I definitely haven't experim
 
 #### Additional resources: learn more about coroutines
 
-- 👉 [C++ Coroutines Demystified - Phil Nash - ACCU 2025](https://www.youtube.com/watch?v=b6pYieNd_OY)
+- 👉 [C++ Coroutines Demystified - Phil Nash - ACCU 2025](https://www.youtube.com/watch?v=b6pYieNd-OY)
 - [C++ Coroutines from scratch - Phil Nash - Meeting C++ 2022](https://www.youtube.com/watch?v=cnGKRRduFtE)
-- [C++20's Coroutines for Beginners - Andreas Fertig - CppCon 2022](https://www.youtube.com/watch?v=8sEe-4tig_A)
+- [C++20's Coroutines for Beginners - Andreas Fertig - CppCon 2022](https://www.youtube.com/watch?v=8sEe-4tig-A)
 - And this very fun, simple, and short video by [Sy Brand](https://tartanllama.xyz/): [Coroutines Explained with My Cat](https://www.youtube.com/watch?v=fstYQ1Zq73A)
 
 ### 🗣️**Sandor Dargo**: Code Reviews: Building Better Code and Stronger Teams
 
-[🎥 Video](https://www.youtube.com/watch?v=ahpbfpb-Yqc), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/Code%20Reviews%20-%20Meeting%20C++%202025570171.pdf)
+[🎥 Video](https://www.youtube.com/watch?v=ahpbfpb-Yqc), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/Code-Reviews---Meeting-C++-2025570171.pdf)
 
 Sandor's talk focused on a topic that every developer deals with **daily**, yet few teams truly master: **code reviews**.  
 What I appreciated is that he didn't treat code reviews as a mere technical gate, but as a human process - one that can teach, uplift, frustrate, or damage depending on how it's handled. In that way, it reminds me of [Kate Gregory's talk at CPPP 2019 Emotional Code](https://www.youtube.com/watch?v=zjH2d5VhTD8), which is IMO a masterpiece.  
@@ -612,11 +612,11 @@ Sandor wrapped up with his own structure for writing comments:
 
 Which results in a simple, predictable shape that keeps feedback actionable, polite, and grounded.
 
-Interestingly, This reminds me of the [Gherkin language](https://en.wikipedia.org/wiki/Cucumber_(software)#Gherkin_language) in [Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software)), used for **behavioral specifications** (scenario, Given, When, Then),  
+Interestingly, This reminds me of the [Gherkin language](https://en.wikipedia.org/wiki/Cucumber-(software)#Gherkin-language) in [Cucumber](https://en.wikipedia.org/wiki/Cucumber-(software)), used for **behavioral specifications** (scenario, Given, When, Then),  
 that I use on daily basis to create backlog entries (features specs, issues, bugs, etc.).  
 The key idea here is to produce a predictable, narrative format that helps reduce ambiguity and clarifies intent and legitimacy.
 
-![Sandor Dargo: Code Reviews: Building Better Code and Stronger Teams - AIR formula](/assets/images/meeting-cpp-2025/screenshots/04_Sandor_Dargo__building_better_code_and_stronger_teams__AIR.jpg)
+![Sandor Dargo: Code Reviews: Building Better Code and Stronger Teams - AIR formula]({{ page.image-path }}/04-sandor-dargo-building-better-code-and-stronger-teams-air.jpg)
 
 #### My takeaway
 
@@ -690,7 +690,7 @@ I left the talk with a renewed motivation to continue investing in review cultur
 
 ### 🗣️**Anders Schau Knatten** The Two Memory Models
 
-[🎥 Video](https://www.youtube.com/watch?v=iEd9_ilEgdg), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/Knatten_The_Two_Memory_Models_MeetingCpp_202594762.pdf)
+[🎥 Video](https://www.youtube.com/watch?v=iEd9-ilEgdg), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/Knatten-The-Two-Memory-Models-MeetingCpp-202594762.pdf)
 
 #### What are the two memory models ?
 
@@ -717,7 +717,7 @@ The standard describes an abstract machine, not real execution.
 
 - Compilers may reorder freely as long as observable behavior stays the same.
 - Data races are UBs
-- `seq_cst` gives one global total order
+- `seq-cst` gives one global total order
 - Acquire/release synchronizes like a lightweight mutex handoff
 - Relaxed atomics don't give cross-thread ordering.
 
@@ -733,7 +733,7 @@ CPUs reorder far more than we imagine.
 
 Not *"did instruction X run before Y ?"*, but *"does X happen-before Y ?"*
 
-![Anders Schau Knatten: The Two Memory Models - TSO example](/assets/images/meeting-cpp-2025/screenshots/05_Anders_Schau_Knatten__The_Two_Memory_Models.jpg)
+![Anders Schau Knatten: The Two Memory Models - TSO example]({{ page.image-path }}/05-anders-schau-knatten-the-two-memory-models.jpg)
 
 #### My takeaway
 
@@ -764,7 +764,7 @@ I love the feeling of being humbled - *if not a bit dumb* - by a talk - it means
 
 Jens opened day 2 sharing how he designed and implemented - using [Qt](https://www.qt.io/) - this year's conference merchs design for [T-shirts, hoodies (Spreadshirt)](https://meetingcpp.myspreadshop.de/) and [calendars (Etsy)](https://www.etsy.com/shop/meetingcpp).
 
-![meeting_cpp_2025_tshirt_logo](/assets/images/meeting-cpp-2025/screenshots/meeting_cpp_2025_tshirt_logo.jpg)
+![meeting-cpp-2025-tshirt-logo]({{ page.image-path }}/meeting-cpp-2025-tshirt-logo.jpg)
 
 He also talked about his ongoing projects, including the Meeting C++ CMS and a small game-like ecosystem simulation with plants and animals acting as agents - which resonated with me, since creating entities simulations, implementing their behaviors and watching them evolve is a genuine passion of mine.  
 From my perspective, it's a great way to learn (about ECS, determinism, reproducibility vs. repeatability, software-design, performances, rendering, etc.) while having lots of fun.
@@ -788,7 +788,7 @@ And like always, hearing about an ecosystem simulation project reignited my own 
 
 ### 🗣️ **Frances Buontempo** - Center Keynote - Stoopid Questions
 
-[🎥 Video](https://www.youtube.com/watch?v=zztvhcgXQco), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/frances_buontempo672314.pdf)
+[🎥 Video](https://www.youtube.com/watch?v=zztvhcgXQco), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/frances-buontempo672314.pdf)
 
 France's keynote was a deep, reflective dive into learning, teaching, curiosity, and how important the role of so-called "stupid" questions is.  
 She opened by reminding us that **everyone learns differently**, and that - despite the internet and LLMs - real learning still takes time, efforts, and explorations.  
@@ -816,7 +816,7 @@ France closed with challenges for everyone:
 - Read a book
 - Give a talk.
 
-![Frances Buontempo: Center Keynote - Stoopid Questions - who never](/assets/images/meeting-cpp-2025/screenshots/06_Frances_Buontempo__Stoopid_Questions.jpg)
+![Frances Buontempo: Center Keynote - Stoopid Questions - who never]({{ page.image-path }}/06-frances-buontempo-stoopid-questions.jpg)
 
 #### My takeaway
 
@@ -878,11 +878,11 @@ Cache-friendly programming is fundamentally about data locality:
 - Minimizing memory footprint so more data fits inside a single cache line
 - Accessing memory sequentially whenever possible.
 
-If data is well packed and accessed in order, CPUs can prefetch it efficiently and process it with minimal [cache misses](https://en.wikipedia.org/wiki/Cache_(computing)#CACHE-MISS).
+If data is well packed and accessed in order, CPUs can prefetch it efficiently and process it with minimal [cache misses](https://en.wikipedia.org/wiki/Cache-(computing)#CACHE-MISS).
 
 #### Data structures matter
 
-This is why a sorted [std::vector](https://en.cppreference.com/w/cpp/container/vector.html) often beats [std::set](https://en.cppreference.com/w/cpp/container/set.html) or [std::unordered_set](https://en.cppreference.com/w/cpp/container/unordered_set.html):
+This is why a sorted [std::vector](https://en.cppreference.com/w/cpp/container/vector.html) often beats [std::set](https://en.cppreference.com/w/cpp/container/set.html) or [std::unordered-set](https://en.cppreference.com/w/cpp/container/unordered-set.html):
 
 - `std::vector` is contiguous and/thus predictable
 - Tree-based containers force pointer chasing and scattered memory access
@@ -896,7 +896,7 @@ Jonathan highlighted how even small layout decisions influence cache footprint:
 - Misaligned or sparsely laid-out data wastes precious cache space
 - Bitfields can sometimes hurt due to extra work the compiler must generate
 
-![Jonathan Müller: Cache-Friendly C++ - struct members ordering](/assets/images/meeting-cpp-2025/screenshots/07_01__Jonathan_Muller__cache_friendly_cpp__layout_members_ordering.jpg)
+![Jonathan Müller: Cache-Friendly C++ - struct members ordering]({{ page.image-path }}/07-01-jonathan-muller-cache-friendly-cpp-layout-members-ordering.jpg)
 
 #### Prefetching & cache lines
 
@@ -914,7 +914,7 @@ CPU instructions are stored in memory
 
 Jonathan mentioned that sum then increments rather than increments the sum can be significantly - if not, way - faster on some CPU, which feels kinda bizard.
 
-![Jonathan Müller: Cache-Friendly C++ - takeaway](/assets/images/meeting-cpp-2025/screenshots/07_02__Jonathan_Muller__cache_friendly_cpp__takeaway.jpg)
+![Jonathan Müller: Cache-Friendly C++ - takeaway]({{ page.image-path }}/07-02-jonathan-muller-cache-friendly-cpp-takeaway.jpg)
 
 #### Data-Oriented Design (DOD)
 
@@ -924,13 +924,13 @@ He emphasized thinking in terms of algorithms and data flows, not objects.
 - Re-organize your data to match access patterns
 - Leverage SoA - rather than AoS - layouts when appropriate
 
-![Jonathan Müller: Cache-Friendly C++ - DOD](/assets/images/meeting-cpp-2025/screenshots/07_03__Jonathan_Muller__cache_friendly_cpp__DOD_example.jpg)
-![Jonathan Müller: Cache-Friendly C++ - DOD benchmarks](/assets/images/meeting-cpp-2025/screenshots/07_04__Jonathan_Muller__cache_friendly_cpp__DOD_performances.jpg)
+![Jonathan Müller: Cache-Friendly C++ - DOD]({{ page.image-path }}/07-03-jonathan-muller-cache-friendly-cpp-dod-example.jpg)
+![Jonathan Müller: Cache-Friendly C++ - DOD benchmarks]({{ page.image-path }}/07-04-jonathan-muller-cache-friendly-cpp-dod-performances.jpg)
 
 #### Multicore pitfalls
 
-[False sharing](https://en.wikipedia.org/wiki/False_sharing) - two threads modifying unrelated values that live in the same cache line - can devastate scalability.
-Padding structs with [std::hardware_destructive_interference_size](https://en.cppreference.com/w/cpp/thread/hardware_destructive_interference_size.html) - *minimum offset between two objects to avoid false sharing* -  helps avoid this.
+[False sharing](https://en.wikipedia.org/wiki/False-sharing) - two threads modifying unrelated values that live in the same cache line - can devastate scalability.
+Padding structs with [std::hardware-destructive-interference-size](https://en.cppreference.com/w/cpp/thread/hardware-destructive-interference-size.html) - *minimum offset between two objects to avoid false sharing* -  helps avoid this.
 
 #### My takeaway
 
@@ -942,9 +942,9 @@ I've long favored cache-friendly containers like `std::array` and `std::vector`,
 From experience, `std::map` and `std::set` often loose to a simple `std::vector<std::pair<K, M>>` because contiguous memory access beats pointer-heavy tree traversal in many real workloads.  
 Also, I remember struggling with performances issues when digging into [trie containers](https://en.wikipedia.org/wiki/Trie) implementations, which is from my perspective a meaningful illustration of the "size in memory vs. speed" tradeoff.
 
-Jonathan's insights also made me want to explore [Data-Oriented Design](https://en.wikipedia.org/wiki/Data-oriented_design) more deeply for large-scale or simulation-style workloads - where data locality matters a lot.
+Jonathan's insights also made me want to explore [Data-Oriented Design](https://en.wikipedia.org/wiki/Data-oriented-design) more deeply for large-scale or simulation-style workloads - where data locality matters a lot.
 
-I'll definitely continue digging into cache-friendly programming. It still feels underrated in the industry: too many teams default to pointer-rich OOP AoS designs ("everything is a `std::shared_ptr`") without considering the cost on locality, cache lines, and ultimately performances.
+I'll definitely continue digging into cache-friendly programming. It still feels underrated in the industry: too many teams default to pointer-rich OOP AoS designs ("everything is a `std::shared-ptr`") without considering the cost on locality, cache lines, and ultimately performances.
 
 This talk was a great reminder to structure programs around access patterns and data, not just obvious-for-humans abstractions.
 
@@ -952,7 +952,7 @@ This talk was a great reminder to structure programs around access patterns and 
 
 [🎥 Video](https://www.youtube.com/watch?v=xxx), [📄 slidedeck](https://andreasfertig.com/talks/dl/afertig-2025-meeting-cpp-embedded-friendly-cpp--features-that-make-a-difference.pdf)
 
-Andreas links: [cppinsights.io](https://cppinsights.io/), [Youtube channel](https://www.youtube.com/@andreas_fertig/videos), [talks slide-decks](https://andreasfertig.com/talks/#past-talks).
+Andreas links: [cppinsights.io](https://cppinsights.io/), [Youtube channel](https://www.youtube.com/@andreas-fertig/videos), [talks slide-decks](https://andreasfertig.com/talks/#past-talks).
 
 The talk was framed around a simple, relatable scenario: building embedded lightbulb controllers that communicate over a network. Using this example, Andreas walked through a series of common embedded tasks - parsing input, handling raw bytes, dealing with endianness, interfacing with C APIs, and managing memory safely - and showed how contemporain C++ (C++20/23/26) provides clean, safe, and expressive solutions.
 
@@ -960,19 +960,19 @@ The talk was framed around a simple, relatable scenario: building embedded light
 
 Andreas demonstrated a broad range of features, each tied to a concrete use-case:
 
-- **Safe parsing & input handling**: [std::span](https://en.cppreference.com/w/cpp/container/span.html), [std::expected](https://en.cppreference.com/w/cpp/utility/expected.html), [std::from_chars](https://en.cppreference.com/w/cpp/utility/from_chars.html), and [std::to_array](https://en.cppreference.com/w/cpp/container/array/to_array.html).
-- **Expressive syntax**: [user-defined string literals](https://en.cppreference.com/w/cpp/language/user_literal.html) to improve readability.
-- **Safe byte manipulation**: [std::bit_cast](https://en.cppreference.com/w/cpp/numeric/bit_cast.html) to reinterpret data without undefined behavior (rather than plain [reinterpret_cast](https://en.cppreference.com/w/cpp/language/reinterpret_cast.html)).
-- **Enum handling**: [std::to_underlying](https://en.cppreference.com/w/cpp/utility/to_underlying.html), [std::underlying_type](https://en.cppreference.com/w/cpp/types/underlying_type.html).
-- **Dealing with network data**: [std::start_lifetime_as](https://en.cppreference.com/w/cpp/memory/start_lifetime_as.html) to reinterpret packet bytes safely (as opposed to the common `reinterpret_cast` approach).
+- **Safe parsing & input handling**: [std::span](https://en.cppreference.com/w/cpp/container/span.html), [std::expected](https://en.cppreference.com/w/cpp/utility/expected.html), [std::from-chars](https://en.cppreference.com/w/cpp/utility/from-chars.html), and [std::to-array](https://en.cppreference.com/w/cpp/container/array/to-array.html).
+- **Expressive syntax**: [user-defined string literals](https://en.cppreference.com/w/cpp/language/user-literal.html) to improve readability.
+- **Safe byte manipulation**: [std::bit-cast](https://en.cppreference.com/w/cpp/numeric/bit-cast.html) to reinterpret data without undefined behavior (rather than plain [reinterpret-cast](https://en.cppreference.com/w/cpp/language/reinterpret-cast.html)).
+- **Enum handling**: [std::to-underlying](https://en.cppreference.com/w/cpp/utility/to-underlying.html), [std::underlying-type](https://en.cppreference.com/w/cpp/types/underlying-type.html).
+- **Dealing with network data**: [std::start-lifetime-as](https://en.cppreference.com/w/cpp/memory/start-lifetime-as.html) to reinterpret packet bytes safely (as opposed to the common `reinterpret-cast` approach).
 - **Endianness**: [std::endian](https://en.cppreference.com/w/cpp/types/endian.html) and [std::byteswap](https://en.cppreference.com/w/cpp/numeric/byteswap.html).
-- **Resource management**: [std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr.html) with custom deleters for wrapping legacy APIs.
+- **Resource management**: [std::unique-ptr](https://en.cppreference.com/w/cpp/memory/unique-ptr.html) with custom deleters for wrapping legacy APIs.
 - **Modern compile-time features**: [constexpr](https://en.cppreference.com/w/cpp/language/constexpr.html), [consteval](https://en.cppreference.com/w/cpp/language/consteval.html), [constinit](https://en.cppreference.com/w/cpp/language/constinit.html), [if consteval](https://en.cppreference.com/w/cpp/language/if.html), and static constexpr local variables.
 
 Overall, the talk was a tour of "modern tools solving common/old embedded problems" shown through minimal, digestible and realistic/plausible examples.
 
-![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - bit_cast](/assets/images/meeting-cpp-2025/screenshots/08_01_Andreas_Fertig__Embedded_Friendly_Cpp_Features_That_Make_a_Difference__bit_cast.jpg)
-![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - start_lifetime](/assets/images/meeting-cpp-2025/screenshots/08_02_Andreas_Fertig__Embedded_Friendly_Cpp_Features_That_Make_a_Difference__start_lifetime.jpg)
+![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - bit-cast]({{ page.image-path }}/08-01-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-bit-cast.jpg)
+![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - start-lifetime]({{ page.image-path }}/08-02-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-start-lifetime.jpg)
 
 #### My takeaway
 
@@ -982,7 +982,7 @@ His teaching style is calm, peaceful, and remarkably effective - a masterclass f
 I especially appreciated how every feature was grounded in a real embedded need, showing not just what modern C++ offers, but why it matters in constrained environments.
 
 Most - if not all - of the examples reminded me of code I've seen many times in peer-reviews.
-In my experience, especially when related to the embedded world, contributors still tend to write old-style, error-prone code using patterns like `reinterpret_cast`, manual bit manipulations, index-based buffer manipulations, unions, and so on.  
+In my experience, especially when related to the embedded world, contributors still tend to write old-style, error-prone code using patterns like `reinterpret-cast`, manual bit manipulations, index-based buffer manipulations, unions, and so on.  
 
 This coding style, in my view, often originates from legacy teaching approaches that are still widespread today. These approaches emphasize rigid rules, prescriptive "do and don't" lists, katas, and patterns. When developers are taught only how to use a hammer, every problem inevitably starts to look like a nail.  
 This results in two major issues: anchoring knowledge at some point in time rather than keep learning modern incoming features/techniques, and inhibating creativity, flexibility, and utimately pragmatism. This reduces software development to a simplistic pattern-matching exercise, where developers merely choose between predefined solutions instead of engaging in analysis, design, and trade-off evaluation.
@@ -993,12 +993,12 @@ A few personal reflections:
 
 - Like always: **contemporain C++ really simplifies** codebases, including the ones related to embedded.  
   Tasks that once required brittle tricks-casting bytes, parsing raw packets, converting enums-now have safe, standardized solutions.
-- The combination of `std::span` + `std::expected` + `std::from_chars` is something I already promote at work. It's such a clean way to handle raw data and error-cases.
+- The combination of `std::span` + `std::expected` + `std::from-chars` is something I already promote at work. It's such a clean way to handle raw data and error-cases.
 - Compile-time features (`consteval`, `constinit`, `if`-`consteval`) offer a great way to enforce correctness without runtime cost.
   - I particularly appreciated the `if not consteval { std::println("", ...); }` trick that I'll make sure to reuse, so I'll extend my `constexpr` tests to functions that might emit logs and user-notifications.
-- `std::unique_ptr` with **custom deleters** remains an easy and elegant bridge to legacy `C` APIs.
+- `std::unique-ptr` with **custom deleters** remains an easy and elegant bridge to legacy `C` APIs.
 
-I'll make sure to dig into the presented features which I'm not familiar with yet, like [std::start_lifetime_as](https://en.cppreference.com/w/cpp/memory/start_lifetime_as.html) and [std::has_unique_object_representations](https://en.cppreference.com/w/cpp/types/has_unique_object_representations.html).  
+I'll make sure to dig into the presented features which I'm not familiar with yet, like [std::start-lifetime-as](https://en.cppreference.com/w/cpp/memory/start-lifetime-as.html) and [std::has-unique-object-representations](https://en.cppreference.com/w/cpp/types/has-unique-object-representations.html).  
 
 I came away with several insights I can apply right away, and an even greater appreciation for Andreas's teaching style. His approach genuinely inspired me to revisit my own training slide-decks, so I can make my courses more grounded in real-world needs and even more accessible; which might increase my **trainings retention rate**.
 
@@ -1008,7 +1008,7 @@ I came away with several insights I can apply right away, and an even greater ap
 
 *Disclaimer: I chose to attend Daniela Engert's talk instead of Evgenii Seliverstov's *"Sanitize for your Sanity: Sanitizers tools for Modern C++"*, but I'll definitely watch Evgenii's session as soon as the recording becomes available.*
 
-> "Simplicity is a prerequisite for reliability", [Edsger W. Dijkstra](https://en.wikipedia.org/wiki/Edsger_W._Dijkstra).
+> "Simplicity is a prerequisite for reliability", [Edsger W. Dijkstra](https://en.wikipedia.org/wiki/Edsger-W.-Dijkstra).
 
 #### Content
 
@@ -1024,16 +1024,16 @@ Key points included:
 - **Standard library hardening ([P3471](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3471r4.html))** brings runtime-checked preconditions to the STL when enabled.
 - **Trade-off: safety vs. performance** - but if performance allows it, hardening is an immediate win.
 - **Contract support & partial program correctness ([P2900](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p1494r5.html))** opens the door to precise diagnostics and better program correctness, coming with
-  - `pre`, `post`, and `contract_assert`,
-  - and policy/semantics like `ignore`, `observe`, `enforce`, and `quick_enforce`.
+  - `pre`, `post`, and `contract-assert`,
+  - and policy/semantics like `ignore`, `observe`, `enforce`, and `quick-enforce`.
 - **Observable behavior & checkpoints (P1494)** prevent compilers from reordering checks in ways that could undermine contract guarantees.
 - **Beyond C++26**: profiles like [P3081 (Core safety profiles for C++26)](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3081r1.pdf) propose opt-in enforcement of type, bounds, lifetime and arithmetic, potentially moving C++ toward even safer subsets of the language.
 
 Overall, her talk showed a clear trajectory: the language and the standard library are evolving toward practical, opt-in safety - without abandoning performance.
 
-![Daniela Engert: Towards Safety and Security in C++26 - MSVC hardened STL](/assets/images/meeting-cpp-2025/screenshots/09_01_Daniela_Engert__Towards_Safety_and_Security_in_Cpp26__hardened_STL.jpg)
-![Daniela Engert: Towards Safety and Security in C++26 - contracts](/assets/images/meeting-cpp-2025/screenshots/09_02_Daniela_Engert__Towards_Safety_and_Security_in_Cpp26__contracts.jpg)
-![Daniela Engert: Towards Safety and Security in C++26 - contracts semantic](/assets/images/meeting-cpp-2025/screenshots/09_03_Daniela_Engert__Towards_Safety_and_Security_in_Cpp26_contracts_semantic.jpg)
+![Daniela Engert: Towards Safety and Security in C++26 - MSVC hardened STL]({{ page.image-path }}/09-01-daniela-engert-towards-safety-and-security-in-cpp26-hardened-stl.jpg)
+![Daniela Engert: Towards Safety and Security in C++26 - contracts]({{ page.image-path }}/09-02-daniela-engert-towards-safety-and-security-in-cpp26-contracts.jpg)
+![Daniela Engert: Towards Safety and Security in C++26 - contracts semantic]({{ page.image-path }}/09-03-daniela-engert-towards-safety-and-security-in-cpp26-contracts-semantic.jpg)
 
 #### My takeaway
 
@@ -1059,9 +1059,9 @@ This talk made that trajectory toward safety clearer than ever, and increased my
 
 ### 🗣️ **Raymi Klingers** - 25+ Years of pathfinding problems with C++
 
-[🎥 Video](https://www.youtube.com/watch?v=lEBQveBCtKY), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/25+%20Years%20of%20Pathfinding%20Problems442903.pdf)
+[🎥 Video](https://www.youtube.com/watch?v=lEBQveBCtKY), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/25+-Years-of-Pathfinding-Problems442903.pdf)
 
-Raymi's talk explored more than two decades of pathfinding challenges in the [Age of Empires](https://www.ageofempires.com/) franchise *(among the games that most shaped my early interest in real-time strategy as a child)*, from the early [Ensemble Studios](https://en.wikipedia.org/wiki/Ensemble_Studios) codebases to the modern remasters developed by [Forgotten Empires](https://www.forgottenempires.net/).
+Raymi's talk explored more than two decades of pathfinding challenges in the [Age of Empires](https://www.ageofempires.com/) franchise *(among the games that most shaped my early interest in real-time strategy as a child)*, from the early [Ensemble Studios](https://en.wikipedia.org/wiki/Ensemble-Studios) codebases to the modern remasters developed by [Forgotten Empires](https://www.forgottenempires.net/).
 
 #### Content
 
@@ -1085,7 +1085,7 @@ Raymi walked through the multi-year process of fixing and improving AoE pathfind
 
 It was also framed in the context of remastering/modernizing old codebases - balancing "don't break the game the community loves" vs. "fix the long-standing problems players always complained about."
 
-![Raymi Klingers: 25+ Years of pathfinding problems with C++ - The path of robustness](/assets/images/meeting-cpp-2025/screenshots/10_Raymi_Klingers__25_Years_of_pathfinding_problems_with_Cpp.jpg)
+![Raymi Klingers: 25+ Years of pathfinding problems with C++ - The path of robustness]({{ page.image-path }}/10-raymi-klingers-25-years-of-pathfinding-problems-with-cpp.jpg)
 
 #### My takeaway
 
@@ -1147,7 +1147,7 @@ They are **wrong**: it is not, and that's what I call **pragmatic simplicity**. 
 std::vector<int> result;
 for (int i = 1; i <= 10; ++i){
     if (i % 2 == 0){
-        result.push_back(i * i);
+        result.push-back(i * i);
     }
 }
 std::cout << "result: [";
@@ -1160,8 +1160,8 @@ std::cout << "]\n";
 // C++23 style
 auto view = 
   std::views::iota(1, 11)
-| std::views::filter(is_even)
-| std::views::transform(to_square)
+| std::views::filter(is-even)
+| std::views::transform(to-square)
 ;
 std::println("result: {}", view);
 ```
@@ -1181,7 +1181,7 @@ However, modern C++ gives tools to catch UB early:
 
 - Undefined behaviors are not allowed at compile-time.
 - Make as much code as possible `constexpr`.
-- Use `consteval` for tests: `static_assert(test())`.
+- Use `consteval` for tests: `static-assert(test())`.
 - Test both compile-time and runtime paths.
 
 👉 As constexpr support expands each standard cycle, the space for UB keeps shrinking.
@@ -1197,14 +1197,14 @@ Many bugs come from:
 **Strong types** solve this elegantly:
 
 - [explicit constructors](https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html)
-- type constraints (`std::same_as`)
-- libraries like [rollbear/strong_type](https://github.com/rollbear/strong_type), [foonathan/type_safe](https://github.com/foonathan/type_safe), and [mp-units](https://github.com/mpusz/mp-units).
+- type constraints (`std::same-as`)
+- libraries like [rollbear/strong-type](https://github.com/rollbear/strong-type), [foonathan/type-safe](https://github.com/foonathan/type-safe), and [mp-units](https://github.com/mpusz/mp-units).
 
 Same performance, significantly safer. That's what such zero-cost abstractions are all about.
 
 #### Lifetime safety: value semantics over inheritance
 
-Classic/legacy dogmatic [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming) design in C++ leads to:
+Classic/legacy dogmatic [OOP](https://en.wikipedia.org/wiki/Object-oriented-programming) design in C++ leads to:
 
 - pointer-heavy code
 - dynamic allocations
@@ -1240,11 +1240,11 @@ Klaus closed with one of the strongest messages of the whole conference:
 His point was not to shame developers, but to remind the experts - us - to teach, mentor, write, and correct misconceptions.  
 👉 If we don't, loud voices will drive the narrative, not factual ones.
 
-![Klaus Iglberger: The Real Problem of C++ - my personnal opinion](/assets/images/meeting-cpp-2025/screenshots/11_01_Klaus_Iglberger__The_Real_Problem_of_Cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - expert's opinion](/assets/images/meeting-cpp-2025/screenshots/11_02_Klaus_Iglberger__The_Real_Problem_of_Cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - current state of discussion](/assets/images/meeting-cpp-2025/screenshots/11_03_Klaus_Iglberger__The_Real_Problem_of_Cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - about reference semantic](/assets/images/meeting-cpp-2025/screenshots/11_04_Klaus_Iglberger__The_Real_Problem_of_Cpp.jpg)
-![Klaus Iglberger: The Real Problem of C++ - conclusion](/assets/images/meeting-cpp-2025/screenshots/11_05_Klaus_Iglberger__The_Real_Problem_of_Cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - my personnal opinion]({{ page.image-path }}/11-01-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - expert's opinion]({{ page.image-path }}/11-02-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - current state of discussion]({{ page.image-path }}/11-03-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - about reference semantic]({{ page.image-path }}/11-04-klaus-iglberger-the-real-problem-of-cpp.jpg)
+![Klaus Iglberger: The Real Problem of C++ - conclusion]({{ page.image-path }}/11-05-klaus-iglberger-the-real-problem-of-cpp.jpg)
 
 #### My takeaway
 
@@ -1285,7 +1285,7 @@ He concluded with a call to action:
 #### Additional sources
 
 - [The Case for Memory Safe Roadmaps - Why Both C-Suite Executives and Technical Experts Need to Take Memory Safe Coding Seriously](https://media.defense.gov/2023/Dec/06/2003352724/-1/-1/0/THE-CASE-FOR-MEMORY-SAFE-ROADMAPS-TLP-CLEAR.PDF), December 2023, CISA | NSA | FBI | ASD's ACSC | CCCS | NCSC-UK | NCSC-NZ | CERT-NZ.
-- [Software Memory Safety](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF), April 2023, National Security Agency | Cybersecurity Information Sheet.
+- [Software Memory Safety](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI-SOFTWARE-MEMORY-SAFETY.PDF), April 2023, National Security Agency | Cybersecurity Information Sheet.
 - [Peter Sommerlad - "Collective Amnesia ?" - Meeting Cpp 2024](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669#%EF%B8%8F-peter-sommerlad-collective-amnesia)
 
 ### 🗣️ **Roth Michaels** - How to become obsolete: a guide to software engineering mentorship
@@ -1294,7 +1294,7 @@ He concluded with a call to action:
 
 Roth framed his talk around a question we - *experienced engineers* - all eventually face: How to lead effectively, share knowledge, yet still avoid being the bottleneck ?  
 The talk was heavily inspired by Meeting C++ 2024 themes ([Titus Winters on "Fear in C++"](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669#%EF%B8%8F-titus-winters-opening-keynote---fear-in-tech), [Kate Gregory on "Aging Developers"](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669#%EF%B8%8F-kate-gregory-the-aging-programmer)), and tied to Roth own experience at [Native Instruments](https://www.native-instruments.com/en/).  
-The central metaphor was [free jazz](https://en.wikipedia.org/wiki/Free_jazz) - a style built on improvisation, shared leadership, and trust, but also breaking conventions, to get rids of limitations in order to promote creativity.
+The central metaphor was [free jazz](https://en.wikipedia.org/wiki/Free-jazz) - a style built on improvisation, shared leadership, and trust, but also breaking conventions, to get rids of limitations in order to promote creativity.
 
 #### Why become obsolete ?
 
@@ -1339,7 +1339,7 @@ Technical leadership should not be exclusive to extroverts or natural talkers, b
 - Rotate projects leaderships
 - Every project can (and should) have a different project lead.
 
-![Roth Michaels: How to become obsolete: a guide to software engineering mentorship - identifying leaders](/assets/images/meeting-cpp-2025/screenshots/12_Ruth_Michaels__How_to_gbecome_obsolete.jpg)
+![Roth Michaels: How to become obsolete: a guide to software engineering mentorship - identifying leaders]({{ page.image-path }}/12-ruth-michaels-how-to-gbecome-obsolete.jpg)
 
 #### Practical mentorship techniques
 
@@ -1439,7 +1439,7 @@ Overall, the talk was refreshing, human, and deeply practical: a reminder that l
 
 [🎥 Video](https://www.youtube.com/watch?v=fDXtQOEtrbw), [📄 slidedeck]()
 
-With this talk, [Kerstin Keller](https://meetingcpp.com/2024/Speaker/items/Kerstin_Keller.html) ([AUTOMOVIO](http://www.aumovio.com/en.html)) discussed why C++ dependency management is uniquely difficult, and how modern tools - and [Conan](https://conan.io/) in particular - can help.  
+With this talk, [Kerstin Keller](https://meetingcpp.com/2024/Speaker/items/Kerstin-Keller.html) ([AUTOMOVIO](http://www.aumovio.com/en.html)) discussed why C++ dependency management is uniquely difficult, and how modern tools - and [Conan](https://conan.io/) in particular - can help.  
 This is a nice addition to her talk back at Meeting Cpp 2024 [Clean CMake for C++ (library) developers](https://www.youtube.com/watch?v=k76LN8dSxx4).
 
 Dependency management matters because most - *if not, all* - projects rely on many external components,  
@@ -1454,7 +1454,7 @@ A **dependency** is any external component (library, framework, module, service�
 
 Semantic **versioning** *(`major.minor.patch`)* is a contract between library authors and users, and reproducible builds require consistent source, environment, and instructions.
 
-![Kerstin Keller: Why managing C++ dependencies is hard - dependency graph](/assets/images/meeting-cpp-2025/screenshots/13_00_Kerstin_Keller__Why_managing_Cpp_dependencies_is_hard__graph.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - dependency graph]({{ page.image-path }}/13-00-kerstin-keller-why-managing-cpp-dependencies-is-hard-graph.jpg)
 
 #### How developers handle dependencies nowadays ?
 
@@ -1469,7 +1469,7 @@ Dependency managers help solve multi-version graphs, transitive dependencies, an
 
 > 💡 Pin major versions, avoid broad ranges.
 
-![Kerstin Keller: Why managing C++ dependencies is hard - survey](/assets/images/meeting-cpp-2025/screenshots/13_01_Kerstin_Keller__Why_managing_Cpp_dependencies_is_hard__survey.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - survey]({{ page.image-path }}/13-01-kerstin-keller-why-managing-cpp-dependencies-is-hard-survey.jpg)
 
 #### Why C++ dependencies management is unique and hard ?
 
@@ -1478,7 +1478,7 @@ Three main challenges:
 - **Binary compatibility**: When is an existing package safe to reuse ?  
   Tools compute a package ID hash (compiler, options, build settings) to detect **ABI compatibility**.
 
-- **No standard build system**: C++ projects use [CMake](https://cmake.org/), [Meson](https://mesonbuild.com/), [Bazel](https://bazel.build/), custom/hands-written [Makefile](https://www.gnu.org/software/make/manual/html_node/Introduction.html)s, etc.  
+- **No standard build system**: C++ projects use [CMake](https://cmake.org/), [Meson](https://mesonbuild.com/), [Bazel](https://bazel.build/), custom/hands-written [Makefile](https://www.gnu.org/software/make/manual/html-node/Introduction.html)s, etc.  
   [Conan integration](https://docs.conan.io/2/integrations.html) supports most.
 
 - **No standard package format**: Different ecosystems lack a shared way to describe installable artifacts.  
@@ -1486,8 +1486,8 @@ Three main challenges:
   
   > 💡 Both [CMake](https://www.kitware.com/navigating-cmake-dependencies-with-cps/) and [Meson](https://mesonbuild.com/) are experimenting with [CPS](https://cps-org.github.io/cps/overview.html) support.
 
-![Kerstin Keller: Why managing C++ dependencies is hard - dependency manager purpose](/assets/images/meeting-cpp-2025/screenshots/13_02_Kerstin_Keller__Why_managing_Cpp_dependencies_is_hard__dependency_manager_purpose.jpg)
-![Kerstin Keller: Why managing C++ dependencies is hard - providing dependencies](/assets/images/meeting-cpp-2025/screenshots/13_03_Kerstin_Keller__Why_managing_Cpp_dependencies_is_hard__providing_dependencies.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - dependency manager purpose]({{ page.image-path }}/13-02-kerstin-keller-why-managing-cpp-dependencies-is-hard-dependency-manager-purpose.jpg)
+![Kerstin Keller: Why managing C++ dependencies is hard - providing dependencies]({{ page.image-path }}/13-03-kerstin-keller-why-managing-cpp-dependencies-is-hard-providing-dependencies.jpg)
 
 #### Inputs from the Q&A
 
@@ -1512,7 +1512,7 @@ I spend a lot of time building resilient/reliable, portable, modular C++ systems
 From my perspective, this talk evangelized strongly about *"just use Conan"*, but this seems to be a strong and realistic tool to tackle dependency-management related issues nowadays *(ABI compatibility, package format standardisation, and build systems homogeneosity, etc.)*.
 
 Honestly, I mostly use [CMake's FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html). Sometime with a front built on top to promote consistency and a better API: [CPM](https://github.com/cpm-cmake/CPM.cmake) or a homemade one.  
-And it works not too bad: sure, fetching takes time, but then most of my projects take from a fistful of seconds up to 2 minutes to build, even larger ones. Especially because nowadays, most C++ libraries are - or offer some variants as (like [fmt](https://github.com/fmtlib/fmt) with `FMT_HEADER_ONLY`) - header-only.  
+And it works not too bad: sure, fetching takes time, but then most of my projects take from a fistful of seconds up to 2 minutes to build, even larger ones. Especially because nowadays, most C++ libraries are - or offer some variants as (like [fmt](https://github.com/fmtlib/fmt) with `FMT-HEADER-ONLY`) - header-only.  
 
 > 👉 Although, I like A LOT the idea of just pressing the `build` button in my IDE, and let the project(s) take care of its dependency tree all by itself.  
 > Attempting to use, build or contribute to some GitHub projects still often devolves into an iterative cycle of missing dependencies, manual installation, and repeated build failures.
@@ -1544,7 +1544,7 @@ Like every year, Jens Weller shared a transparent update on the state of `Meetin
 While the conference reaches nearly **100000 online visitors** compared to about **230 onsite attendees**, 2025 has been economically challenging: frozen training budgets, fewer committed sponsors, and rising fixed costs - especially for hybrid events hosted in high-quality venues.  
 Despite this, Meeting C++ is still standing after **13 years**, this iteration being described by Jens as *"the best conference in the worst year"*, though just barely breaking even. Jens was clear: **the conference must continue to evolve & adapt**, as running it the same way has become too risky.
 
-![Jens Weller: Meeting C++ update - survey](/assets/images/meeting-cpp-2025/screenshots/14_01_Jens_Weller__Meeting_Cpp_update__survey.jpg)
+![Jens Weller: Meeting C++ update - survey]({{ page.image-path }}/14-01-jens-weller-meeting-cpp-update-survey.jpg)
 
 #### What's next ?
 
@@ -1554,7 +1554,7 @@ Jens also emphasized the foundational role of C++ user groups, which were key to
 
 #### 2026 conference
 
-The next Meeting C++ conference is planned for November 26-28 2026, again in Berlin ([Andel Hotel](https://www.wyndhamhotels.com/vienna-house/berlin-germany/vienna-house-andels-berlin/rooms-rates?brand_id=VI&checkInDate=11%2F26%2F2026&checkOutDate=11%2F28%2F2026&useWRPoints=false&children=0&adults=1&rooms=1)), with both onsite and online participation.  
+The next Meeting C++ conference is planned for November 26-28 2026, again in Berlin ([Andel Hotel](https://www.wyndhamhotels.com/vienna-house/berlin-germany/vienna-house-andels-berlin/rooms-rates?brand-id=VI&checkInDate=11%2F26%2F2026&checkOutDate=11%2F28%2F2026&useWRPoints=false&children=0&adults=1&rooms=1)), with both onsite and online participation.  
 Jens encouraged attendees to support the conference early by buying tickets sooner in future years.  
 The update closed with heartfelt thanks to sponsors, volunteers, speakers, and attendees, and the C++ community.
 
@@ -1565,14 +1565,14 @@ Jens also shared the symbolic journey of [Cippi](https://www.modernescpp.org/cip
 
 👉 Go check [Cippi's blog](https://www.modernescpp.org/category/project-cippi/) !
 
-![Jens Weller: Meeting C++ update - Cippi and Rainer](/assets/images/meeting-cpp-2025/screenshots/14_02_Jens_Weller__Meeting_Cpp_update__Cippi_and_Rainer.jpg)  
+![Jens Weller: Meeting C++ update - Cippi and Rainer]({{ page.image-path }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)  
 *(I put this screenshot twice on purpose)*
 
 ### ⚡Lightning talks
 
 #### ⚡ **James McNellis** Our most teacherous adversary
 
-[🎥 Video](https://www.youtube.com/watch?v=zC_uwGqSLqQ), [📄 slidedeck]()
+[🎥 Video](https://www.youtube.com/watch?v=zC-uwGqSLqQ), [📄 slidedeck]()
 
 James humorously reminded us that as C++ developers, we sometime over-trust compilers, which might break our code whenever the standard allows them to.  
 His example with `bool` illustrated how seemingly harmless types can behave unpredictably across privilege or ABI boundaries.
@@ -1580,7 +1580,7 @@ His example with `bool` illustrated how seemingly harmless types can behave unpr
 To my knowledge, `bool` suffers from an unstable, implementation-defined representation - as the C++ standard does not fix how it is represented in memory. It just may vary across compilers and plateforms, from 1 byte as bit value (0 or 1), 1 byte (0 or non-zero, like 42), 4 bytes, packed or padded in structs, etc.
 
 > bool - integer type, capable of holding one of the two values: true or false. The value of sizeof(bool) is implementation defined and might differ from 1.  
-> [cppreference](https://en.cppreference.com/w/cpp/language/types.html#Boolean_type)
+> [cppreference](https://en.cppreference.com/w/cpp/language/types.html#Boolean-type)
 
 👉 Takeaway: **never use bool in data structures that cross boundaries** like files, networks, or IPC.  
 Stuch a type can be quite pitfall - *especially for junior developers* -, and safer explicit fixed-width integer types should be preferred.  
@@ -1591,11 +1591,11 @@ Beyond the technical aspect, this once again demonstrates how important it is fo
 
 From my perspective, that's what C++ is fundamentally about: **continuously expanding what's possible to achieve with code**.
 
-![James McNellis: Our most teacherous adversary - 3 states of booleans](/assets/images/meeting-cpp-2025/screenshots/15_James_McNellis_Our_most_teacherous_adversary.jpg)
+![James McNellis: Our most teacherous adversary - 3 states of booleans]({{ page.image-path }}/15-james-mcnellis-our-most-teacherous-adversary.jpg)
 
 ---
 
-✋Allow me a quick digression: people often complain that C++ has a steep learning curve (and I partly agree), using things like PRNGs as an example. Sure, Python's random module gives you a simple API - `dice_roll = random.randint(1, 12)` - and it works. But what's the seed ? What distribution is being used ? If you're simulating the sum of two dices, you'd probably prefer a Gaussian-like distribution rather than a uniform one.  
+✋Allow me a quick digression: people often complain that C++ has a steep learning curve (and I partly agree), using things like PRNGs as an example. Sure, Python's random module gives you a simple API - `dice-roll = random.randint(1, 12)` - and it works. But what's the seed ? What distribution is being used ? If you're simulating the sum of two dices, you'd probably prefer a Gaussian-like distribution rather than a uniform one.  
 Which is perfectly feasible in Python, but not without undermining the fallacious argument of simplicity.
 
 Giving it a quite/naive quick shot *(disclaimer: I'm not a Python developer, not into maths)*:
@@ -1605,17 +1605,17 @@ Giving it a quite/naive quick shot *(disclaimer: I'm not a Python developer, not
 
 #### ⚡ **Rahel Natalie Engel** - let them eat cake
 
-[🎥 Video](https://www.youtube.com/watch?v=gQ6grpbhW8k), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/let_them_eat_cake551224.pdf)
+[🎥 Video](https://www.youtube.com/watch?v=gQ6grpbhW8k), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/let-them-eat-cake551224.pdf)
 
 Rahel discussed diversity challenges in tech and shared lessons from university diversity and outreach programs.  
-Many beginners start with [visual programming](https://en.wikipedia.org/wiki/Visual_programming_language) tools like [Scratch](https://scratch.mit.edu/) due to time and accessibility constraints, but this often makes the transition to text-based programming difficult.
+Many beginners start with [visual programming](https://en.wikipedia.org/wiki/Visual-programming-language) tools like [Scratch](https://scratch.mit.edu/) due to time and accessibility constraints, but this often makes the transition to text-based programming difficult.
 
 As a solution, she presented [catpie](https://catpie.compscicomp.de/), an accessible hybrid visual–text tool meant to ease that transition and make early learning more accessible.
 
-- [Conference paper, on ResearchGate](https://www.researchgate.net/publication/395534441_Cats_Code_and_Concepts_Learn_to_Program_with_Catpie)
+- [Conference paper, on ResearchGate](https://www.researchgate.net/publication/395534441-Cats-Code-and-Concepts-Learn-to-Program-with-Catpie)
 - [Project's sources, on Gitlab](https://scm.cms.hu-berlin.de/engelrah/catpie)
 
-![screenshot - Rahel Natalie Engel - let them eat cake - catpie](/assets/images/meeting-cpp-2025/screenshots/16_rahel_natalie_engel__let_them_eat_cake_catpie.jpg)
+![screenshot - Rahel Natalie Engel - let them eat cake - catpie]({{ page.image-path }}/16-rahel-natalie-engel-let-them-eat-cake-catpie.jpg)
 
 💡 A thoughtful reminder that the tools **we choose for beginners often shape their long-term learning path**.  
 Making programming accessible & fun is crucial, but we must also ensure learners can gradually grow into full programming languages without unnecessary friction.
@@ -1627,22 +1627,22 @@ Making programming accessible & fun is crucial, but we must also ensure learners
 Robin showed how a dynamic, heap-based design used on a Raspberry Pi could be migrated to a much more constrained [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html) by leaning on `constexpr` and `consteval`.  
 By letting the compiler evaluate everything at compile time, a `std::vector`-like workflow effectively turns into static storage without runtime allocation, which meets the target plateform constraints.
 
-In a nutshell, he presented a simple yet effective `range_to_array` function, inspired by [Mikhail Svetkin's talk "Harnessing constexpr: A Path to Safer C++"](https://meetingcpp.com/mcpp/schedule/talkview.php?th=017b8292e897d1202bf0fe713f0d127e2ae486c9).
+In a nutshell, he presented a simple yet effective `range-to-array` function, inspired by [Mikhail Svetkin's talk "Harnessing constexpr: A Path to Safer C++"](https://meetingcpp.com/mcpp/schedule/talkview.php?th=017b8292e897d1202bf0fe713f0d127e2ae486c9).
 
 - takes an [std::invocable](https://en.cppreference.com/w/cpp/concepts/invocable.html) as parameter that return type meets the [std::range](https://en.cppreference.com/w/cpp/ranges/range.html) requirement.
-- the result type is an [std::array](https://en.cppreference.com/w/cpp/container/array.html) which [std::ranges::range_value_t](https://en.cppreference.com/w/cpp/ranges/range_size_t.html) is the [std::invoke_result_t](https://en.cppreference.com/w/cpp/types/result_of.html) of the `invocable`, and size is the [range::size](https://en.cppreference.com/w/cpp/ranges/size.html) of the `invoke_result_t`.
+- the result type is an [std::array](https://en.cppreference.com/w/cpp/container/array.html) which [std::ranges::range-value-t](https://en.cppreference.com/w/cpp/ranges/range-size-t.html) is the [std::invoke-result-t](https://en.cppreference.com/w/cpp/types/result-of.html) of the `invocable`, and size is the [range::size](https://en.cppreference.com/w/cpp/ranges/size.html) of the `invoke-result-t`.
 - copy elements generated by the invocable into the array
 
 The implementation was something like:
 
 ```cpp
 template <std::invocable auto generator>
-  requires std::ranges::range<std::invoke_result_t<decltype(generator)>>
-consteval auto range_to_array() {
-  using generator_result_type = std::invoke_result_t<decltype(generator)>;
+  requires std::ranges::range<std::invoke-result-t<decltype(generator)>>
+consteval auto range-to-array() {
+  using generator-result-type = std::invoke-result-t<decltype(generator)>;
   auto result = std::array<
-      std::ranges::range_value_t<generator_result_type>,
-      std::ranges::size(generator_result_type)
+      std::ranges::range-value-t<generator-result-type>,
+      std::ranges::size(generator-result-type)
   >{};
   std::ranges::copy(
       generator(),
@@ -1652,18 +1652,18 @@ consteval auto range_to_array() {
 }
 ```
 
-![Robin Savenen Soderholm: vector to array - usage](/assets/images/meeting-cpp-2025/screenshots/17_Robin_Savenen_Soderholm__vector_to_array__usage.jpg)
+![Robin Savenen Soderholm: vector to array - usage]({{ page.image-path }}/17-robin-savenen-soderholm-vector-to-array-usage.jpg)
 
 #### ⚡ **Ganest Rengasamy** - Meet Qt
 
 [🎥 Video](https://www.youtube.com/watch?v=dVwQG2zS4zE), [📄 slidedeck]()
 
 Rather than explaining what the [Qt](https://www.qt.io/development/qt-framework) is, this was a refreshing reintroduction that showed how the framework has evolved to keep up with users and modern industry needs.  
-The talk highlighted `Qt` as a broad, end-to-end platform - well beyond just [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface)s - covering cross-plateforms, embedded, desktop, mobile, backend integration, modern UI workflows (Figma), and even 3D assets.
+The talk highlighted `Qt` as a broad, end-to-end platform - well beyond just [GUI](https://en.wikipedia.org/wiki/Graphical-user-interface)s - covering cross-plateforms, embedded, desktop, mobile, backend integration, modern UI workflows (Figma), and even 3D assets.
 
 Through an industrial vehicle use case, it showcased `Qt` as an end-to-end ecosystem: from backend services ingesting sensor data via [MQTT](https://en.wikipedia.org/wiki/MQTT) to Qt-powered UIs designed in [Figma](https://www.figma.com/) and even rendering assets from [Blender](https://www.blender.org/).
 
-I haven't really had the opportunity to use `Qt` since my school days (about 15 years ago), where it mostly meant - *as far as I remember* - GUIs and signal/slots. Back when I was freelancing, I tended to favor C# with [WPF/XAML](https://en.wikipedia.org/wiki/Extensible_Application_Markup_Language) for GUI development, as the [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) experience felt more mature and better integrated to me at the time.
+I haven't really had the opportunity to use `Qt` since my school days (about 15 years ago), where it mostly meant - *as far as I remember* - GUIs and signal/slots. Back when I was freelancing, I tended to favor C# with [WPF/XAML](https://en.wikipedia.org/wiki/Extensible-Application-Markup-Language) for GUI development, as the [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) experience felt more mature and better integrated to me at the time.
 
 Seeing how much broader and more modern the ecosystem has become makes me genuinely curious to revisit `Qt` and explore what other powerful features it offers today to ease my developer needs.
 
@@ -1672,11 +1672,11 @@ Additional resources:
 - [Qt: Exporting from Blender](https://doc.qt.io/qt-6/quick3d-asset-conditioning-export-blender.html)
 - [Qt: The Fastest Way to Bring Figma Designs to the Product](https://www.qt.io/development/gui-design-figma)
 
-![Ganest Rengasamy: Meet Qt](/assets/images/meeting-cpp-2025/screenshots/18_Ganest_Rengasamy__Meet_Qt.jpg)
+![Ganest Rengasamy: Meet Qt]({{ page.image-path }}/18-ganest-rengasamy-meet-qt.jpg)
 
 #### ⚡ **Hannah Lenk** - Start teaching C++
 
-[🎥 Video](https://www.youtube.com/watch?v=f6fEB2N1i00), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/start_teaching_cpp932460.pdf)
+[🎥 Video](https://www.youtube.com/watch?v=f6fEB2N1i00), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/start-teaching-cpp932460.pdf)
 
 Hannah argued that much of the criticism aimed at C++ stems from **outdated usage** and a **lack of teaching** rather than from the language itself. Echoing several talks at the conference (Klaus Iglberger's, Daniela Engert's), she challenged the idea that C++ is inherently complex or unsafe, reminding us that **simple does not mean familiar** (see [Pragmatic Simplicity - Actionable Guidelines To Tame Cpp Complexity - Vittorio Romeo - CppCon 2022](https://www.youtube.com/watch?v=3eH7JRgLnG8)) and that C++ remains one of the most widely used languages today (top 4 in the [TIOBE index](https://www.tiobe.com/tiobe-index/)).
 
@@ -1686,7 +1686,7 @@ If we want better C++ code and fewer misconceptions, we should **start teaching 
 instead of letting **loud, uninformed voices dominate the narrative**.  
 Teachers have a huge responsibility here: they should stop teaching C++98 or that so-called "C/C++", and start teaching modern, simple, elegant and safe contemporain C++. C++ in 2026 feels like another language that C++98.
 
-![Hannah Lenk: Start teaching C++](/assets/images/meeting-cpp-2025/screenshots/19_Hannah_Lenk__start_teaching_Cpp.jpg)
+![Hannah Lenk: Start teaching C++]({{ page.image-path }}/19-hannah-lenk-start-teaching-cpp.jpg)
 
 #### ⚡ **Jens Weller** - binary trees
 
@@ -1697,7 +1697,7 @@ Jens shared a thought process that started with a simple question: what does the
 Unsurprisingly, most examples still revolve around pointer-based binary trees, often written in a C-with-classes style using raw pointers, `new`/`delete`, and little consideration for modern design; which results in inconvenient, error-prone APIs.
 With developers increasingly turning to AI assistants instead of search engines, **these patterns are now being amplified rather than challenged** - `ChatGPT`, `Grok`, `Gemini` and similar LLMs tools largely reproduce what they find online, including outdated or incomplete practices.
 
-From there, the talk pivoted toward [data-oriented design](https://en.wikipedia.org/wiki/Data-oriented_design).  
+From there, the talk pivoted toward [data-oriented design](https://en.wikipedia.org/wiki/Data-oriented-design).  
 Drawing inspiration from past keynotes Jens explored replacing pointers with indices stored in contiguous containers.
 
 - [CppCon 2014: Mike Acton - "Data-Oriented Design and C++"](https://www.youtube.com/watch?v=rX0ItVEVjHc)
@@ -1719,31 +1719,31 @@ From my perspective, this creates a feedback loop.
 👉 LLMs largely reflect the datasets they were trained on, which means they tend to echo and amplify outdated practices. These patterns then get reused for learning, ramp-up, and ultimately copied verbatim into production code and pull requests.  
 The talk was a timely reminder that contemporain C++ requires discernment: tools can assist us, but responsibility for evaluating design choices - and updating our mental models - still firmly rests with us.
 
-![Jens Weller: binary trees](/assets/images/meeting-cpp-2025/screenshots/20_Jens_Weller__Binary_trees.jpg)
+![Jens Weller: binary trees]({{ page.image-path }}/20-jens-weller-binary-trees.jpg)
 
 ### 🗣️ **James McNellis** - Closing Keynote - A little introduction to control flow integrity
 
-[🎥 Video](https://www.youtube.com/watch?v=_eX7AVB4qzM), [📄 slidedeck]()
+[🎥 Video](https://www.youtube.com/watch?v=-eX7AVB4qzM), [📄 slidedeck]()
 
 Speaker: James McNellis, game engine security at ROBLOX
 About C++ being unsafe (laughs) like about half of the talks here this year.
 
-[James McNellis](https://www.linkedin.com/in/jamesmcnellis/) ([Roblox](https://www.roblox.com/)) closed the conference with a deep yet tour of [control-flow integrity (CFI)](https://en.wikipedia.org/wiki/Control-flow_integrity), grounded in real-world exploitation techniques and modern defenses techs.
+[James McNellis](https://www.linkedin.com/in/jamesmcnellis/) ([Roblox](https://www.roblox.com/)) closed the conference with a deep yet tour of [control-flow integrity (CFI)](https://en.wikipedia.org/wiki/Control-flow-integrity), grounded in real-world exploitation techniques and modern defenses techs.
 
 He started with a simple & common (and deliberately vulnerable) C example to illustrate how classic buffer overflows can lead to arbitrary code execution, especially when attackers can overwrite return addresses without triggering immediate crashes.
 
 From there, the talk walked through the historical evolution of CFI hacks mitigations: stack canaries, non-executable memory, and address space layout randomization.  
-While effective, these defenses pushed attackers toward more sophisticated techniques such as [return-to-libc attacks](https://en.wikipedia.org/wiki/Return-to-libc_attack) and [return-oriented programming (ROP)](https://en.wikipedia.org/wiki/Return-oriented_programming), where existing instructions - "gadgets" - are chained together to hijack execution without injecting new code.
+While effective, these defenses pushed attackers toward more sophisticated techniques such as [return-to-libc attacks](https://en.wikipedia.org/wiki/Return-to-libc-attack) and [return-oriented programming (ROP)](https://en.wikipedia.org/wiki/Return-oriented-programming), where existing instructions - "gadgets" - are chained together to hijack execution without injecting new code.
 
 This led into "CFI v2": stronger guarantees even in the presence of arbitrary read/write vulnerabilities.  
-James explained how [shadow stacks](https://en.wikipedia.org/wiki/Shadow_stack) (notably Intel CET), [ARMs pointer authentication (PAC)](https://learn.arm.com/learning-paths/servers-and-cloud-computing/pac/pac/), and newer mechanisms like [ARM's Guarded Control Stack (GCS)](https://docs.kernel.org/arch/arm64/gcs.html), comparing their security properties and tradeoffs.  
+James explained how [shadow stacks](https://en.wikipedia.org/wiki/Shadow-stack) (notably Intel CET), [ARMs pointer authentication (PAC)](https://learn.arm.com/learning-paths/servers-and-cloud-computing/pac/pac/), and newer mechanisms like [ARM's Guarded Control Stack (GCS)](https://docs.kernel.org/arch/arm64/gcs.html), comparing their security properties and tradeoffs.  
 
 The second half of the talk addressed (no pune intended) - function pointers and virtual dispatch - covering [Microsoft's Control Flow Guard](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard), [Clang CFI](https://clang.llvm.org/docs/ControlFlowIntegrity.html), and hardware-assisted mechanisms like [Intel's Indirect Branch Tracking (IBT)](https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/branch-history-injection.html) and [ARM's Branch Target Identifier (BTI)](https://newsroom.arm.com/blog/pac-bti), all designed to restrict execution to valid control-flow targets.
 
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - Calls and Returns](/assets/images/meeting-cpp-2025/screenshots/21_01_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - PAC](/assets/images/meeting-cpp-2025/screenshots/21_02_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - return address protection with PAC](/assets/images/meeting-cpp-2025/screenshots/21_03_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - Control flow guard vs. Clang CFI](/assets/images/meeting-cpp-2025/screenshots/21_04_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - Calls and Returns]({{ page.image-path }}/21-01-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - PAC]({{ page.image-path }}/21-02-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - return address protection with PAC]({{ page.image-path }}/21-03-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - Control flow guard vs. Clang CFI]({{ page.image-path }}/21-04-james-mcnellis-closing-keynote-a-little-introduction-to-control-flow-integrity.jpg)
 
 #### My takeaway
 
@@ -1761,7 +1761,7 @@ As a C++ developer, it also reminded me that understanding these mechanisms isn'
 
 I would like to take this opportunity to share a personal opinion.
 
-I was recently reminded how damaging loud but poorly informed voices can be. A popular French tech YouTube channel, [Underscore_](https://www.youtube.com/@Underscore_), released [a video](https://www.youtube.com/watch?v=hbHgIzIbzmQ) titled *"major companies are abandoning C/C++ for [Rust](https://rust-lang.org/)"*.  
+I was recently reminded how damaging loud but poorly informed voices can be. A popular French tech YouTube channel, [Underscore-](https://www.youtube.com/@Underscore-), released [a video](https://www.youtube.com/watch?v=hbHgIzIbzmQ) titled *"major companies are abandoning C/C++ for [Rust](https://rust-lang.org/)"*.  
 Unfortunately, the arguments incriminating C++ relied almost entirely on C++98-style concepts, technics and examples: conflating C and C++, and ignoring **decades of language evolution**.  
 By portraying manual [new/delete](https://en.cppreference.com/w/cpp/memory/new.html), fragile lifetimes, and unsafe concurrency as the norm, it presents a picture of C++ that simply no longer reflects contemporain practice.
 
@@ -1773,14 +1773,14 @@ Influencers, federal agencies, and politicians content reaches far beyond engine
 > - Yes, if you want to **dogmatically** obey OCND, CISA and FBI, and follow trends in general with poor or no critical thinking.  
 > - If you're **pragmatic** on the other end, then **no**: keep learning, teaching, coding, and creating safe, reliable products ! ❤️
 
-Take for instance those two posts [2025 Will Be the Year of Rust-Why Big Tech Is Ditching C++](https://dev.to/dev_tips/2025-will-be-the-year-of-rust-why-big-tech-is-ditching-c-178p) and [Stop Coding In C and C++, Feds Say](https://www.itjungle.com/2024/12/02/stop-coding-in-c-and-c-feds-say/). It uses the same - often, fallacious - arguments, claiming:
+Take for instance those two posts [2025 Will Be the Year of Rust-Why Big Tech Is Ditching C++](https://dev.to/dev-tips/2025-will-be-the-year-of-rust-why-big-tech-is-ditching-c-178p) and [Stop Coding In C and C++, Feds Say](https://www.itjungle.com/2024/12/02/stop-coding-in-c-and-c-feds-say/). It uses the same - often, fallacious - arguments, claiming:
 
 | Argument                                                | My perspective                                                                                                                                                                            |
 | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Rust is not a drop-in replacement for C++               | Agree                                                                                                                                                                                     |
 | C++ Build system (CMake) is a pain                      | Partially Agree. CMake is a de-facto build system for many languages.                                                                                                                     |
 | C++ does not fit high-risk                              | Legacy C++ don't. Contemporain does.                                                                                                                                                      |
-| Poor memory safety                                      | Ever heard of `{ type value; }` ? `std::unique_ptr` ?  etc.                                                                                                                               |
+| Poor memory safety                                      | Ever heard of `{ type value; }` ? `std::unique-ptr` ?  etc.                                                                                                                               |
 | Tech-debt, maintaining cost endanger teams productivity | Not a language-specific thing                                                                                                                                                             |
 | Lack of consistent formatting                           | `clang-format` and other tools are meant for that                                                                                                                                         |
 | Need to modernize with modern language features         | Not a language-specific thing. No need, but one should.                                                                                                                                   |
@@ -1804,7 +1804,7 @@ That said, I Googled *"production-ready Rust snippet"*, found [this one](https:/
   <summary>👀 Show me the code !</summary>
 
   ```rust
-  macro_rules! hashmap {
+  macro-rules! hashmap {
 
       // Handle key-value pairs
       ($($key:expr => $value:expr),+ $(,)?) => {{
@@ -1830,14 +1830,14 @@ That said, I Googled *"production-ready Rust snippet"*, found [this one](https:/
   Which one could somehow translate in C++ like (see here on [godbolt](https://godbolt.org/z/Prj3zfs8d)):
 
   ```cpp
-  constexpr auto make_hashmap(auto && ... pairs)
+  constexpr auto make-hashmap(auto && ... pairs)
   {
-      return std::unordered_map { pairs... };
+      return std::unordered-map { pairs... };
   }
 
   auto main() -> int {
 
-      auto config = make_hashmap(
+      auto config = make-hashmap(
           std::pair{"timeout", 30},
           std::pair{"retries", 3},
           std::pair{"debug", 1}
@@ -1850,16 +1850,16 @@ That said, I Googled *"production-ready Rust snippet"*, found [this one](https:/
   Of course one might prefer using function rather than a macro:
 
   ```rust
-  fn make_hashmap<K, V, I>(pairs: I) -> HashMap<K, V>
+  fn make-hashmap<K, V, I>(pairs: I) -> HashMap<K, V>
   where
       K: std::hash::Hash + Eq,
       I: IntoIterator<Item = (K, V)>,
   {
-      pairs.into_iter().collect()
+      pairs.into-iter().collect()
   }
 
   fn main() {
-      let config = make_hashmap([
+      let config = make-hashmap([
           ("timeout", 30),
           ("retries", 3),
           ("debug",   1)
@@ -1873,19 +1873,19 @@ That said, I Googled *"production-ready Rust snippet"*, found [this one](https:/
 
   ```cpp
   template <class... keys, class ... values>
-  constexpr auto make_hashmap(std::pair<keys, values> && ... pairs)
+  constexpr auto make-hashmap(std::pair<keys, values> && ... pairs)
   {
-      using K = typename std::common_type_t<keys...>;
-      using V = typename std::common_type_t<values...>;
+      using K = typename std::common-type-t<keys...>;
+      using V = typename std::common-type-t<values...>;
 
-      return std::unordered_map<K, V>{
+      return std::unordered-map<K, V>{
           std::forward<decltype(pairs)>(pairs)...
       };
   }
 
   auto main() -> int {
 
-      const auto config = make_hashmap(
+      const auto config = make-hashmap(
           std::pair{ "timeout", 30 },
           std::pair{ "retries", 3  },
           std::pair{ "debug",   1  },
@@ -1898,19 +1898,19 @@ That said, I Googled *"production-ready Rust snippet"*, found [this one](https:/
   to which one might want to add the following overloads to avoid error-bloat
 
   ```cpp
-  constexpr auto make_hashmap(){
-      throw std::invalid_argument{ "cannot deduce map type" };
+  constexpr auto make-hashmap(){
+      throw std::invalid-argument{ "cannot deduce map type" };
   }
 
   template <class... keys, class ... values>
-  requires (not requires { typename std::common_type_t<keys...>; })
-  constexpr auto make_hashmap(std::pair<keys, values> && ...){
-      static_assert(false, "mismatched types (key)");
+  requires (not requires { typename std::common-type-t<keys...>; })
+  constexpr auto make-hashmap(std::pair<keys, values> && ...){
+      static-assert(false, "mismatched types (key)");
   }
   template <class... keys, class ... values>
-  requires (not requires { typename std::common_type_t<values...>; })
-  constexpr auto make_hashmap(std::pair<keys, values> && ...){
-      static_assert(false, "mismatched types (value)");
+  requires (not requires { typename std::common-type-t<values...>; })
+  constexpr auto make-hashmap(std::pair<keys, values> && ...){
+      static-assert(false, "mismatched types (value)");
   }
   ```
 
@@ -1924,10 +1924,10 @@ That said, I Googled *"production-ready Rust snippet"*, found [this one](https:/
 
 #### So what is the takeaway for me on this ?  
 
-Rust's syntax does not inherently strike me as simpler or clearer than contemporain C++'s. For example, Rust's macro system-expressions such as `($($key:expr => $value:expr),+ $(,)?) => {{ /* ... */ }}` can feel quite dense on first encounter, almost reminiscent of [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) in terms of readability, approachability and maintainability.
+Rust's syntax does not inherently strike me as simpler or clearer than contemporain C++'s. For example, Rust's macro system-expressions such as `($($key:expr => $value:expr),+ $(,)?) => {{ /* ... */ }}` can feel quite dense on first encounter, almost reminiscent of [regular expressions](https://en.wikipedia.org/wiki/Regular-expression) in terms of readability, approachability and maintainability.
 
-In the C++ examples I considered, there were no hard-to-manage lifetimes, no raw or user-facing pointers, no new/delete, and no explicit ownership wrappers such as [std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr.html).  
-Instead, the code relied on value semantics, [(N)RVO and copy elision](https://en.cppreference.com/w/cpp/language/copy_elision.html), and features like [Class Template Argument Deduction (CTAD)](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction.html) to significantly reduce boilerplate.
+In the C++ examples I considered, there were no hard-to-manage lifetimes, no raw or user-facing pointers, no new/delete, and no explicit ownership wrappers such as [std::unique-ptr](https://en.cppreference.com/w/cpp/memory/unique-ptr.html).  
+Instead, the code relied on value semantics, [(N)RVO and copy elision](https://en.cppreference.com/w/cpp/language/copy-elision.html), and features like [Class Template Argument Deduction (CTAD)](https://en.cppreference.com/w/cpp/language/class-template-argument-deduction.html) to significantly reduce boilerplate.
 
 That said, `Rust` does excel at producing compiler error diagnostics that are generally more beginner-friendly, whereas C++ diagnostics tend to be more verbose and detailed, which can be both a strength and a challenge **depending on experience level**.  
 My view is that compilers provide full, verbose diagnostics primarily to avoid bias and misinterpretation. That makes sense.  
@@ -1979,7 +1979,7 @@ It is equally difficult to challenge misleading narratives without unintentional
 Arguing rarely - if not, never - has an immediate impact, even with the most valuable, sourced arguments. No one ever said *"You convinced me, I changed my mind"*: admitting you're wrong takes efforts, humility, and critical thinking.  
 Even when arguments do not persuade immediately, they still plant seeds: ideas that may take time to grow, but can flourish if given space and care.  
 
-👉 If fear, trends, and buzzwords shift the [Overton window](https://en.wikipedia.org/wiki/Overton_window) in one direction, then it becomes our collective responsibility to push it back toward **reason and facts**.
+👉 If fear, trends, and buzzwords shift the [Overton window](https://en.wikipedia.org/wiki/Overton-window) in one direction, then it becomes our collective responsibility to push it back toward **reason and facts**.
 
 As conclusion, taken individually, our efforts may seem insignificant. Together, they matter.  
 By standing united, grounded in facts, education, and pragmatism, we can steadily push back against disinformation and belief-driven narratives. We oppose nuance and subtlety to oversimplification and dogmatism.
@@ -2004,7 +2004,7 @@ If you enjoyed this paper:
 
 ## About
 
-![smaller inline_circle](/assets/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline-circle](/assets/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
 I specialize in technical audits and recovery missions, helping teams stabilize complex or struggling projects, and establish reliable foundations for new ones.

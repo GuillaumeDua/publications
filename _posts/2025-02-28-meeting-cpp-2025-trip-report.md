@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Meeting Cpp 2025 - Trip Report"
-image: /assets/images/me.jpg
+image: /assets/images/meeting-cpp-2025/screenshots/meeting_cpp_2025_tshirt_logo.jpg
 image_path: /assets/images/meeting-cpp-2025/screenshots
 ---
 
@@ -16,8 +16,6 @@ image_path: /assets/images/meeting-cpp-2025/screenshots
 | Revision              | R1                                                           |
 
 ---
-
-![meeting_cpp_2025_tshirt_logo center full](/assets/images/meeting-cpp-2025/screenshots/meeting_cpp_2025_tshirt_logo.jpg)
 
 ## Table of content
 
@@ -386,7 +384,7 @@ int f(const int x)
 int f(const int x);   // redecl. without contract is ok
 ```
 
-![Sebastian Theophil: To Err is Human: Robust Error Handling in C++26 - contract customization](/assets/images/meeting-cpp-2025/screenshots/02_Sebastian_%20Theophil__To_Err%20_is_Human%20_Robust__Error%20_Handling_in_cpp26.jpg)
+![Sebastian Theophil: To Err is Human: Robust Error Handling in C++26 - contract customization](/assets/images/meeting-cpp-2025/screenshots/02_Sebastian_Theophil__To_Err_is_Human_Robust__Error_Handling_in_cpp26.jpg)
 
 #### Library hardening in C++26
 
@@ -1742,10 +1740,10 @@ James explained how [shadow stacks](https://en.wikipedia.org/wiki/Shadow_stack) 
 
 The second half of the talk addressed (no pune intended) - function pointers and virtual dispatch - covering [Microsoft's Control Flow Guard](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard), [Clang CFI](https://clang.llvm.org/docs/ControlFlowIntegrity.html), and hardware-assisted mechanisms like [Intel's Indirect Branch Tracking (IBT)](https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/branch-history-injection.html) and [ARM's Branch Target Identifier (BTI)](https://newsroom.arm.com/blog/pac-bti), all designed to restrict execution to valid control-flow targets.
 
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - Calls and Returns](/assets/images/meeting-cpp-2025/screenshots/21_01_James_McNellis__Closing%20Keynote__A_little_introduction_to_control_flow_integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - PAC](/assets/images/meeting-cpp-2025/screenshots/21_02_James_McNellis__Closing%20Keynote__A_little_introduction_to_control_flow_integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - return address protection with PAC](/assets/images/meeting-cpp-2025/screenshots/21_03_James_McNellis__Closing%20Keynote__A_little_introduction_to_control_flow_integrity.jpg)
-![James McNellis: Closing Keynote - A little introduction to control flow integrity - Control flow guard vs. Clang CFI](/assets/images/meeting-cpp-2025/screenshots/21_04_James_McNellis__Closing%20Keynote__A_little_introduction_to_control_flow_integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - Calls and Returns](/assets/images/meeting-cpp-2025/screenshots/21_01_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - PAC](/assets/images/meeting-cpp-2025/screenshots/21_02_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - return address protection with PAC](/assets/images/meeting-cpp-2025/screenshots/21_03_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
+![James McNellis: Closing Keynote - A little introduction to control flow integrity - Control flow guard vs. Clang CFI](/assets/images/meeting-cpp-2025/screenshots/21_04_James_McNellis__Closing_Keynote__A_little_introduction_to_control_flow_integrity.jpg)
 
 #### My takeaway
 
@@ -2006,7 +2004,7 @@ If you enjoyed this paper:
 
 ## About
 
-![smaller inline_circle](../../assets/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline_circle](/assets/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
 I specialize in technical audits and recovery missions, helping teams stabilize complex or struggling projects, and establish reliable foundations for new ones.

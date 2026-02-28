@@ -1,20 +1,28 @@
 ---
 layout: post
 title: "Meeting Cpp 2025 - Trip Report"
-image: /assets/images/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
-image_path: /assets/images/meeting-cpp-2025/screenshots
+image: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
+image_path: /assets/img/meeting-cpp-2025/screenshots
 ---
 
 ---
 
 DEBUGGING images pathes:
 
-01-anthony-williams-software-and-safety-opening-keynote.jpg
+{% include figure
+   image_path="/assets/img/meeting-cpp-2025/screenshots/01-anthony-willians-software-and-safety-opening-keynote.jpg"
+   alt="Anthony Willians – Software and Safety opening keynote"
+   caption="Anthony Willians – Software and Safety (Opening Keynote)"
+%}
 
 ![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](
   {{ page.image_path | relative_url }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg
 )
 ![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path | relative_url }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg)
+
+![Anthony Willians – Software and Safety](
+  {{ "/assets/img/meeting-cpp-2025/screenshots/01-anthony-willians-software-and-safety-opening-keynote.jpg" | relative_url }}
+)
 
 ---
 
@@ -2017,7 +2025,7 @@ If you enjoyed this paper:
 
 ## About
 
-![smaller inline-circle](/assets/images/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline-circle](/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
 I specialize in technical audits and recovery missions, helping teams stabilize complex or struggling projects, and establish reliable foundations for new ones.

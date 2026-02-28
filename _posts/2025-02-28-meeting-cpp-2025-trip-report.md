@@ -9,13 +9,22 @@ image_path: /assets/img/meeting-cpp-2025/screenshots
 
 DEBUGGING images pathes:
 
+{% assign img = "/assets/img/meeting-cpp-2025/screenshots" %}
+
+![Swiss Cheese model]({{ img | append: "/01-anthony-williams-software-and-safety-opening-keynote.jpg" | relative_url }})
+
+![My image]({{ "/assets/img/meeting-cpp-2025/screenshots/01-anthony-williams-software-and-safety-opening-keynote.jpg" | relative_url }})
+
+![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](/assets/img/meeting-cpp-2025/screenshots/01-anthony-williams-software-and-safety-opening-keynote.jpg)
+
 ![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](
-  {{ page.image_path | relative_url }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg
+  {{ page.image_path | relative_url }}/01-anthony-williams-software-and-safety-opening-keynote.jpg
 )
-![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path | relative_url }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg)
+
+![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path | relative_url }}/01-anthony-williams-software-and-safety-opening-keynote.jpg)
 
 ![Anthony Willians – Software and Safety](
-  {{ "/assets/img/meeting-cpp-2025/screenshots/01-anthony-willians-software-and-safety-opening-keynote.jpg" | relative_url }}
+  {{ "/assets/img/meeting-cpp-2025/screenshots/01-anthony-williams-software-and-safety-opening-keynote.jpg" | relative_url }}
 )
 
 ---
@@ -33,6 +42,8 @@ DEBUGGING images pathes:
 ---
 
 ## Table of content
+
+{:toc .large-only}
 
 - [Conference - Meeting Cpp 2025 - Trip report](#conference---meeting-cpp-2025---trip-report)
   - [Table of content](#table-of-content)
@@ -2018,6 +2029,8 @@ If you enjoyed this paper:
 - 📖 You might be interested in last year's: [Conference - Meeting Cpp 2024 - Trip report](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669).
 
 ## About
+
+<!--author-->
 
 ![smaller inline-circle](/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 

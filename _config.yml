@@ -16,4 +16,4 @@ hydejack:
   no_inline_css: true
 
 styles:
-  - /assets/css/custom.css
+  - /publications/assets/css/custom.css

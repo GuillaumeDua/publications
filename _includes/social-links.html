@@ -1,4 +1,4 @@
-{% assign author = site.data.authors["guillaumedua"] %}
-<div class="social-icons">
+{% assign author = site.data.authors[site.author] %}
+<nav class="sidebar-social">
   {% include components/social.html author=author %}
-</div>
+</nav>

@@ -4,9 +4,9 @@ a {
   color: #262baa;
 }
 
-/* --- Bbout --- */
+/* --- About --- */
 
-.social-icons ul {
+/* .social-icons ul {
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -16,7 +16,7 @@ a {
 
 .social-icons li {
   margin: 0;
-}
+} */
 
 /* --- Menu: sidebar navigation --- */
 

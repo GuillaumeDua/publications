@@ -1900,7 +1900,6 @@ If you enjoyed this paper:
 
 <!--author-->
 
-![smaller inline-circle]({{ relative_url }}/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 ![smaller inline-circle](/publications/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
@@ -1910,6 +1909,8 @@ I have a strong interest in code reviews, mentoring, and team coaching, with a f
 I regularly teach contemporary C++ and modern software design principles, emphasizing clarity, safety, expressiveness, and long-term maintainability over legacy or cargo-cult practices.
 
 Over the years, I have acted as a lead developer and technical referent, supported architectural decisions, guided projects through critical phases, and coached teams to reliably ship value into production, while also taking part in recruitment processes to help build efficient and sustainable development teams.
+
+TODO: also emphase project-management (specs, forecasting, cost, roadmaps, etc.) to promote visibility, and psy health/safety for ICs
 
 <left>
 

@@ -3,9 +3,9 @@ layout: list
 title: Project-management
 slug: project-management
 menu: true
-order: 3
+order: 4
 description: >
-  Because delivering values and building a product requires proper project-management,
+  Because delivering value and building a product requires proper project-management,
   then I care about it.
   The best developers and software-designers won't save a poorly-managed project.
 

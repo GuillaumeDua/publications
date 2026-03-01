@@ -1,11 +1,11 @@
 ---
 layout: list
-title: Trip-report
-slug: trip-report
+title: Software Design
+slug: software-design
 menu: true
-order: 3
+order: 2
 description: >
-  My trip reports. Often long and detailed. More like the whole trip.
+  My posts about software-design. Expect C++ implementations, if any code example.
 
 # http://jsfiddle.net/LPxrT/
 image: 'data:image/gif;base64,R0lGODlhAQABAPAAACAgIP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='

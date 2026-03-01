@@ -1,4 +1,4 @@
-title: Guillaume Dua - Publications
+title: Guillaume Dua
 tagline: My personal blog.
 description: >
   A blog about C++, software-design and project-management.
@@ -35,16 +35,22 @@ include:
 # ------------------------------------------------------------
 
 menu:
-  - title: Blog
+  - title: Home
     url:   /
-  - title: Tags
-    url:   /tags/
+  - title: C++
+    url:   /tags/cpp/
+  - title: Software design
+    url:   /tags/software-design/
+  - title: Project Management
+    url:   /tags/project-management/
+  - title: Trip reports
+    url:   /tags/trip-report/
   - title: About
     url:   /about/
   - title: Privacy
     url:   /privacy/
 
-# fallback
+# fallbacks
 image:               /hydejack/assets/img/nap.jpg
 color:               '#4f86aa'
 

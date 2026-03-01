@@ -4,6 +4,10 @@
 
 - Don't forget to `ctrl + shift + r` (twice!) to reset your browser cache
 
+## Useful resources
+
+- https://lazyren.github.io/devlog/
+
 ## HydeJack
 
 ### Adding a banner image to a blog post

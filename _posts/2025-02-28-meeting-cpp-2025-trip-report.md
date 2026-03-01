@@ -7,8 +7,6 @@ description: >
   My trip report for the Meeting Cpp 2025 conference
 ---
 
-{:toc}
-
 ![Meeting Cpp 2025 - logo]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)
 
 |                       |                                                              |
@@ -20,6 +18,8 @@ description: >
 | Revision              | R1                                                           |
 
 ---
+
+{:toc}
 
 ## Introduction
 
@@ -71,6 +71,7 @@ Jens provided an overview of what to expect during the event:
 - T-shirt sponsor: [HRT](https://www.hudsonrivertrading.com/)
 - Online sponsor: [Qt](https://qt.io/)
 
+<!--
 ![ThinkCell](https://meetingcpp.com/files/mcpp/sponsoren/logo_thinkcell_300.png)
 ![KDAB](https://meetingcpp.com/mcpp/sponsorlisting/pic/f401325_trusted376683x.jpg){: .size-small}
 ![Bloomberg](https://meetingcpp.com/mcpp/sponsorlisting/pic/f4905_Bloomberg_Engineering_Logo_Blk3946x.jpg){: .size-small}
@@ -78,6 +79,7 @@ Jens provided an overview of what to expect during the event:
 ![JetBrainm](https://meetingcpp.com/files/mcpp/sponsoren/JB_develop_transpar_200.png)
 ![HRT](https://www.meetingcpp.com/files/mcpp/sponsoren/hrtlogo.png)
 ![Qt](https://meetingcpp.com/mcpp/booths/pic/f5650_qt_logo_small1319.jpg)
+-->
 
 #### Creating a **safe** and **inclusive** environment
 

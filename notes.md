@@ -2,7 +2,7 @@
 
 ## Overall
 
-- Don't forget to `ctrl + shift + r` to reset your browser cache
+- Don't forget to `ctrl + shift + r` (twice!) to reset your browser cache
 
 ## HydeJack
 
@@ -27,10 +27,6 @@ DEBUGGING images pathes:
 ![My image]({{ "/assets/img/some/directory/pic.jpg" | relative_url }})
 
 ![My image](/publications/assets/img/some/directory/pic.jpg)
-
-![My image](
-  {{ page.image_path | relative_url }}/pic.jpg
-)
 
 ![My image]({{ page.image_path | relative_url }}/pic.jpg)
 

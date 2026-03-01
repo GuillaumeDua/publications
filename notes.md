@@ -6,6 +6,7 @@
 
 ## Useful resources
 
+- https://hydejack.com/docs/config/
 - https://lazyren.github.io/devlog/
 
 ## HydeJack

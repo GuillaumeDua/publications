@@ -18,6 +18,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-remote-theme
+  - jekyll-paginate
 
 hydejack:
   no_inline_css: true

@@ -22,14 +22,19 @@ a {
 /* --- blog posts --- */
 
 #markdown-toc {
-  position: sticky;
-  top: 0;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* sticky ? */
+/* #markdown-toc {
+  position: fixed;
   max-height: 100vh;
   overflow-y: auto;
   border: 1px solid #311694;
   padding: 1rem 1rem 1rem 2rem;
   border-radius: 4px;
-}
+} */
 
 .size-small  { width: 30%; }
 .size-medium { width: 60%; }

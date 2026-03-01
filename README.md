@@ -1,8 +1,6 @@
 # Guillaume Dua - publications
 
-## Trip reports
-
-- [Meeting C++ 2025](_posts/2025-02-28-meeting-cpp-2025-trip-report.md), [Meeting C++ 2025 - screenshots](assets/img/meeting-cpp-2025)
+Please use the [rendered version](https://guillaumedua.github.io/publications/).
 
 ---
 

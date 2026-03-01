@@ -14,10 +14,10 @@ guillaumedua:
 
     TODO: also emphase project-management (specs, forecasting, cost, roadmaps, etc.) to promote visibility, and psy health/safety for ICs
 
-picture:
-  src: /assets/img/me.jpg
+  picture:
+    src: /assets/img/me.jpg
 
-social:
-  github:   GuillaumeDua
-  linkedin: guillaume-dua
-  email:    mailto:pro.guillaume.dua+blog@gmail.com
+  social:
+    github:   GuillaumeDua
+    linkedin: guillaume-dua
+    email:    mailto:pro.guillaume.dua+blog@gmail.com

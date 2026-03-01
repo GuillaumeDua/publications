@@ -1896,10 +1896,6 @@ If you enjoyed this paper:
 - 📩 Share this paper with your friends, colleagues, teachers, students.
 - 📖 You might be interested in last year's: [Conference - Meeting Cpp 2024 - Trip report](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669).
 
-## About
-
-<!--author-->
-
 ## Related posts
 
 - [Conference - Meeting Cpp 2024 - Trip report](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669)

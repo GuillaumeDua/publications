@@ -4,7 +4,6 @@ description: >
   A blog about C++, software-design and project-management.
 author:
   name: guillaumedua
-  email: mailto:pro.guillaume.dua+blog@gmail.com
 
 url: https://guillaumedua.github.io/publications
 baseurl: /publications

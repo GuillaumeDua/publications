@@ -35,14 +35,13 @@ a {
 
 /* --- Posts --- */
 
-/* #markdown-toc {
+#markdown-toc {
   max-height: none !important;
   overflow: visible !important;
-} */
+}
 
-#markdown-toc {
-  float: right;
-  position: fixed;
+/* #markdown-toc {
+  position: sticky;
   max-height: 90vh;
   overflow-y: auto;
   width: 250px;
@@ -51,7 +50,7 @@ a {
   border: 1px solid #311694;
   border-radius: 4px;
   padding: 1rem 1rem 1rem 2rem;
-}
+} */
 
 /* sticky ? */
 /* #markdown-toc {

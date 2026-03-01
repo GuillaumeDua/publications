@@ -1,19 +1,15 @@
 ---
 layout: post
-title: "Meeting Cpp 2025 - Trip Report"
-# ISSUE: this is cropped
-# image:
-#   path: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
-#   srcset:
-#     1920w: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
-#     960w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,5x.jpg
-#     480w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,25x.jpg
+title: "Trip Report - Meeting Cpp 2025"
 image_path: /assets/img/meeting-cpp-2025/screenshots
+sitemap: true
+description: >
+  My trip report for the Meeting Cpp 2025 conference
 ---
 
-![Meeting Cpp 2025 - logi]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)
+{:toc}
 
-# Conference - Meeting Cpp 2025 - Trip report
+![Meeting Cpp 2025 - logo]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)
 
 |                       |                                                              |
 | --------------------- | ------------------------------------------------------------ |
@@ -24,10 +20,6 @@ image_path: /assets/img/meeting-cpp-2025/screenshots
 | Revision              | R1                                                           |
 
 ---
-
-## Table of content
-
-{:toc .large-only}
 
 ## Introduction
 

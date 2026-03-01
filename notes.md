@@ -6,6 +6,20 @@
 
 ## HydeJack
 
+### Adding a banner image to a blog post
+
+```yaml
+# ISSUE: this is cropped
+image:
+  path: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
+  srcset:
+    1920w: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
+    960w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,5x.jpg
+    480w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,25x.jpg
+```
+
+**Solution**: just add the image as any other
+
 ### Adding images to a blog post
 
 All the 5 options here works:

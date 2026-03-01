@@ -12,6 +12,7 @@ baseurl: /publications
 remote_theme: hydecorp/hydejack@v9.2.1
 
 accent_image: /assets/img/background_tall.png
+accent_color: '#181c1f'
 
 plugins:
   - jekyll-feed
@@ -22,8 +23,8 @@ hydejack:
   no_inline_css: true
   custom_css: true
 
-styles:
-  - /publications/assets/css/custom.css
+# styles:
+#   - /publications/assets/css/custom.css
 
 markdown: kramdown
 

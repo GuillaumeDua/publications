@@ -20,7 +20,7 @@ tags: [ C++, trip-report, MeetingCpp ]
 
 ---
 
-* TOC
+- TOC
 {:toc}
 
 ## Introduction
@@ -1693,7 +1693,7 @@ Also, comparing programming languages honestly is inherently difficult: each com
 
 That said, I Googled *"production-ready Rust snippet"*, found [this one](https://reintech.io/blog/understanding-implementing-rust-metaprogramming) in the first results, and played with it on [play.rust-lang.org here](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=a1ec32d808bc38e5f9073fb59da39608) then [godbolt](https://godbolt.org/z/zdscfb3Kb).
 
-<details>
+<details markdown="1">
 
   <summary>👀 Show me the code !</summary>
 

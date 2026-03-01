@@ -1,5 +1,16 @@
-.sidebar-nav {
+/* --- Menu: sidebar navigation --- */
+
+.sidebar-nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0;
+  list-style: none;
+}
+
+.sidebar-nav-item {
   text-align: left;
+  width: 100%;
 }
 
 /* --- blog posts --- */

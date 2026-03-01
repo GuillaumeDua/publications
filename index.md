@@ -9,11 +9,9 @@ Welcome !
 
 🚧 This blog is currently in construction, please be patient 😉.
 
-## All posts
+## Old blog
 
-{% for post in site.posts %}
-- [{{ post.title }}]({{ post.url | relative_url }})
-{% endfor %}
+- 📫 [older publications](https://gist.github.com/GuillaumeDua)
 
 ## ⚖️ Licenses
 

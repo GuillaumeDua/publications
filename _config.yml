@@ -1,7 +1,10 @@
 title: Guillaume Dua - Publications
-tagline: A blog about C++, conference trip reports and publications
-description: Personal publications
-author: guillaumedua
+tagline: My personal blog.
+description: >
+  A blog about C++, software-design and project-management.
+author:
+  name: guillaumedua
+  email: mailto:pro.guillaume.dua+blog@gmail.com
 
 url: https://guillaumedua.github.io/publications
 baseurl: /publications
@@ -22,8 +25,69 @@ styles:
 markdown: kramdown
 
 exclude:
+  - README.md
   - notes.md
 
 include:
   - LICENSE
   - PRIVACY.md
+
+# ------------------------------------------------------------
+
+menu:
+  - title: Tags
+    url:   /tags/
+
+# fallback
+image:               /hydejack/assets/img/nap.jpg
+color:               '#4f86aa'
+
+# google_analytics:
+
+# Fonts (CSS font-family values)
+font_heading:        "'Roboto Slab', Helvetica, Arial, sans-serif"
+font:                "'Noto Sans', Helvetica, Arial, sans-serif"
+# The string encoding what fonts to fetch from Google Fonts. See: https://qwtel.com/hydejack/docs/configuration/
+google_fonts:        Roboto+Slab:700|Noto+Sans:400,400i,700,700i
+
+copyright:           '&copy; 2025. Licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)'
+permalink:           pretty
+paginate:            5
+paginate_path:       '/page-:num/'
+
+collections:
+  featured_categories:
+    permalink:       /category/:name/
+    output:          true
+  featured_tags:
+    permalink:       /tag/:name/
+    output:          true
+  projects:
+    permalink:       /projects/:path/
+    output:          true
+
+gems:
+  - jekyll-default-layout
+  - jekyll-feed
+  - jekyll-optional-front-matter
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-relative-links
+  - jekyll-sitemap
+
+kramdown:
+  footnote_backlink: '&#x21a9;&#xfe0e;'
+  math_engine:       mathjax
+  math_engine_opts:
+    preview:         true
+    preview_as_code: true
+
+compress_html:
+  comments:          ["<!-- ", " -->"]
+  clippings:         all
+  endings:           all
+  ignore:
+    envs:            [development]
+
+sass:
+  style:             compressed

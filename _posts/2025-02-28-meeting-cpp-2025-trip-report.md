@@ -5,7 +5,7 @@ image_path: /assets/img/meeting-cpp-2025/screenshots
 sitemap: true
 description: >
   My trip report for the Meeting Cpp 2025 conference
-tags: [ C++, trip-report, MeetingCpp ]
+tags: [ Cpp, trip-report, MeetingCpp ]
 ---
 
 ![Meeting Cpp 2025 - logo]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)

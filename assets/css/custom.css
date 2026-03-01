@@ -28,7 +28,7 @@ a {
 
 #markdown-toc {
   float: right;
-  position: sticky;
+  position: fixed;
   max-height: 90vh;
   overflow-y: auto;
   width: 250px;

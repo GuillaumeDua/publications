@@ -1,3 +1,9 @@
+---
+layout: page
+title: Privacy Policy
+sitemap: false
+---
+
 PERSONAL DATA AND PERSONALITY RIGHTS NOTICE
 
 The Creative Commons Attribution-ShareAlike 4.0 International license

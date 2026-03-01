@@ -1,3 +1,9 @@
+.sidebar-nav {
+  text-align: left;
+}
+
+/* --- blog posts --- */
+
 .size-small  { width: 30%; }
 .size-medium { width: 60%; }
 .size-large  { width: 90%; }

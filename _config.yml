@@ -20,6 +20,7 @@ plugins:
 
 hydejack:
   no_inline_css: true
+  custom_css: true
 
 styles:
   - /publications/assets/css/custom.css

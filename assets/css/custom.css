@@ -16,9 +16,9 @@
 /* --- blog posts --- */
 
 #markdown-toc {
-  max-height: 300px;
+  max-height: 100vh;
   overflow-y: auto;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #311694;
   padding: 1rem 1rem 1rem 2rem;
   border-radius: 4px;
 }

@@ -11,6 +11,8 @@ baseurl: /publications
 
 remote_theme: hydecorp/hydejack@v9.2.1
 
+accent_image: /assets/img/background_tall.png
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -34,13 +36,16 @@ include:
 
 # ------------------------------------------------------------
 
+# WIP:
+# - stylish buttons ? https://www.svgbackgrounds.com/elements/svg-buttons/
+
 menu:
   - title: Home
     url:   /
   - title: C++
     url:   /tag/cpp/
   - title: Software design
-    url:   /tags/software-design/
+    url:   /tag/software-design/
   - title: Project Management
     url:   /tag/project-management/
   - title: Trip reports

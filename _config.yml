@@ -38,13 +38,13 @@ menu:
   - title: Home
     url:   /
   - title: C++
-    url:   /tags/cpp/
+    url:   /tag/cpp/
   - title: Software design
     url:   /tags/software-design/
   - title: Project Management
-    url:   /tags/project-management/
+    url:   /tag/project-management/
   - title: Trip reports
-    url:   /tags/trip-report/
+    url:   /tag/trip-report/
   - title: About
     url:   /about/
   - title: Privacy

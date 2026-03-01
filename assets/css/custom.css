@@ -1,3 +1,8 @@
+.size-small  { width: 30%; }
+.size-medium { width: 60%; }
+.size-large  { width: 90%; }
+.size-full   { width: 90%; }
+
 img {
     max-width: 100%;
     height: auto;

@@ -1,14 +1,17 @@
 ---
 layout: post
 title: "Meeting Cpp 2025 - Trip Report"
-image:
-  path: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
-  srcset:
-    1920w: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
-    960w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,5x.jpg
-    480w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,25x.jpg
+# ISSUE: this is cropped
+# image:
+#   path: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
+#   srcset:
+#     1920w: /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg
+#     960w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,5x.jpg
+#     480w:  /assets/img/meeting-cpp-2025/screenshots/meeting-cpp-2025-tshirt-logo.jpg@0,25x.jpg
 image_path: /assets/img/meeting-cpp-2025/screenshots
 ---
+
+![Meeting Cpp 2025 - logi]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)
 
 # Conference - Meeting Cpp 2025 - Trip report
 
@@ -76,15 +79,13 @@ Jens provided an overview of what to expect during the event:
 - T-shirt sponsor: [HRT](https://www.hudsonrivertrading.com/)
 - Online sponsor: [Qt](https://qt.io/)
 
-https://meetingcpp.com/files/mcpp/sponsoren/logo_thinkcell_300.png
-https://meetingcpp.com/mcpp/sponsorlisting/pic/f401325_trusted376683x.jpg
-https://meetingcpp.com/mcpp/sponsorlisting/pic/f4905_Bloomberg_Engineering_Logo_Blk3946x.jpg
-
-https://meetingcpp.com/files/mcpp/sponsoren/wovenbytoyotalogo.jpg
-https://meetingcpp.com/files/mcpp/sponsoren/JB_develop_transpar_200.png
-
-https://www.meetingcpp.com/files/mcpp/sponsoren/hrtlogo.png
-https://meetingcpp.com/mcpp/booths/pic/f5650_qt_logo_small1319.jpg
+![ThinkCell](https://meetingcpp.com/files/mcpp/sponsoren/logo_thinkcell_300.png)
+![KDAB](https://meetingcpp.com/mcpp/sponsorlisting/pic/f401325_trusted376683x.jpg){: .size-small}
+![Bloomberg](https://meetingcpp.com/mcpp/sponsorlisting/pic/f4905_Bloomberg_Engineering_Logo_Blk3946x.jpg){: .size-small}
+![Woven by Toyota](https://meetingcpp.com/files/mcpp/sponsoren/wovenbytoyotalogo.jpg){: .size-small}
+![JetBrainm](https://meetingcpp.com/files/mcpp/sponsoren/JB_develop_transpar_200.png)
+![HRT](https://www.meetingcpp.com/files/mcpp/sponsoren/hrtlogo.png)
+![Qt](https://meetingcpp.com/mcpp/booths/pic/f5650_qt_logo_small1319.jpg)
 
 #### Creating a **safe** and **inclusive** environment
 
@@ -170,7 +171,7 @@ No single measure is sufficient, but combined they create resilience thus trust.
 - **Static analysis tools**: [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [CodeQL](https://codeql.github.com/), [SonarQube](https://www.sonarsource.com/products/sonarqube/)
 - Sanitizers
 
-![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path | relative_url }}/01-anthony-Williams-software-and-safety-opening-keynote.jpg)
+![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path | relative_url }}/01-anthony-williams-software-and-safety-opening-keynote.jpg)
 
 #### The Arene Base library
 

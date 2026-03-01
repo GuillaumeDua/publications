@@ -1619,7 +1619,7 @@ The talk was a timely reminder that contemporain C++ requires discernment: tools
 
 [🎥 Video](https://www.youtube.com/watch?v=-eX7AVB4qzM), [📄 slidedeck]()
 
-Speaker: James McNellis, game engine security at ROBLOX
+Speaker: [James McNellis](https://www.linkedin.com/in/jamesmcnellis), game engine security at [ROBLOX](https://www.roblox.com/)
 About C++ being unsafe (laughs) like about half of the talks here this year.
 
 [James McNellis](https://www.linkedin.com/in/jamesmcnellis/) ([Roblox](https://www.roblox.com/)) closed the conference with a deep yet tour of [control-flow integrity (CFI)](https://en.wikipedia.org/wiki/Control-flow-integrity), grounded in real-world exploitation techniques and modern defenses techs.
@@ -1900,7 +1900,8 @@ If you enjoyed this paper:
 
 <!--author-->
 
-![smaller inline-circle](/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline-circle]({{ relative_url }}/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
+![smaller inline-circle](/publications/assets/img/me.jpg) I am a C++ and software architecture enthusiast with over a decade of experience learning, practicing, and teaching C++ and software design.
 
 My work typically covers coding, codebases health, software architecture and design, tooling, development practices, and project management considerations that directly affect technical outcomes.  
 I specialize in technical audits and recovery missions, helping teams stabilize complex or struggling projects, and establish reliable foundations for new ones.

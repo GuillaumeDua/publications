@@ -20,3 +20,10 @@ styles:
   - /publications/assets/css/custom.css
 
 markdown: kramdown
+
+exclude:
+  - notes.md
+
+include:
+  - LICENSE
+  - PRIVACY.md

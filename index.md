@@ -15,10 +15,6 @@ Welcome !
 - [{{ post.title }}]({{ post.url | relative_url }})
 {% endfor %}
 
-## Trip reports
-
-- [Meeting Cpp 2025 - Trip Report]({{ "/2025/02/28/meeting-cpp-2025-trip-report/" | relative_url }})
-
 ## ⚖️ Licenses
 
 - Textual content is licensed under [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://github.com/GuillaumeDua/publications/blob/main/LICENSE)

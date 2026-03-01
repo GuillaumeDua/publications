@@ -36,7 +36,7 @@ DEBUGGING images pathes:
 
 {% assign img = "/assets/img/some/directory" %}
 
-![Swiss Cheese model]({{ img | append: "/pic.jpg" | relative_url }})
+![My image]({{ img | append: "/pic.jpg" | relative_url }})
 
 ![My image]({{ "/assets/img/some/directory/pic.jpg" | relative_url }})
 

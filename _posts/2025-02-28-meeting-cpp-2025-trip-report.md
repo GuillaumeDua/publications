@@ -9,23 +9,7 @@ image_path: /assets/img/meeting-cpp-2025/screenshots
 
 DEBUGGING images pathes:
 
-{% assign img = "/assets/img/meeting-cpp-2025/screenshots" %}
-
-![Swiss Cheese model]({{ img | append: "/01-anthony-williams-software-and-safety-opening-keynote.jpg" | relative_url }})
-
-![My image]({{ "/assets/img/meeting-cpp-2025/screenshots/01-anthony-williams-software-and-safety-opening-keynote.jpg" | relative_url }})
-
-![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](/assets/img/meeting-cpp-2025/screenshots/01-anthony-williams-software-and-safety-opening-keynote.jpg)
-
-![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model](
-  {{ page.image_path | relative_url }}/01-anthony-williams-software-and-safety-opening-keynote.jpg
-)
-
-![Anthony Williams - Software and safety (opening-keynote) - Swiss Cheese model]({{ page.image_path | relative_url }}/01-anthony-williams-software-and-safety-opening-keynote.jpg)
-
-![Anthony Willians – Software and Safety](
-  {{ "/assets/img/meeting-cpp-2025/screenshots/01-anthony-williams-software-and-safety-opening-keynote.jpg" | relative_url }}
-)
+![Jens Weller: Meeting C++ update - survey]({{ page.image_path | relative_url }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)
 
 ---
 

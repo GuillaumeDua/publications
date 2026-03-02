@@ -5,7 +5,7 @@ image_path: /assets/img/meeting-cpp-2025/screenshots
 sitemap: true
 description: >
   My trip report for the Meeting Cpp 2025 conference
-tags: [ cpp, trip-report, meeting-cpp ]
+tags: [ cpp, trip-report, meeting-cpp, conference ]
 ---
 
 ![Meeting Cpp 2025 - logo]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)
@@ -1655,7 +1655,7 @@ As a C++ developer, it also reminded me that understanding these mechanisms isn'
 
 I would like to take this opportunity to share a personal opinion.
 
-I was recently reminded how damaging loud but poorly informed voices can be. A popular French tech YouTube channel, [Underscore-](https://www.youtube.com/@Underscore-), released [a video](https://www.youtube.com/watch?v=hbHgIzIbzmQ) titled *"major companies are abandoning C/C++ for [Rust](https://rust-lang.org/)"*.  
+I was recently reminded how damaging loud but poorly informed voices can be. A popular French tech YouTube channel, [Underscore_](https://www.youtube.com/@Underscore_), released [a video](https://www.youtube.com/watch?v=hbHgIzIbzmQ) titled *"major companies are abandoning C/C++ for [Rust](https://rust-lang.org/)"*.  
 Unfortunately, the arguments incriminating C++ relied almost entirely on C++98-style concepts, technics and examples: conflating C and C++, and ignoring **decades of language evolution**.  
 By portraying manual [new/delete](https://en.cppreference.com/w/cpp/memory/new.html), fragile lifetimes, and unsafe concurrency as the norm, it presents a picture of C++ that simply no longer reflects contemporain practice.
 
@@ -1667,7 +1667,7 @@ Influencers, federal agencies, and politicians content reaches far beyond engine
 > - Yes, if you want to **dogmatically** obey OCND, CISA and FBI, and follow trends in general with poor or no critical thinking.  
 > - If you're **pragmatic** on the other end, then **no**: keep learning, teaching, coding, and creating safe, reliable products ! ❤️
 
-Take for instance those two posts [2025 Will Be the Year of Rust-Why Big Tech Is Ditching C++](https://dev.to/dev-tips/2025-will-be-the-year-of-rust-why-big-tech-is-ditching-c-178p) and [Stop Coding In C and C++, Feds Say](https://www.itjungle.com/2024/12/02/stop-coding-in-c-and-c-feds-say/). It uses the same - often, fallacious - arguments, claiming:
+Take for instance those two posts [2025 Will Be the Year of Rust - Why Big Tech Is Ditching C++](https://dev.to/dev-tips/2025-will-be-the-year-of-rust-why-big-tech-is-ditching-c-178p) and [Stop Coding In C and C++, Feds Say](https://www.itjungle.com/2024/12/02/stop-coding-in-c-and-c-feds-say/). It uses the same - often, fallacious - arguments, claiming:
 
 | Argument                                                | My perspective                                                                                                                                                                            |
 | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1886,7 +1886,7 @@ If there is one takeaway to carry forward, it is this: as we stand together, the
 
 Thanks for reading, and see you next year at Meeting C++! ❤️
 
-[Guillaume](#about).
+Guillaume.
 
 ---
 

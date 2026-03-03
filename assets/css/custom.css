@@ -45,7 +45,18 @@ body.dark-mode hy-push-state a {
   }
 }
 
-/* Dark mode via toggle */
+/* Default: light mode */
+body {
+  --body-color: #000;
+  --body-bg: #fff;
+  --border-color: #ddd;
+  --gray: rgba(0,0,0,.5);
+  --gray-bg: rgba(0,0,0,.033);
+  --gray-text: rgba(0,0,0,.625);
+  --menu-text: rgba(0,0,0,.25);
+}
+
+/* Dark mode */
 body.dark-mode {
   --body-color: #ccc;
   --body-bg: #1a1a1a;

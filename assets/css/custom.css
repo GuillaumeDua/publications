@@ -2,13 +2,13 @@
 
 /* Links  */
 hy-push-state a {
-  /* color: #262baa; */
   color: #262baa;
     /* color: var(--body-color); */
 }
 @media (prefers-color-scheme: dark) {
   hy-push-state a {
-    color: #79aaff;
+    color: #6f9adf
+    /* color: #79aaff; */
   }
 }
 

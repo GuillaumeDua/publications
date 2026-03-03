@@ -1,7 +1,9 @@
 /* --- Everywhere ---  */
 
-a {
-  color: #262baa;
+hy-push-state a {
+  /* color: #262baa; */
+  color: #6d9eeb;
+    /* color: var(--body-color); */
 }
 
 /* --- About --- */

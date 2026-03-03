@@ -1,16 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('theme-toggle');
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+document.addEventListener('DOMContentLoaded', function() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = saved ? saved === 'dark' : prefersDark;
 
-    // Apply saved preference, or fall back to OS preference
-    const isDark = saved ? saved === 'dark' : prefersDark;
-    document.body.classList.toggle('dark-mode', isDark);
-    toggle.textContent = isDark ? '☀️' : '🌙';
+  function updateToggles(isDark) {
+    const emoji = isDark ? '☀️' : '🌙';
+    document.querySelectorAll('.theme-toggle').forEach(t => t.textContent = emoji);
+  }
 
-    toggle.addEventListener('click', () => {
-        const isDark = document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        toggle.textContent = isDark ? '☀️' : '🌙';
-    });
+  document.body.classList.toggle('dark-mode', isDark);
+  updateToggles(isDark);
+
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('theme-toggle')) {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateToggles(isDark);
+    }
+  });
 });

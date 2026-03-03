@@ -1,9 +1,15 @@
 /* --- Everywhere ---  */
 
+/* Links  */
 hy-push-state a {
   /* color: #262baa; */
-  color: #6d9eeb;
+  color: #262baa;
     /* color: var(--body-color); */
+}
+@media (prefers-color-scheme: dark) {
+  hy-push-state a {
+    color: #79aaff;
+  }
 }
 
 /* --- About --- */

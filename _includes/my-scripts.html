@@ -1,14 +1,1 @@
 <script src="{{ '/assets/js/theme-toggle.js' | relative_url }}"></script>
-
-<!-- Toggle dark/bright theme in menu panel -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var sticky = document.querySelector('.sidebar-sticky');
-        if (sticky) {
-            var div = document.createElement('div');
-            div.className = 'sidebar-toggle-btn';
-            div.innerHTML = '<button class="theme-toggle" id="theme-toggle-sidebar" aria-label="Toggle dark/light mode">🌙</button>';
-            sticky.appendChild(div);
-        }
-    });
-</script>

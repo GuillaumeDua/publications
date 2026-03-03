@@ -2,9 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // Inject once and only once the sidebar button (only if not already present)
-    if (!window._themeToggleInjected) {
-        window._themeToggleInjected = true;
-    // if (!document.getElementById('theme-toggle-sidebar')) {
+    if (!document.getElementById('theme-toggle-sidebar')) {
         const sticky = document.querySelector('.sidebar-sticky');
         if (sticky) {
             const div = document.createElement('div');

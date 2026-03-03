@@ -1,5 +1,6 @@
 // Toggle dark/bright theme in menu panel (sidebar is in _includes/my-body.html)
 document.addEventListener('DOMContentLoaded', function() {
+    
     var sticky = document.querySelector('.sidebar-sticky');
     if (sticky) {
         var div = document.createElement('div');

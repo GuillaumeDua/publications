@@ -10,6 +10,10 @@ hy-push-state a {
     color: #6f9adf
     /* color: #79aaff; */
   }
+  strong {
+    color: #f0e6c8;
+    /* color: #ffd580; */
+  }
 }
 
 /* --- About --- */

@@ -1,8 +1,10 @@
 // Toggle dark/bright theme in menu panel (sidebar is in _includes/my-body.html)
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Inject sidebar button only if not already present
-    if (!document.getElementById('theme-toggle-sidebar')) {
+    // Inject once and only once the sidebar button (only if not already present)
+    if (!window._themeToggleInjected) {
+        window._themeToggleInjected = true;
+    // if (!document.getElementById('theme-toggle-sidebar')) {
         const sticky = document.querySelector('.sidebar-sticky');
         if (sticky) {
             const div = document.createElement('div');

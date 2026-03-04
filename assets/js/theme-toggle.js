@@ -20,9 +20,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const emoji = isDark ? '☀️' : '🌙';
         document.querySelectorAll('.theme-toggle').forEach(t => t.textContent = emoji);
     }
+    function updateGiscus(isDark) {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (iframe) {
+            iframe.contentWindow.postMessage(
+                { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+                'https://giscus.app'
+            );
+        }
+    }
 
     document.body.classList.toggle('dark-mode', isDark);
     updateToggles(isDark);
+    updateGiscus(isDark)
 
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('theme-toggle')) {

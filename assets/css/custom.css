@@ -1,4 +1,30 @@
-/* --- Everywhere ---  */
+/* Search bar */
+.sidebar-search {
+  padding: 0.5rem 1rem;
+}
+
+#sidebar-search-input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+#sidebar-search-results {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+#sidebar-search-results li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
 
 /* Toggle dark-mode  */
 #theme-toggle-page {

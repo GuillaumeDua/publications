@@ -73,3 +73,24 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 });
+
+// debug
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded fired');
+  
+  fetch('/publications/search.json')
+    .then(r => r.json())
+    .then(data => {
+      console.log('fetch done');
+      
+      const pageInput = document.getElementById('search-input');
+      const pageResults = document.getElementById('search-results');
+      console.log('pageInput:', pageInput);
+      console.log('pageResults:', pageResults);
+
+      if (pageInput && pageResults) {
+        console.log('wiring search page');
+        wireSearch(pageInput, pageResults, docs, idx);
+      }
+    });
+});

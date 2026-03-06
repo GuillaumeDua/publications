@@ -26,6 +26,25 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+.search-snippet {
+  font-size: 0.75rem;
+  color: var(--gray-text);
+  margin: 0.2rem 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+#sidebar-search-results mark {
+  background: #ffd580;
+  color: #000;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+body.dark-mode #sidebar-search-results mark {
+  background: #7c6200;
+  color: #ffd580;
+}
+
 /* Toggle dark-mode  */
 #theme-toggle-page {
   position: fixed;

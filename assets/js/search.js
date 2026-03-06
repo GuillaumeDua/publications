@@ -1,17 +1,3 @@
-// Inject search bar into sidebar
-(function() {
-    const nav = document.querySelector('.sidebar-nav');
-    if (nav && !document.getElementById('sidebar-search')) {
-        const div = document.createElement('div');
-        div.className = 'sidebar-search';
-        div.innerHTML = `
-        <input type="text" id="sidebar-search-input" placeholder="Search...">
-        <ul id="sidebar-search-results"></ul>
-        `;
-        nav.parentNode.insertBefore(div, nav);
-    }
-})();
-
 function getSnippet(content, query, snippetLength = 100) {
     const lower = content.toLowerCase();
     const index = lower.indexOf(query.toLowerCase());
@@ -27,13 +13,37 @@ function getSnippet(content, query, snippetLength = 100) {
     return (start > 0 ? '...' : '') + highlighted + (end < content.length ? '...' : '');
 }
 
+function wireSearch(input, resultsEl, docs, idx) {
+    input.addEventListener('input', function() {
+        const query = this.value.trim();
+        const results = query.length > 2 ? idx.search(query) : [];
+        resultsEl.innerHTML = results.slice(0, 5).map(r => {
+            const doc = docs[r.ref];
+            const snippet = getSnippet(doc.content, query);
+            return `
+              <li>
+                <a href="${r.ref}">${doc.title}</a>
+                <p class="search-snippet">${snippet}</p>
+              </li>
+            `;
+        }).join('');
+    });
+}
+
 // Load search index and wire up Lunr
 document.addEventListener('DOMContentLoaded', function() {
-  const input = document.getElementById('sidebar-search-input');
-  if (!input)
-    return;
+  // Inject sidebar search bar
+  const nav = document.querySelector('.sidebar-nav');
+  if (nav && !document.getElementById('sidebar-search')) {
+    const div = document.createElement('div');
+    div.className = 'sidebar-search';
+    div.innerHTML = `
+      <input type="text" id="sidebar-search-input" placeholder="Search...">
+      <ul id="sidebar-search-results"></ul>
+    `;
+    nav.parentNode.insertBefore(div, nav);
+  }
 
-  // fetch('{{ "/search.json" | relative_url }}')
   fetch('/publications/search.json')
     .then(r => r.json())
     .then(data => {
@@ -48,20 +58,18 @@ document.addEventListener('DOMContentLoaded', function() {
       const docs = {};
       data.forEach(doc => docs[doc.url] = doc);
 
-      input.addEventListener('input', function() {
-        const query = this.value.trim();
-        const results = query.length > 2 ? idx.search(query) : [];
-        const list = document.getElementById('sidebar-search-results');
-        list.innerHTML = results.slice(0, 5).map(r => {
-          const doc = docs[r.ref];
-          const snippet = getSnippet(doc.content, query);
-          return `
-            <li>
-              <a href="${r.ref}">${doc.title}</a>
-              <p class="search-snippet">${snippet}</p>
-            </li>
-          `;
-        }).join('');
-      });
+      // Wire sidebar search
+      const sidebarInput = document.getElementById('sidebar-search-input');
+      const sidebarResults = document.getElementById('sidebar-search-results');
+      if (sidebarInput && sidebarResults) {
+        wireSearch(sidebarInput, sidebarResults, docs, idx);
+      }
+
+      // Wire search page
+      const pageInput = document.getElementById('search-input');
+      const pageResults = document.getElementById('search-results');
+      if (pageInput && pageResults) {
+        wireSearch(pageInput, pageResults, docs, idx);
+      }
     });
 });

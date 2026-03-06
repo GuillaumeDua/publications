@@ -45,6 +45,8 @@ include:
 menu:
   - title: Home
     url:   /
+  - title: Search
+    url:   /search/
   - title: C++
     url:   /tag/cpp/
   - title: Software design

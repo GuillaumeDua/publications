@@ -1892,7 +1892,7 @@ Guillaume.
 
 If you enjoyed this paper:
 
-- 👍 Consider leaving a *"like"*
+- 👍 Consider leaving a *"like"* and a **comment** - at the bottom of this page, and on **LinkedIn**.
 - 📩 Share this paper with your friends, colleagues, teachers, students.
 - 📖 You might be interested in last year's: [Conference - Meeting Cpp 2024 - Trip report](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669).
 

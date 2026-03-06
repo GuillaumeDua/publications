@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
           // Wire sidebar search
           const sidebarInput = document.getElementById('sidebar-search-input');
           const sidebarResults = document.getElementById('sidebar-search-results');
-          console.log('sidebarInput:', pageInput);
-          console.log('sidebarResults:', pageResults);
+          console.log('sidebarInput:', sidebarInput);
+          console.log('sidebarResults:', sidebarResults);
           if (sidebarInput && sidebarResults) {
               console.log('wiring search side-bar');
               wireSearch(sidebarInput, sidebarResults, docs, idx);

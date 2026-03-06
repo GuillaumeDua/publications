@@ -1,6 +1,15 @@
 /* Search bar */
 .sidebar-search {
   padding: 0.5rem 1rem;
+  pointer-events: auto;
+  position: relative;
+  z-index: 50;
+}
+
+.sidebar-search input {
+  pointer-events: auto;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 #sidebar-search-input {
@@ -12,6 +21,9 @@
   color: inherit;
   font-size: 0.9rem;
   box-sizing: border-box;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
 }
 
 #sidebar-search-results {

@@ -36,6 +36,15 @@ document.addEventListener('input', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  // Stop the drawer from intercepting events on the input
+  const searchInput = document.getElementById('sidebar-search-input');
+  if (searchInput) {
+    searchInput.addEventListener('keydown', e => e.stopPropagation());
+    searchInput.addEventListener('keyup', e => e.stopPropagation());
+    searchInput.addEventListener('keypress', e => e.stopPropagation());
+  }
+
   // Inject sidebar search bar
   const nav = document.querySelector('.sidebar-nav');
   if (nav && !document.getElementById('sidebar-search')) {

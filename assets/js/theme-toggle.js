@@ -13,14 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // navigation top-bar button: Inject once
-    const navSearchBtn = document.getElementById("nav-search-btn");
-    if (navSearchBtn && !document.getElementById("theme-toggle-nav")) {
-        navSearchBtn.insertAdjacentHTML(
-            "afterend",
-            `
-            <button class="theme-toggle nav-btn no-hover" id="theme-toggle-nav" aria-label="Toggle dark/light mode">🌙</button>
-        `
-        );
+    if (!document.getElementById("theme-toggle-nav")) {
+        const navBar = document.querySelector(".nav-btn-bar");
+        if (navBar) {
+            navBar.insertAdjacentHTML(
+                "beforeend",
+                `<button class="theme-toggle nav-btn no-hover" id="theme-toggle-nav" aria-label="Toggle dark/light mode">🌙</button>`
+            );
+        }
     }
 
     const saved = localStorage.getItem("theme");

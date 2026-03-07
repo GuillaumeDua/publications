@@ -12,14 +12,13 @@ function getSnippet(content, query, snippetLength = 100) {
   return (start > 0 ? '...' : '') + highlighted + (end < content.length ? '...' : '');
 }
 
-// Event delegation — works across push-state navigation
+// Event delegation
 document.addEventListener('input', function(e) {
-  if (e.target.id !== 'search-input' && e.target.id !== 'sidebar-search-input') return;
+  if (e.target.id !== 'nav-search-input') return;
   if (!window._searchIdx) return;
 
   const query = e.target.value.trim();
-  const resultsId = e.target.id === 'search-input' ? 'search-results' : 'sidebar-search-results';
-  const resultsEl = document.getElementById(resultsId);
+  const resultsEl = document.getElementById('nav-search-results');
   if (!resultsEl) return;
 
   const results = query.length > 2 ? window._searchIdx.search(query) : [];
@@ -36,25 +35,26 @@ document.addEventListener('input', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Inject search button in nav bar
+  const navSpan = document.querySelector('.nav-span');
+  if (navSpan && !document.getElementById('nav-search-btn')) {
+    navSpan.insertAdjacentHTML('afterend', `
+      <button id="nav-search-btn" class="nav-btn no-hover" aria-label="Search">
+        <span class="icon-search"></span>
+      </button>
+      <div id="nav-search-box" style="display:none;">
+        <input type="text" id="nav-search-input" placeholder="Search...">
+        <ul id="nav-search-results"></ul>
+      </div>
+    `);
 
-  // Stop the drawer from intercepting events on the input
-  const searchInput = document.getElementById('sidebar-search-input');
-  if (searchInput) {
-    searchInput.addEventListener('keydown', e => e.stopPropagation());
-    searchInput.addEventListener('keyup', e => e.stopPropagation());
-    searchInput.addEventListener('keypress', e => e.stopPropagation());
-  }
-
-  // Inject sidebar search bar
-  const nav = document.querySelector('.sidebar-nav');
-  if (nav && !document.getElementById('sidebar-search')) {
-    const div = document.createElement('div');
-    div.className = 'sidebar-search';
-    div.innerHTML = `
-      <input type="text" id="sidebar-search-input" placeholder="Search...">
-      <ul id="sidebar-search-results"></ul>
-    `;
-    nav.parentNode.insertBefore(div, nav);
+    document.getElementById('nav-search-btn').addEventListener('click', function() {
+      const box = document.getElementById('nav-search-box');
+      const input = document.getElementById('nav-search-input');
+      const isVisible = box.style.display !== 'none';
+      box.style.display = isVisible ? 'none' : 'block';
+      if (!isVisible) input.focus();
+    });
   }
 
   // Only fetch once

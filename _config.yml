@@ -40,13 +40,11 @@ include:
 # ------------------------------------------------------------
 
 # WIP:
-# - stylish buttons ? https://www.svgbackgrounds.com/elements/svg-buttons/
+# - stylished buttons ? https://www.svgbackgrounds.com/elements/svg-buttons/
 
 menu:
   - title: Home
     url:   /
-  - title: Search
-    url:   /search/
   - title: C++
     url:   /tag/cpp/
   - title: Software design

@@ -4,6 +4,7 @@
         "marp-team.marp-vscode",
         "yzhang.markdown-all-in-one",
         "dbankier.vscode-instant-markdown",
-        "bierner.markdown-mermaid"
+        "bierner.markdown-mermaid",
+        "esbenp.prettier-vscode"
     ]
 }

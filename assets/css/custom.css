@@ -57,6 +57,17 @@ body.dark-mode #nav-search-results mark {
   color: #ffd580;
 }
 
+#nav-search-btn,
+#theme-toggle-nav {
+    color: var(--gray-text);
+    opacity: 0.8;
+}
+
+#nav-search-btn:hover,
+#theme-toggle-nav:hover {
+    opacity: 1;
+}
+
 /* Toggle dark-mode  */
 #theme-toggle-sidebar {
   background: none;

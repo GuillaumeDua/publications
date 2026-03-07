@@ -1,6 +1,6 @@
 // Toggle dark/bright theme in menu panel (sidebar is in _includes/my-body.html)
 document.addEventListener("DOMContentLoaded", function () {
-    // Inject once and only once the sidebar button (only if not already present)
+    // sidebar button: Inject once
     if (!document.getElementById("theme-toggle-sidebar")) {
         const sticky = document.querySelector(".sidebar-sticky");
         if (sticky) {
@@ -10,6 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 '<button class="theme-toggle" id="theme-toggle-sidebar" aria-label="Toggle dark/light mode">🌙</button>';
             sticky.appendChild(div);
         }
+    }
+
+    // navigation top-bar button: Inject once
+    const navSearchBtn = document.getElementById("nav-search-btn");
+    if (navSearchBtn && !document.getElementById("theme-toggle-nav")) {
+        navSearchBtn.insertAdjacentHTML(
+            "afterend",
+            `
+            <button class="theme-toggle nav-btn no-hover" id="theme-toggle-nav" aria-label="Toggle dark/light mode">🌙</button>
+        `
+        );
     }
 
     const saved = localStorage.getItem("theme");

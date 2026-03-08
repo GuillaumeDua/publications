@@ -1,4 +1,4 @@
-function getSnippet({ content, query, maxSnippets = 3, snippetLength = 100 }) {
+function getSnippets({ content, query, maxSnippets = 3, snippetLength = 100 }) {
     const lower = content.toLowerCase();
     const index = lower.indexOf(query.toLowerCase());
 
@@ -6,9 +6,8 @@ function getSnippet({ content, query, maxSnippets = 3, snippetLength = 100 }) {
     let searchFrom = 0;
 
     while (snippets.length < maxSnippets) {
-        if (index === -1) {
-            return content.slice(0, snippetLength) + "...";
-        }
+        const index = lower.indexOf(queryLower, searchFrom);
+        if (index === -1) break;
 
         const start = Math.max(0, index - 40);
         const end = Math.min(content.length, index + query.length + 60);
@@ -46,7 +45,7 @@ document.addEventListener("input", function (e) {
         .slice(0, 5)
         .map((r) => {
             const doc = window._searchDocs[r.ref];
-            const snippet = getSnippet({
+            const snippet = getSnippets({
                 content: doc.content,
                 query: query,
             });

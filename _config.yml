@@ -30,7 +30,7 @@ markdown: kramdown
 exclude:
   - README.md
   - notes.md
-  - _posts/2025-03-02-cpp_in_2026.md
+  - _posts/2025-03-20-cpp_in_2026.md
 
 include:
   - LICENSE

@@ -1,24 +1,34 @@
-function getSnippet(content, query, snippetLength = 100) {
+function getSnippet({ content, query, maxSnippets = 3, snippetLength = 100 }) {
     const lower = content.toLowerCase();
     const index = lower.indexOf(query.toLowerCase());
 
-    if (index === -1) {
-        return content.slice(0, snippetLength) + "...";
+    const snippets = [];
+    let searchFrom = 0;
+
+    while (snippets.length < maxSnippets) {
+        if (index === -1) {
+            return content.slice(0, snippetLength) + "...";
+        }
+
+        const start = Math.max(0, index - 40);
+        const end = Math.min(content.length, index + query.length + 60);
+        const snippet = content.slice(start, end);
+
+        const highlighted = snippet.replace(
+            new RegExp(query, "gi"),
+            (match) => `<mark>${match}</mark>`
+        );
+        snippets.push(
+            (start > 0 ? "..." : "") +
+                highlighted +
+                (end < content.length ? "..." : "")
+        );
+        searchFrom = index + query.length;
     }
 
-    const start = Math.max(0, index - 40);
-    const end = Math.min(content.length, index + query.length + 60);
-    const snippet = content.slice(start, end);
-
-    const highlighted = snippet.replace(
-        new RegExp(query, "gi"),
-        (match) => `<mark>${match}</mark>`
-    );
-    return (
-        (start > 0 ? "..." : "") +
-        highlighted +
-        (end < content.length ? "..." : "")
-    );
+    return snippets.length > 0
+        ? snippets.join("<br>")
+        : content.slice(0, snippetLength) + "...";
 }
 
 // Event delegation
@@ -36,7 +46,10 @@ document.addEventListener("input", function (e) {
         .slice(0, 5)
         .map((r) => {
             const doc = window._searchDocs[r.ref];
-            const snippet = getSnippet(doc.content, query);
+            const snippet = getSnippet({
+                content: doc.content,
+                query: query,
+            });
             return `
       <li>
         <a href="${r.ref}">${doc.title}</a>

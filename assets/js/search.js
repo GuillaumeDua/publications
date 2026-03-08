@@ -1,12 +1,12 @@
 function getSnippets({ content, query, maxSnippets = 3, snippetLength = 100 }) {
-    const lower = content.toLowerCase();
-    const index = lower.indexOf(query.toLowerCase());
+    const contentLowerCase = content.toLowerCase();
+    const queryLowerCase = query.toLowerCase();
 
     const snippets = [];
     let searchFrom = 0;
 
     while (snippets.length < maxSnippets) {
-        const index = lower.indexOf(queryLower, searchFrom);
+        const index = lower.indexOf(queryLowerCase, searchFrom);
         if (index === -1) break;
 
         const start = Math.max(0, index - 40);

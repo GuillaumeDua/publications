@@ -5,6 +5,7 @@
         "yzhang.markdown-all-in-one",
         "dbankier.vscode-instant-markdown",
         "bierner.markdown-mermaid",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "redhat.vscode-yaml"
     ]
 }

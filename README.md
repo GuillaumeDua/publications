@@ -4,11 +4,17 @@ Please use the [rendered version](https://guillaumedua.github.io/publications/).
 
 ---
 
-WIP:
+## WIP
 
-- publication CI -> Jekyll + HydeJack, apply CSS
-- migration from [my gist](https://gist.github.com/GuillaumeDua).
-- add some likes 👍 counter ?
+- [x] publication CI -> Jekyll + HydeJack, apply CSS
+- [x] add some likes 👍 counter ?
+- [x] 🔍 add a search bar
+  - [ ] Show the first 3-5 results
+- [ ] side-bar, navigation bar: stylished buttons 🕹️ ?
+- [ ] Blog post: scroll-to-like-and-comment-section button (in the navigation bar) ?
+- [ ] Content
+  - [ ] Legacy: migration from [my gist](https://gist.github.com/GuillaumeDua).
+    - [ ] How to preserve existing likes, comments ?
 
 ## ⚖️ Licenses
 

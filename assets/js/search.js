@@ -6,7 +6,7 @@ function getSnippets({ content, query, maxSnippets = 3, snippetLength = 100 }) {
     let searchFrom = 0;
 
     while (snippets.length < maxSnippets) {
-        const index = lower.indexOf(queryLowerCase, searchFrom);
+        const index = contentLowerCase.indexOf(queryLowerCase, searchFrom);
         if (index === -1) break;
 
         const start = Math.max(0, index - 40);

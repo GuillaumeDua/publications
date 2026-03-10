@@ -36,6 +36,8 @@ include:
   - LICENSE
   - PRIVACY.md
 
+google_analytics: G-XXXXXXXXXX
+
 # ------------------------------------------------------------
 
 # WIP:
@@ -56,6 +58,8 @@ menu:
     url: /about/
   - title: Privacy
     url: /PRIVACY/
+  - title: Code of Conduct
+    url: /publications/CODE_OF_CONDUCT/
 
 # fallbacks
 image: /hydejack/assets/img/nap.jpg

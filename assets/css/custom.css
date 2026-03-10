@@ -93,15 +93,16 @@ body.dark-mode #nav-search-results mark {
 }
 
 /* Separator between the two section of the item menu */
-.sidebar-nav-item[href$="/publications/about/"] {
+.sidebar-nav-item[href="/publications/about/"] {
     border-top: 1px solid var(--border-color);
     opacity: 0.7;
     margin-top: 1rem;
     padding-top: 1rem;
 }
-.sidebar-nav-item[href="/publications/about/"] ~ .sidebar-nav-item {
+li:has(.sidebar-nav-item[href="/publications/about/"]) ~ li .sidebar-nav-item {
     opacity: 0.7;
 }
+
 
 /* Default: light mode */
 body {

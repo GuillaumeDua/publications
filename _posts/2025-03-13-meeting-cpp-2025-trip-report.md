@@ -10,6 +10,8 @@ tags: [ cpp, trip-report, meeting-cpp, conference ]
 
 ![Meeting Cpp 2025 - logo]({{ page.image_path | relative_url }}/meeting-cpp-2025-tshirt-logo.jpg)
 
+<!--more-->
+
 |                       |                                                              |
 | --------------------- | ------------------------------------------------------------ |
 | Event                 | [Meeting C++ Conference, 2025](https://meetingcpp.com/2025/) |

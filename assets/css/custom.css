@@ -106,32 +106,49 @@ li:has(.sidebar-nav-item[href="/publications/about/"]) ~ li .sidebar-nav-item {
 
 /* Default: light mode */
 body {
-  --body-color: #000;
-  --body-bg: #fff;
-  --border-color: #ddd;
-  --gray: rgba(0,0,0,.5);
-  --gray-bg: rgba(0,0,0,.033);
-  --gray-text: rgba(0,0,0,.625);
-  --menu-text: rgba(0,0,0,.25);
+    --body-color: #2d2d2d;
+    --body-bg: #f8f7f4;
+    --border-color: #e0ddd8;
+    --gray: rgba(0,0,0,.4);
+    --gray-bg: rgba(0,0,0,.04);
+    --gray-text: rgba(0,0,0,.55);
+    --menu-text: rgba(0,0,0,.35);
+    /*
+    --body-color: #000;
+    --body-bg: #fff;
+    --border-color: #ddd;
+    --gray: rgba(0,0,0,.5);
+    --gray-bg: rgba(0,0,0,.033);
+    --gray-text: rgba(0,0,0,.625);
+    --menu-text: rgba(0,0,0,.25);
+    */
 }
 
 /* Dark mode */
 body.dark-mode {
-  --body-color: #ccc;
-  --body-bg: #1a1a1a;
-  --border-color: #444;
-  --gray: rgba(255,255,255,.5);
-  --gray-bg: rgba(255,255,255,.033);
-  --gray-text: rgba(255,255,255,.625);
-  --menu-text: rgba(255,255,255,.25);
+    --body-color: #ccc;
+    --body-bg: #1a1a1a;
+    --border-color: #444;
+    --gray: rgba(255,255,255,.5);
+    --gray-bg: rgba(255,255,255,.033);
+    --gray-text: rgba(255,255,255,.625);
+    --menu-text: rgba(255,255,255,.25);
 }
 
 /* Links */
-hy-push-state a { color: #262baa; }
+hy-push-state a { color: #3b6bbf; }
+/* hy-push-state a { color: #262baa; } */
 body.dark-mode hy-push-state a { color: #79aaff; }
 
 /* Strong */
 body.dark-mode strong { color: #f0e6c8; }
+
+blockquote {
+    border-left: 3px solid var(--border-color);
+    color: var(--gray-text);
+    padding-left: 1rem;
+    /* font-style: italic; */
+}
 
 /* --- About --- */
 

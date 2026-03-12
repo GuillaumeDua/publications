@@ -430,3 +430,7 @@ the avoidance of doubt, this paragraph does not form part of the public
 licenses.
 
 Creative Commons may be contacted at creativecommons.org.
+
+---
+
+- ⚠️ Personal data, personal photographs, and any content depicting identifiable individuals are **NOT covered by this license**. See [PRIVACY.md](https://github.com/GuillaumeDua/publications/blob/main/PRIVACY.md) for details.

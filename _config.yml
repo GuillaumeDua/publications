@@ -11,7 +11,7 @@ remote_theme: hydecorp/hydejack@v9.2.1
 # optimal ration: 9:16
 accent_image: /assets/img/background.png
 accent_color: "#181c1f"
-theme_color: "#4a90e2"
+# theme_color: "#4a90e2"
 
 plugins:
   - jekyll-feed

@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Code of Conduct
-sitemap: false
 ---
 
 # Code of Conduct

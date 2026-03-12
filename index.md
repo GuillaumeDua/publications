@@ -5,13 +5,13 @@ title: Home
 
 ## My publications
 
-Welcome !
+Welcome ! 👋
 
 This blog just launched 🚀 (Mars 13 2026), and is still under construction 🚧.
 
 ## Recent posts
 
-{% for post in site.posts %}
+{% for post in site.posts limit:5 %}
 - [{{ post.title }}]({{ post.url | relative_url }}) — {{ post.date | date: "%B %d, %Y" }}
 {% endfor %}
 

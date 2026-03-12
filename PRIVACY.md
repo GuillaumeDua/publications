@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Privacy
-sitemap: false
 ---
 
 ## PERSONAL DATA AND PERSONALITY RIGHTS NOTICE

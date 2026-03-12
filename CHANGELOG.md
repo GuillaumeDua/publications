@@ -6,25 +6,24 @@ redirect_from:
   - /docs/versions/
 ---
 
-## Incoming changes
-
-- [ ] Home showing the most recent posts
-- [ ] Better bright theme
-- [ ] Side-bar, navigation bar: stylished buttons 🕹️ ?
-- [ ] Blog post: scroll-to-like-and-comment-section button (in the navigation bar) ?
-- [ ] Content
-  - [ ] Legacy: migrate [my gist](https://gist.github.com/GuillaumeDua).
-    - [ ] How to preserve existing likes, comments ?
-
 ## v1.0.0
 
-Mars 13 2026 {:.heading.post-date}
+{:.heading.post-date}
+Mars 13 2026
 
 - [ ] 🚀 Official launch
 
+## v0.5.0
+
+{:.heading.post-date}
+Mars 12 2026
+
+- [x] Better bright theme ☀️
+
 ## v0.4.0
 
-Mars 10 2026 {:.heading.post-date}
+{:.heading.post-date}
+Mars 10 2026
 
 - [x] [Google Analytics](https://analytics.google.com/)
 - [x] Update [PRIVACY]({{ '/PRIVACY/' | relative_url }})
@@ -47,3 +46,14 @@ Mars 10 2026 {:.heading.post-date}
 
 - [x] Use [HydeJack](https://github.com/hydecorp/hydejack)
 - [x] Toggle dark/bright mode ☀️/🌙
+
+---
+
+## Incoming changes
+
+- [ ] Home showing the most recent posts
+- [ ] Side-bar, navigation bar: stylished buttons 🕹️ ?
+- [ ] Blog post: scroll-to-like-and-comment-section button (in the navigation bar) ?
+- [ ] Content
+  - [ ] Legacy: migrate all papers from [my gist.github](https://gist.github.com/GuillaumeDua).
+    - [ ] How to preserve existing likes, comments ?

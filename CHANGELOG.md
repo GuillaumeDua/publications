@@ -16,6 +16,7 @@ Mars 13 2026
 Mars 12 2026
 
 - [x] Better bright theme ☀️
+- [x] 404/not-found dedicated page
 
 ## v0.4.0
 

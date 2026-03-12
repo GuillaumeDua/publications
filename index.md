@@ -3,15 +3,21 @@ layout: home
 title: Home
 ---
 
-# My publications
+## My publications
 
 Welcome !
 
-🚧 This blog is currently in construction, please be patient 😉.
+This blog just launched 🚀 (Mars 13 2026), and is still under construction 🚧.
+
+## Recent posts
+
+{% for post in site.posts %}
+- [{{ post.title }}]({{ post.url | relative_url }}) — {{ post.date | date: "%B %d, %Y" }}
+{% endfor %}
 
 ## Old blog
 
-- 📫 [older publications](https://gist.github.com/GuillaumeDua)
+- 📫 [older publications](https://gist.github.com/GuillaumeDua). Expect most papers to be transfered to this blog soon.
 
 ## ⚖️ Licenses
 

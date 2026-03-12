@@ -8,6 +8,7 @@ redirect_from:
 
 ## Incoming changes
 
+- [ ] Home showing the most recent posts
 - [ ] Better bright theme
 - [ ] Side-bar, navigation bar: stylished buttons 🕹️ ?
 - [ ] Blog post: scroll-to-like-and-comment-section button (in the navigation bar) ?

@@ -9,6 +9,9 @@ title: CHANGELOG
 Mars 13 2026
 
 - [ ] 🚀 Official launch
+  - [x] MeetingCpp blog-roll
+  - [ ] LinkedIn
+  - [ ] Reddit
 
 ## v0.5.0
 
@@ -17,6 +20,7 @@ Mars 12 2026
 
 - [x] Better bright theme ☀️
 - [x] 404/not-found dedicated page
+- [x] Better home page
 
 ## v0.4.0
 

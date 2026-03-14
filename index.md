@@ -8,6 +8,7 @@ Welcome ! 👋 This blog just launched 🚀 (Mars 13 2026), and is still under c
 ## Recent posts
 
 {% for post in site.posts limit:5 %}
+{% if post.hidden != true %}
 ### [{{ post.title }}]({{ post.url | relative_url }})
 
 {:.post-date}
@@ -18,6 +19,7 @@ Welcome ! 👋 This blog just launched 🚀 (Mars 13 2026), and is still under c
 [Continue reading →]({{ post.url | relative_url }})
 
 ---
+{% endif %}
 {% endfor %}
 
 ## Old blog

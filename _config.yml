@@ -18,6 +18,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-remote-theme
   - jekyll-paginate
+  - jekyll-redirect-from
 
 hydejack:
   no_inline_css: true

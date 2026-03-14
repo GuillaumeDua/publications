@@ -4,5 +4,5 @@ title: "Trip Report - Meeting Cpp 2025"
 sitemap: false
 search: false
 hidden: true
-redirect_to: /publications/2026/03/13/meeting-cpp-2025-trip-report/
+redirect_to: https://guillaumedua.github.io/publications/2026/03/13/meeting-cpp-2025-trip-report/
 ---

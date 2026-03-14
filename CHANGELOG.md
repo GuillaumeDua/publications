@@ -3,6 +3,14 @@ layout: page
 title: CHANGELOG
 ---
 
+## v1.0.1
+
+{:.heading.post-date}
+Mars 14 2026
+
+- [x] bugfix: rename `2025-03-13-meeting-cpp-2025-trip-report.md` -> `2026-03-13-meeting-cpp-2025-trip-report.md`
+  - [x] Add redirection link
+
 ## v1.0.0
 
 {:.heading.post-date}

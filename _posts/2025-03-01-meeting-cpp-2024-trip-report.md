@@ -7,14 +7,16 @@ description: >
 tags: [ cpp, trip-report, meeting-cpp, conference ]
 ---
 
-> NB: This post was originally published as a [GitHub Gist](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669).
+> ℹ️ This post was originally published as a [GitHub Gist](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669).  
 > Original **comments** and **reactions** remain available there.
 
-|                       |                                      |
-| --------------------- | ------------------------------------ |
-| Author                | Guillaume Dua                        |
-| Date                  | 11/14/2024 - 01/13/2025              |
-| My attendance sponsor | [Fairmat](https://www.fairmat.tech/) |
+|                       |                                                              |
+| --------------------- | ------------------------------------------------------------ |
+| Event                 | [Meeting C++ conference, 2024](https://meetingcpp.com/2024/) |
+| Author                | Guillaume Dua                                                |
+| Date                  | 11/14/2024 - 01/13/2025                                      |
+| My attendance sponsor | [Fairmat](https://www.fairmat.tech/)                         |
+| Revision              | R2                                                           |
 
 ---
 

@@ -1896,10 +1896,10 @@ If you enjoyed this paper:
 
 - 👍 Consider leaving a *"like"* and a **comment** - at the bottom of this page, and on **LinkedIn**.
 - 📩 Share this paper with your friends, colleagues, teachers, students.
-- 📖 You might be interested in last year's: [Conference - Meeting Cpp 2024 - Trip report](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669).
+- 📖 You might be interested in last year's: [Conference - Meeting Cpp 2024 - Trip report]({{ '/2025/03/01/meeting-cpp-2024-trip-report/' | relative_url }}).
 
 ## Related posts
 
-- [Conference - Meeting Cpp 2024 - Trip report](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669)
+- [Conference - Meeting Cpp 2024 - Trip report]({{ '/2025/03/01/meeting-cpp-2024-trip-report/' | relative_url }}).
 - [Conference - C++ in Paris Conference 2021 - Trip report](https://gist.github.com/GuillaumeDua/f1884df852fc99e4df258c8d404e844f)
 - [Conference - Meeting Cpp 2021 - Trip report](https://gist.github.com/GuillaumeDua/b354dd4c46df160dbfd04c31b2a51c80)

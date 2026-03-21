@@ -25,6 +25,7 @@ guillaumedua:
     src: /assets/img/me.jpg
 
   social:
-    github:   GuillaumeDua
+    github: GuillaumeDua
     linkedin: guillaume-dua
-    email:    mailto:pro.guillaume.dua+blog@gmail.com
+    email: mailto:pro.guillaume.dua+blog@gmail.com
+    feed: /publications/feed.xml

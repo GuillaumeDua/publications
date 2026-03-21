@@ -2,6 +2,7 @@
 layout: none
 sitemap: false
 hidden: true
+feed: false
 ---
 
 <!DOCTYPE html>

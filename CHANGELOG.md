@@ -10,6 +10,7 @@ Mars 21 2026
 
 - [x] Fix url, baseurl
 - [x] Fix [RSS feed](https://guillaumedua.github.io/publications/feed.xml)
+- [x] Add RSS feed icon in sidebar
 
 ## v1.0.1
 

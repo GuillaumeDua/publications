@@ -3,6 +3,14 @@ layout: page
 title: CHANGELOG
 ---
 
+## v1.0.2
+
+{:.heading.post-date}
+Mars 21 2026
+
+- [x] Fix url, baseurl
+- [x] Fix [RSS feed](https://guillaumedua.github.io/publications/feed.xml)
+
 ## v1.0.1
 
 {:.heading.post-date}

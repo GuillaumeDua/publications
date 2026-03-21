@@ -3,7 +3,7 @@ tagline: A blog about C++, software-design and project-management.
 description: >
   A blog about C++, software-design and project-management.
 author: guillaumedua
-url: https://guillaumedua.github.io/publications
+url: https://guillaumedua.github.io
 baseurl: /publications
 
 remote_theme: hydecorp/hydejack@v9.2.1
@@ -43,6 +43,12 @@ include:
   - PRIVACY.md
 
 google_analytics: G-BVQYHTFJK5
+
+# ------------------------------------------------------------
+
+feed:
+  title: Guillaume Dua - Publications
+  description: C++, software design, project-management and conference trip reports
 
 # ------------------------------------------------------------
 

@@ -7,6 +7,12 @@ layout: base
 {% assign minor = version[1] | plus:0 %}
 {% assign patch = version[2] | plus:0 %}
 {% include_cached components/post.html post=page no_link_title=true no_excerpt=true hide_image=page.hide_image hide_description=page.hide_description %}
+{% if page.gist_url %}
+<aside class="gist-origin">
+  Originally published on <a href="{{ page.gist_url }}">GitHub Gist</a>{% if page.gist_date %} on {{ page.gist_date }}{% endif %}.
+  Original <strong>comments</strong> and <strong>reactions</strong> remain available there.
+</aside>
+{% endif %}
 {% include components/dingbat.html %}
 {% assign addons = page.addons | default:site.hydejack.post_addons %}
 {% unless addons %}{% assign addons = "about,newsletter,related,random" | split:"," %}{% endunless %}

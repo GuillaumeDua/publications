@@ -1,5 +1,5 @@
 ---
-layout: gist-post
+layout: post
 title: "Trip Report - Meeting Cpp 2024"
 sitemap: true
 description: >

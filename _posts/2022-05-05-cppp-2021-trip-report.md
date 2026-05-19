@@ -9,6 +9,8 @@ gist_url: https://gist.github.com/GuillaumeDua/f1884df852fc99e4df258c8d404e844f
 gist_date: "May 5, 2022"
 ---
 
+![CPPP logo](/publications/assets/img/cppp-2021/logo.svg)
+
 |            |                          |
 | ---------- | ------------------------ |
 | Author     | Guillaume Dua            |

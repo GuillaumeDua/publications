@@ -23,8 +23,6 @@ tags: [ cpp, trip-report, meeting-cpp, conference ]
 - TOC
 {:toc}
 
-<!--more-->
-
 ## Introduction
 
 This year - and like every year: see my [trip-report for last year's conference](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669) - I attended Meeting C++ 2025. As always, the conference brought together a vibrant and passionate community of C++ developers, with a **strong emphasis this year on safety**, security, performance,  

@@ -22,8 +22,6 @@ gist_date: "January 13, 2025"
 - TOC
 {:toc}
 
-<!--more-->
-
 ## Introduction
 
 Today marks the beginning of the 2024 edition of the **MeetingCpp** conference, running from November 14th to November 16th.  

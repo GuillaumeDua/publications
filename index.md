@@ -14,7 +14,9 @@ Welcome ! 👋 This blog just launched 🚀 (Mars 13 2026), and is still under c
 {:.post-date}
 {{ post.date | date: "%B %d, %Y" }}
 
-{{ post.excerpt }}
+<!-- custom {{ post.excerpt }} equivalent, but skip blog-post header -->
+{% assign _parts = post.content | split: '</h2>' %}
+{% if _parts.size > 1 %}{{ _parts[1] | strip_html | truncatewords: 60 }}{% else %}{{ post.excerpt | strip_html }}{% endif %}
 
 [Continue reading →]({{ post.url | relative_url }})
 

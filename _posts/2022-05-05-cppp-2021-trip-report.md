@@ -66,10 +66,7 @@ Finally, registrations for the lightning talks have opened, and the first day's 
 
 ### 🗣️ **Matt Godbolt - *"C++'s superpower"***
 
-|          |                                                           |
-| -------- | --------------------------------------------------------- |
-| 📝 Slides | [link](https://github.com/mattgodbolt/cppp-fr-superpower) |
-| 🎞️ Video  | [link](https://www.youtube.com/watch?v=0_UttFDnV3k)       |
+[🎥 Video](https://www.youtube.com/watch?v=0_UttFDnV3k), [📄 Slides](https://github.com/mattgodbolt/cppp-fr-superpower)
 
 For the main event of this first day, Matt gave a very nice talk on refactoring techniques, giving feedbacks on how he manages to convert a (very) old C project into post-modern C ++, and what challenges did he face, and how he managed to overcome them.  
 What strikes me each time is how communicative his state of mind is: bringing motivation, passion and willingness to share with others `<3`.
@@ -239,9 +236,7 @@ However ... well I am French so I went AFK to cook a good meal that I enjoyed wi
 
 ### 🗣️ **Victor Ciura - *"Exceptional C++"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=PSgY2ZLSrY0) |
+[🎥 Video](https://www.youtube.com/watch?v=PSgY2ZLSrY0)
 
 As I already saw the great talk from [Andreas Fertig](https://andreasfertig.info/) about how concepts can improve template programming about 3 weeks ago at [Meeting CPP 2021](https://meetingcpp.com/2021/),  
 I chosed this time to attend Victor's about handling unexpected scenarios - *to get an overview of such topic, I hardly know anything about*.
@@ -304,9 +299,7 @@ Here, Windows give us a convenient way to inspect the execution context with sna
 
 ### 🗣️ **Arno Schoedl - *Rvalue lifetime disasters***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=XXsZBZjzS-E) |
+[🎥 Video](https://www.youtube.com/watch?v=XXsZBZjzS-E)
 
 After a quick reminder of what values, move semantics, and universal references are,  
 Arno mentioned common pitfalls about the `move-semantic`.
@@ -398,10 +391,7 @@ New behavior :
 
 ### 🗣️ **Jules Penuchot - *"ctbench: compile-time benchmarking for Clang"***
 
-|          |                                                     |
-| -------- | --------------------------------------------------- |
-| 📝 Slides | link                                                |
-| 🎞️ Video  | [link](https://www.youtube.com/watch?v=1RZY6skM0Rc) |
+[🎥 Video](https://www.youtube.com/watch?v=1RZY6skM0Rc)
 
 For this session, Jules presented an amazing, truly thrilling talk about `ctbench`, a tool he developed and which is already available [here on github](https://github.com/JPenuchot/ctbench).  
 Also, if you feel interested in, there are plenny of examples available in [this repository](https://github.com/JPenuchot/rule-of-cheese/).
@@ -637,9 +627,7 @@ And in conclusion :
 
 ### 🗣️ **Loic Joly - *"MISRA"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=uL8f0N2WkmQ) |
+[🎥 Video](https://www.youtube.com/watch?v=uL8f0N2WkmQ)
 
 *To be honest, I did not know what to expect from such topic, yet was convinced that Loic would deliver an interesting talk.*
 
@@ -807,9 +795,7 @@ Some **examples** of odd rules :
 
 #### ⚡ ***Chris Croft-White** - a brief introduction to time travel debugging*
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=YA4--v_0DNA) |
+[🎥 Video](https://www.youtube.com/watch?v=YA4--v_0DNA)
 
 This talk was about time travel debugging - *hereafter, TTD* - using the [UDB](https://undo.io/solutions/products/udb/) solution tool from [Undo](https://undo.io).
 
@@ -838,9 +824,7 @@ like jumping back in time to previous steps, up to a point when the stack is not
 
 #### ⚡ ***Loic Joly** - as simple as 1 + 1 = 2*
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=JiFIDOQXHs4) |
+[🎥 Video](https://www.youtube.com/watch?v=JiFIDOQXHs4)
 
 For these lightning talks, Loic came up with a game, so participants had to guess what would appear when code was compiled and executed.  
 Sounds simple, right ? Well, this were all about c-preprocessor macros ! 😭
@@ -851,9 +835,7 @@ Sounds simple, right ? Well, this were all about c-preprocessor macros ! 😭
 
 #### ⚡ ***Sandor Dargo** - Why clean code is not the norm ?*
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=srQi9D1B724) |
+[🎥 Video](https://www.youtube.com/watch?v=srQi9D1B724)
 
 **What** is clean code ? Some code that is easy to understand and easy to change
 
@@ -924,9 +906,7 @@ A bunch of questions on C++, using `kahoot`
 
 #### ⚡ ***Olafur Waage** - Artificial problems*
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=sZVptoGqCiE) |
+[🎥 Video](https://www.youtube.com/watch?v=sZVptoGqCiE)
 
 Olafur presented an interesting & great way to learn - *that I've been using for years so far* - which is to create fake walls/restrictions.  
 
@@ -946,9 +926,7 @@ My examples :
 
 #### ⚡ ***Arseniy Zaostrovnykh** - finding Nemo or evolution of a for-loop*
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=Bf4yl9XZL8o) |
+[🎥 Video](https://www.youtube.com/watch?v=Bf4yl9XZL8o)
 
 Arseniy discussed about cognitive complexity, illustrated with an `any_of` examples :
 
@@ -973,9 +951,7 @@ All the implementations are valid C++20, thanks to backward compatibilities
 
 #### ⚡ **Fred Tingaud - *"Organizing a conference"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=Z9qX8tXJl5I) |
+[🎥 Video](https://www.youtube.com/watch?v=Z9qX8tXJl5I)
 
 For this lightning talk, Fred shared his feedback on the organization of the CPPP 2019 & CPPP 2021 conferences.
 
@@ -993,9 +969,7 @@ Then, **why** doing it once again ?
 
 #### ⚡ **Pavel Novikov - *"Formatting ISO 8601 date and time fast"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=rkE0PTb4YlI) |
+[🎥 Video](https://www.youtube.com/watch?v=rkE0PTb4YlI)
 
 For this talk, Pavel explained how to fine-tune some of the time-formatting implementation details over and over again,
 focusing on speed of execution.
@@ -1020,9 +994,7 @@ Quite unexpected, yet lovely 😉🎵
 
 ### 🗣️ **Philippe Bourgau - *"Live-test legacy-code with the mikado method and test data-builders"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=2wWQosot85I) |
+[🎥 Video](https://www.youtube.com/watch?v=2wWQosot85I)
 
 For this talk, Philippe shared about an interesting large-scale refactoring techniques called the **mikado method**.  
 In order to best explain how such method works, the speaker used [coggle.it](https://coggle.it/) as mind-mapping tool, but also a lot of live-coding/demo examples.
@@ -1123,9 +1095,7 @@ As mentioned in the intro, a workshop is available if you are willing to give th
 
 ### 🗣️ **Barry Revzin - *"Iterators and Ranges: Comparing C++ to D, Rust, and Others"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=95uT0RhMGwA) |
+[🎥 Video](https://www.youtube.com/watch?v=95uT0RhMGwA)
 
 This talk from Barry was all about design & implementation philosophy,  
 comparing how ranges are designed in C++, D, Rust, C#, Java, and Python.
@@ -1143,11 +1113,12 @@ The speaker defined ranges as uniform access to sequences, thanks to 3 kind of b
 The C++ programming language uses iterators pair model (Alexander Stepanov) to decouple containers from algorithms.
 
 - From `begin` to `past-end`
-| -       | operations   | synthax |
-| ------- | ------------ |
-| read    | `*it`        |
-| advance | `++it`       |
-| done ?  | `it == last` |
+
+| operations | synthax      |
+| ---------- | ------------ |
+| read       | `*it`        |
+| advance    | `++it`       |
+| done ?     | `it == last` |
 
 - Basic C++ range structure
   - end is either not necessarily an iterator, can be a sentinel
@@ -1202,9 +1173,7 @@ Very interesting discussion about TMP and templates in general.
 
 ### 🗣️ **Ivica Bogosavjevic - *"The performance price of virtual funtions"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=oy-lG3JiqSI) |
+[🎥 Video](https://www.youtube.com/watch?v=oy-lG3JiqSI)
 
 For this talk, Ivica detailed about a scientific approach of performance analysis, which basically is the following process :
 
@@ -1303,11 +1272,13 @@ The speaker then underlined that a common alternatives to vectors of pointers ex
 **Jump destination guessing** - experiment
 
 - Three vectors of 20 millions objects
-  | -                   | order                | example |
+
+  | order               | example              |
   | ------------------- | -------------------- |
   | sorted by type      | AAA BBBB CCCCC       |
   | predictable fashion | ABCD ABCD ABCD       |
   | random              | BABCBABDBDDABADBCBAD |
+
 - Measure time to call a virtual function
 
 **Jump destination guessing** - results
@@ -1374,9 +1345,7 @@ The speaker then underlined that a common alternatives to vectors of pointers ex
 
 ### 🗣️ **Sébastien Gonzalve - *"Why you should move your legacy code to smart pointers"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=OanwYoajPQw) |
+[🎥 Video](https://www.youtube.com/watch?v=OanwYoajPQw)
 
 **Preamble** :
 
@@ -1478,9 +1447,7 @@ This is **really** better
 
 ### 🗣️ **Damien Buhl - *"Our Adventure building a massively scalable C++ remote compiler cloud"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=pUnrvCuqVUs) |
+[🎥 Video](https://www.youtube.com/watch?v=pUnrvCuqVUs)
 
 This talk was more like a return of experience on building the [Tipi](https://tipi.build/) project.
 
@@ -1576,9 +1543,7 @@ Tipi.build is **built** with tipi.build
 
 ### 🗣️ **Sy Brand - *"On the Aesthetics of Code"***
 
-|         |                                                     |
-| ------- | --------------------------------------------------- |
-| 🎞️ Video | [link](https://www.youtube.com/watch?v=CkGqINHZit0) |
+[🎥 Video](https://www.youtube.com/watch?v=CkGqINHZit0)
 
 More than a talk, Sy offered the audience a masterclass on the aesthetics of code,  
 that **you'd really better watch** rather than read those lines, as it cannot be sum-up easily.

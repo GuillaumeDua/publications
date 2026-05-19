@@ -251,3 +251,16 @@ img + em {
   padding-left: 1rem;
   margin: 1.5rem 0;
 }
+
+.gist-origin {
+  border-left: 4px solid #4da3ff;
+  background: rgba(77, 163, 255, 0.08);
+  border-radius: 0 4px 4px 0;
+  padding: 0.75rem 1rem;
+  margin: 1.5rem 0;
+  font-size: 0.95em;
+}
+
+body.dark-mode .gist-origin {
+  background: rgba(77, 163, 255, 0.12);
+}

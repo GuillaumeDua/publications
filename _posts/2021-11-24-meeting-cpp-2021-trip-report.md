@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Meeting Cpp 2021 - Trip report"
+title: "Trip report - Meeting Cpp 2021"
 sitemap: true
 description: >
   My trip report for the Meeting Cpp 2021 conference, a virtual C++ event with talks on C++20, templates, type erasure, coroutines, and more.

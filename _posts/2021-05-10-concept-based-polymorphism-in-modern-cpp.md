@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Concept-based polymorphism in modern C++"
+title: "C++ - Concept-based polymorphism"
 sitemap: true
 description: >
   How to design clean, composable interfaces using C++20 concepts — covering contract programming, type erasure, static polymorphism, and std::variant overload resolution.

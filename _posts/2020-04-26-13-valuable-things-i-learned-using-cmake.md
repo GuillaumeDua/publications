@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "13 Valuable Things I Learned Using CMake"
+title: "CMake - 13 Valuable Things I Learned Using CMake"
 sitemap: true
 description: >
   Tips and tricks collected while writing CMake scripts for a large codebase — covering versioning, stages, generator expressions, debugging, dependencies, and project structure.

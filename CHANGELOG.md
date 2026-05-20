@@ -21,6 +21,7 @@ May 20 2026
 - [ ] 📰 Migration (WIP)
   - [x] [Meeting Cpp 2021 - Trip report](https://gist.github.com/GuillaumeDua/b354dd4c46df160dbfd04c31b2a51c80)
   - [x] [Concept-based polymorphism in modern C++](https://gist.github.com/GuillaumeDua/b0f5e3a40ce49468607dd62f7b7809b1)
+  - [x] [13 valuable things I learned using CMake](https://gist.github.com/GuillaumeDua/a2e9cdeaf1a26906e2a92ad07137366f)
   - [ ] [Trip report : CPPP Conference 2019](https://gist.github.com/GuillaumeDua/eb0ffbb85b7793faec1d9b4ca4b1b47f)
   - [ ] [C++ : Polymorphic inheritance without vtable](https://gist.github.com/GuillaumeDua/0239fda353264b67ddcb39b5d9a01105)
 

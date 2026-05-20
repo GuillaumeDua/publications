@@ -57,7 +57,7 @@ Resources:
 
 ## 📅 11/06/2025
 
-### 🗣️**Jens Weller**: Welcome Message
+### 🗣️ **Jens Weller**: Welcome Message
 
 The conference opened, as tradition, with a warm welcome from Jens Weller, the founder and organizer of Meeting C++.  
 Jens provided an overview of what to expect during the event:
@@ -105,7 +105,7 @@ This tribute was a heartfelt reminder of the human connections that bind the C++
 
 ![Jens Weller: Meeting C++ update - survey]({{ page.image_path | relative_url }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)
 
-### 🗣️**Anthony Williams**: Software and safety (Opening Keynote)
+### 🗣️ **Anthony Williams**: Software and safety (Opening Keynote)
 
 [🎥 Video](https://www.youtube.com/watch?v=wKGkOmpUTH8), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/software-safety475001.pdf)
 
@@ -211,7 +211,7 @@ Interesting/valuable inputs from the questions session:
 - Why would one choose a normal/soften library over an hardened one ? 👉 Optimized for speed vs. optimized for safety.
 - The vocabulary we use when talking to managers matters: **weaken/soften** libraries might sounds like something's wrong, while we'd rather underline what the tradeoffs are.
 
-### 🗣️**Sebastian Theophil**: To Err is Human: Robust Error Handling in C++26
+### 🗣️ **Sebastian Theophil**: To Err is Human: Robust Error Handling in C++26
 
 <!--
 vs. 🗣️**Joel Falcou**: From Acrobatics to Ergonomics - A Field Report on How to Make Libraries Helpful ([video link](https://www.youtube.com/watch?v=etAGLosphoc))
@@ -348,7 +348,7 @@ Using the right tools - debuggers, static analyzers, runtime sanitizers, and ade
 - [Louis Dionne - ODR, libc++ hardening, Profiles and Contracts](https://ldionne.com/2025/02/12/ODR-libcxx-hardening-profiles-and-contracts/)
 - [Security in C++ - Hardening Techniques From the Trenches - Louis Dionne - C++Now 2024](https://www.youtube.com/watch?v=t7EJTO0-reg)
 
-### 🗣️**Nicolai Josuttis**: Using `std::generator<>` in Practice
+### 🗣️ **Nicolai Josuttis**: Using `std::generator<>` in Practice
 
 <!-- vs. 🗣️**Tina Ulbrich**: The Code is Documentation Enough -->
 
@@ -459,7 +459,7 @@ Despite coroutines having been introduced in C++20, I definitely haven't experim
 - [C++20's Coroutines for Beginners - Andreas Fertig - CppCon 2022](https://www.youtube.com/watch?v=8sEe-4tig-A)
 - And this very fun, simple, and short video by [Sy Brand](https://tartanllama.xyz/): [Coroutines Explained with My Cat](https://www.youtube.com/watch?v=fstYQ1Zq73A)
 
-### 🗣️**Sandor Dargo**: Code Reviews: Building Better Code and Stronger Teams
+### 🗣️ **Sandor Dargo**: Code Reviews: Building Better Code and Stronger Teams
 
 [🎥 Video](https://www.youtube.com/watch?v=ahpbfpb-Yqc), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/Code-Reviews---Meeting-C++-2025570171.pdf)
 
@@ -582,7 +582,7 @@ When done well, they teach, support, and build trust.
 When done poorly, they erode relationships.  
 I left the talk with a renewed motivation to continue investing in review culture and helping teams make the most of it.
 
-### 🗣️**Anders Schau Knatten** The Two Memory Models
+### 🗣️ **Anders Schau Knatten**: The Two Memory Models
 
 [🎥 Video](https://www.youtube.com/watch?v=iEd9-ilEgdg), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/Knatten-The-Two-Memory-Models-MeetingCpp-202594762.pdf)
 
@@ -654,7 +654,7 @@ I love the feeling of being humbled - *if not a bit dumb* - by a talk - it means
 
 ## 📅 11/07/2025
 
-### 🗣️**Jens Weller** - Good Morning Meeting C++
+### 🗣️ **Jens Weller**: Good Morning Meeting C++
 
 Jens opened day 2 sharing how he designed and implemented - using [Qt](https://www.qt.io/) - this year's conference merchs design for [T-shirts, hoodies (Spreadshirt)](https://meetingcpp.myspreadshop.de/) and [calendars (Etsy)](https://www.etsy.com/shop/meetingcpp).
 
@@ -680,7 +680,7 @@ I'll definitly watch the trendy talk ["More Speed & Simplicity: Practical Data-O
 
 And like always, hearing about an ecosystem simulation project reignited my own itch to spin up a fresh entity-based experiment 😅. *So many things to do, so little time though.*
 
-### 🗣️ **Frances Buontempo** - Center Keynote - Stoopid Questions
+### 🗣️ **Frances Buontempo**: Center Keynote - Stoopid Questions
 
 [🎥 Video](https://www.youtube.com/watch?v=zztvhcgXQco), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/frances-buontempo672314.pdf)
 
@@ -751,7 +751,7 @@ Her answer was simple and practical:
 
 This strongly resonates with my own experience: meaningful practice, supportive peers, and an environment where questions are welcomed are far more valuable than any amount of passive learning.
 
-### 🗣️ **Jonathan Müller** - Cache-Friendly C++
+### 🗣️ **Jonathan Müller**: Cache-Friendly C++
 
 [🎥 Video](https://www.youtube.com/watch?v=LHPOAcKqWFc), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/cache-friendly-cpp610063.pdf)
 
@@ -842,7 +842,7 @@ I'll definitely continue digging into cache-friendly programming. It still feels
 
 This talk was a great reminder to structure programs around access patterns and data, not just obvious-for-humans abstractions.
 
-### 🗣️ **Andreas Fertig** - Embedded-Friendly C++: Features That Make a Difference
+### 🗣️ **Andreas Fertig**: Embedded-Friendly C++: Features That Make a Difference
 
 [🎥 Video](https://www.youtube.com/watch?v=xxx), [📄 slidedeck](https://andreasfertig.com/talks/dl/afertig-2025-meeting-cpp-embedded-friendly-cpp--features-that-make-a-difference.pdf)
 
@@ -896,7 +896,7 @@ I'll make sure to dig into the presented features which I'm not familiar with ye
 
 I came away with several insights I can apply right away, and an even greater appreciation for Andreas's teaching style. His approach genuinely inspired me to revisit my own training slide-decks, so I can make my courses more grounded in real-world needs and even more accessible; which might increase my **trainings retention rate**.
 
-### 🗣️ **Daniela Engert** - Towards Safety and Security in C++26
+### 🗣️ **Daniela Engert**: Towards Safety and Security in C++26
 
 [🎥 Video](https://www.youtube.com/watch?v=mQI3B7ek9DU), [📄 slidedeck](https://github.com/DanielaE/Slides/blob/main/pdf/towards-safety-security-in-cpp-meetingcpp-2025.pdf)
 
@@ -951,7 +951,7 @@ Far from being an old unsafe language - *as the gossips and the ignorant says* -
 The beast keeps evolving to meet the need of the industry, and I can't wait to see what's coming next.  
 This talk made that trajectory toward safety clearer than ever, and increased my appetite.
 
-### 🗣️ **Raymi Klingers** - 25+ Years of pathfinding problems with C++
+### 🗣️ **Raymi Klingers**: 25+ Years of pathfinding problems with C++
 
 [🎥 Video](https://www.youtube.com/watch?v=lEBQveBCtKY), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/25+-Years-of-Pathfinding-Problems442903.pdf)
 
@@ -1002,7 +1002,7 @@ This is the fourth talk that has sparked/rekindled my urge to build new simulati
 
 ## 📅 11/08/2025
 
-### 🗣️ **Klaus Iglberger** - The Real Problem of C++
+### 🗣️ **Klaus Iglberger**: The Real Problem of C++
 
 [🎥 Video](https://www.youtube.com/watch?v=QmNkbUgADBE), [📄 slidedeck]()
 
@@ -1182,7 +1182,7 @@ He concluded with a call to action:
 - [Software Memory Safety](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI-SOFTWARE-MEMORY-SAFETY.PDF), April 2023, National Security Agency | Cybersecurity Information Sheet.
 - [Peter Sommerlad - "Collective Amnesia ?" - Meeting Cpp 2024](https://gist.github.com/GuillaumeDua/d6a82cd83178a38566464a78505a2669#%EF%B8%8F-peter-sommerlad-collective-amnesia)
 
-### 🗣️ **Roth Michaels** - How to become obsolete: a guide to software engineering mentorship
+### 🗣️ **Roth Michaels**: How to become obsolete: a guide to software engineering mentorship
 
 [🎥 Video](https://www.youtube.com/watch?v=CR84TWbvXDQ), [📄 slidedeck]()
 
@@ -1329,7 +1329,7 @@ From my perspective, building a **shared/common understanding** of a project's v
 
 Overall, the talk was refreshing, human, and deeply practical: a reminder that leadership is less about the cult of personnality, and more about **creating ecosystems where others can grow**, take ownership, and eventually replace you.
 
-### 🗣️ **Kerstin Keller** - Why managing C++ dependencies is hard (and what to do about it)
+### 🗣️ **Kerstin Keller**: Why managing C++ dependencies is hard (and what to do about it)
 
 [🎥 Video](https://www.youtube.com/watch?v=fDXtQOEtrbw), [📄 slidedeck]()
 
@@ -1429,7 +1429,7 @@ It'll also make sure to give `Conan` a decent try when I'll have the opportunity
 - [CppCon 2023 - Libraries: A First Step Toward Standard C++ Dependency Management - Bret Brown & Bill Hoffman](https://www.youtube.com/watch?v=IwuBZpLUq8Q)
 - [CppCon 2023 - A Common Package Specification: Getting Build Tools to Talk to Each Other - Lessons Learned](https://www.youtube.com/watch?v=ZTjG8fy6Bek)
 
-### 🗣️ **Jens Weller** - Meeting C++ update
+### 🗣️ **Jens Weller**: Meeting C++ update
 
 [🎥 Video](), [📄 slidedeck]()
 
@@ -1462,9 +1462,9 @@ Jens also shared the symbolic journey of [Cippi](https://www.modernescpp.org/cip
 ![Jens Weller: Meeting C++ update - Cippi and Rainer]({{ page.image_path | relative_url }}/14-02-jens-weller-meeting-cpp-update-cippi-and-rainer.jpg)  
 *(I put this screenshot twice on purpose)*
 
-### ⚡Lightning talks
+### ⚡ Lightning talks
 
-#### ⚡ **James McNellis** Our most teacherous adversary
+#### ⚡ **James McNellis**: Our most teacherous adversary
 
 [🎥 Video](https://www.youtube.com/watch?v=zC-uwGqSLqQ), [📄 slidedeck]()
 
@@ -1497,7 +1497,7 @@ Giving it a quite/naive quick shot *(disclaimer: I'm not a Python developer, not
 - [Python](https://www.online-python.com/25b7heSwV0)
 - [C++](https://godbolt.org/z/exhPseKP4)
 
-#### ⚡ **Rahel Natalie Engel** - let them eat cake
+#### ⚡ **Rahel Natalie Engel**: let them eat cake
 
 [🎥 Video](https://www.youtube.com/watch?v=gQ6grpbhW8k), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/let-them-eat-cake551224.pdf)
 
@@ -1514,7 +1514,7 @@ As a solution, she presented [catpie](https://catpie.compscicomp.de/), an access
 💡 A thoughtful reminder that the tools **we choose for beginners often shape their long-term learning path**.  
 Making programming accessible & fun is crucial, but we must also ensure learners can gradually grow into full programming languages without unnecessary friction.
 
-#### ⚡ **Robin Savenen Soderholm** - vector to array: let the compiler turn heap into static storage
+#### ⚡ **Robin Savenen Soderholm**: vector to array: let the compiler turn heap into static storage
 
 [🎥 Video](https://www.youtube.com/watch?v=TdL2rvtOGos), [📄 slidedeck]()
 
@@ -1548,7 +1548,7 @@ consteval auto range-to-array() {
 
 ![Robin Savenen Soderholm: vector to array - usage]({{ page.image_path | relative_url }}/17-robin-savenen-soderholm-vector-to-array-usage.jpg)
 
-#### ⚡ **Ganest Rengasamy** - Meet Qt
+#### ⚡ **Ganest Rengasamy**: Meet Qt
 
 [🎥 Video](https://www.youtube.com/watch?v=dVwQG2zS4zE), [📄 slidedeck]()
 
@@ -1568,7 +1568,7 @@ Additional resources:
 
 ![Ganest Rengasamy: Meet Qt]({{ page.image_path | relative_url }}/18-ganest-rengasamy-meet-qt.jpg)
 
-#### ⚡ **Hannah Lenk** - Start teaching C++
+#### ⚡ **Hannah Lenk**: Start teaching C++
 
 [🎥 Video](https://www.youtube.com/watch?v=f6fEB2N1i00), [📄 slidedeck](https://meetingcpp.com/mcpp/slides/2025/start-teaching-cpp932460.pdf)
 
@@ -1582,7 +1582,7 @@ Teachers have a huge responsibility here: they should stop teaching C++98 or tha
 
 ![Hannah Lenk: Start teaching C++]({{ page.image_path | relative_url }}/19-hannah-lenk-start-teaching-cpp.jpg)
 
-#### ⚡ **Jens Weller** - binary trees
+#### ⚡ **Jens Weller**: binary trees
 
 [🎥 Video](https://www.youtube.com/watch?v=0irBIuK2-3k), [📄 slidedeck]()
 
@@ -1615,7 +1615,7 @@ The talk was a timely reminder that contemporain C++ requires discernment: tools
 
 ![Jens Weller: binary trees]({{ page.image_path | relative_url }}/20-jens-weller-binary-trees.jpg)
 
-### 🗣️ **James McNellis** - Closing Keynote - A little introduction to control flow integrity
+### 🗣️ **James McNellis**: Closing Keynote - A little introduction to control flow integrity
 
 [🎥 Video](https://www.youtube.com/watch?v=-eX7AVB4qzM), [📄 slidedeck]()
 

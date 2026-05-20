@@ -54,7 +54,7 @@ As the [schedule](https://cppp.fr/schedule2021/) was really appealing, and like 
 
 ## 📅 Day 1 - 12/01/2021
 
-### 🗣️ **Fred Tingaud - *"Welcome message"***
+### 🗣️ **Fred Tingaud**: Welcome message
 
 After warmly welcoming the public, Fred - *being the main organizer* - underlined few points that best picture the spirit of the CPPP conference :
 
@@ -66,7 +66,7 @@ Before thanking the sponsors, the speaker also talked about how inclusivity and 
 
 Finally, registrations for the lightning talks have opened, and the first day's main event started.
 
-### 🗣️ **Matt Godbolt - *"C++'s superpower"***
+### 🗣️ **Matt Godbolt**: C++'s superpower
 
 [🎥 Video](https://www.youtube.com/watch?v=0_UttFDnV3k), [📄 Slides](https://github.com/mattgodbolt/cppp-fr-superpower)
 
@@ -236,7 +236,7 @@ During the lunch break, three rounds-rables were available to discuss about very
 
 However ... well I am French so I went AFK to cook a good meal that I enjoyed with the one I love 😋. Yes this is a cliché indeed.
 
-### 🗣️ **Victor Ciura - *"Exceptional C++"***
+### 🗣️ **Victor Ciura**: Exceptional C++
 
 [🎥 Video](https://www.youtube.com/watch?v=PSgY2ZLSrY0)
 
@@ -299,7 +299,7 @@ Here, Windows give us a convenient way to inspect the execution context with sna
 
 > ... or even backward : mapping SEH into C++ typed exception *(using translator exceptions, per thread)*
 
-### 🗣️ **Arno Schoedl - *Rvalue lifetime disasters***
+### 🗣️ **Arno Schoedl**: Rvalue lifetime disasters
 
 [🎥 Video](https://www.youtube.com/watch?v=XXsZBZjzS-E)
 
@@ -391,7 +391,7 @@ New behavior :
   *(and `const &` should not have bound to `rvalues` in the first place)*,  
   as it expands lifetime from short to long one
 
-### 🗣️ **Jules Penuchot - *"ctbench: compile-time benchmarking for Clang"***
+### 🗣️ **Jules Penuchot**: ctbench: compile-time benchmarking for Clang
 
 [🎥 Video](https://www.youtube.com/watch?v=1RZY6skM0Rc)
 
@@ -627,7 +627,7 @@ And in conclusion :
 
 - Can/should we consider refactoring as an integral part of our development tasks ? - for example, spending half our time cleaning the perimeter we are about to impact.
 
-### 🗣️ **Loic Joly - *"MISRA"***
+### 🗣️ **Loic Joly**: MISRA
 
 [🎥 Video](https://www.youtube.com/watch?v=uL8f0N2WkmQ)
 
@@ -791,11 +791,11 @@ Some **examples** of odd rules :
   - some guidelines about dynamic memory management ?
   - C++20, C++23
 
-### ⚡ **Phil Nash** - Lightning talks
+### ⚡ **Phil Nash**: Lightning talks
 
 > *5 minutes-long entertaining talks*
 
-#### ⚡ ***Chris Croft-White** - a brief introduction to time travel debugging*
+#### ⚡ **Chris Croft-White**: a brief introduction to time travel debugging
 
 [🎥 Video](https://www.youtube.com/watch?v=YA4--v_0DNA)
 
@@ -824,7 +824,7 @@ like jumping back in time to previous steps, up to a point when the stack is not
 
 > FYI, a workshop was planned the day after about this tool, at 12:30 : *"**Undo** hands on workshop"*
 
-#### ⚡ ***Loic Joly** - as simple as 1 + 1 = 2*
+#### ⚡ **Loic Joly**: as simple as 1 + 1 = 2
 
 [🎥 Video](https://www.youtube.com/watch?v=JiFIDOQXHs4)
 
@@ -835,7 +835,7 @@ Sounds simple, right ? Well, this were all about c-preprocessor macros ! 😭
 
 - Overflows for **preprocessor** and **C++** deal with different rules
 
-#### ⚡ ***Sandor Dargo** - Why clean code is not the norm ?*
+#### ⚡ **Sandor Dargo**: Why clean code is not the norm ?
 
 [🎥 Video](https://www.youtube.com/watch?v=srQi9D1B724)
 
@@ -902,11 +902,11 @@ The job is not only about coding, but also to communicate :
   - technical debt must be paid back, on time
   - we cannot afford better solution
 
-#### ⚡ ***Ahmad Atwi** - "Jeopardy - C++ edition"*
+#### ⚡ **Ahmad Atwi**: "Jeopardy - C++ edition"
 
 A bunch of questions on C++, using `kahoot`
 
-#### ⚡ ***Olafur Waage** - Artificial problems*
+#### ⚡ **Olafur Waage**: Artificial problems
 
 [🎥 Video](https://www.youtube.com/watch?v=sZVptoGqCiE)
 
@@ -926,7 +926,7 @@ My examples :
 - no pointers
 - as less as possible runtime code
 
-#### ⚡ ***Arseniy Zaostrovnykh** - finding Nemo or evolution of a for-loop*
+#### ⚡ **Arseniy Zaostrovnykh**: finding Nemo or evolution of a for-loop
 
 [🎥 Video](https://www.youtube.com/watch?v=Bf4yl9XZL8o)
 
@@ -951,7 +951,7 @@ All the implementations are valid C++20, thanks to backward compatibilities
 - So we need to improve code when upgrading our C++ standard
 - static analysis tools like SonarLint can help for this !
 
-#### ⚡ **Fred Tingaud - *"Organizing a conference"***
+#### ⚡ **Fred Tingaud**: Organizing a conference
 
 [🎥 Video](https://www.youtube.com/watch?v=Z9qX8tXJl5I)
 
@@ -969,7 +969,7 @@ Then, **why** doing it once again ?
 - Nice feedback from attenders, speakers, etc.
 - happy make people learn & share, especially peoples who attend to such conference for the first time
 
-#### ⚡ **Pavel Novikov - *"Formatting ISO 8601 date and time fast"***
+#### ⚡ **Pavel Novikov**: Formatting ISO 8601 date and time fast
 
 [🎥 Video](https://www.youtube.com/watch?v=rkE0PTb4YlI)
 
@@ -988,13 +988,13 @@ focusing on speed of execution.
 | 100x      | manual formatting                                                                                                                                                 |
 | 330x      | manual formatting<br>+ removing to_chars<br>+ directly using uint64_t as bytes storage<br>+ bitwise operations like shifting, masks, and various tricks for maths |
 
-#### ⚡ **Phil Nash - *"I'll build myself (from the source, don't want your libs)"***
+#### ⚡ **Phil Nash**: I'll build myself (from the source, don't want your libs)
 
 Phil showed us a very fun - *old-school* - video of a song he created, about coding practices, tools, feelings, and how he likes to build libraries itself from the sources.
 
 Quite unexpected, yet lovely 😉🎵
 
-### 🗣️ **Philippe Bourgau - *"Live-test legacy-code with the mikado method and test data-builders"***
+### 🗣️ **Philippe Bourgau**: Live-test legacy-code with the mikado method and test data-builders
 
 [🎥 Video](https://www.youtube.com/watch?v=2wWQosot85I)
 
@@ -1095,7 +1095,7 @@ Philippe concluded his talk by mentioning three other (must-know) refactoring or
 
 As mentioned in the intro, a workshop is available if you are willing to give the mikado method a try, at : [murex.github.io/mikado-testbuilders-kata](https://murex.github.io/mikado-testbuilders-kata/)
 
-### 🗣️ **Barry Revzin - *"Iterators and Ranges: Comparing C++ to D, Rust, and Others"***
+### 🗣️ **Barry Revzin**: Iterators and Ranges: Comparing C++ to D, Rust, and Others
 
 [🎥 Video](https://www.youtube.com/watch?v=95uT0RhMGwA)
 
@@ -1173,7 +1173,7 @@ Very interesting discussion about TMP and templates in general.
 - HR constraints
   - Hiring C++ developers who know TMP can be hard, thus should be considered at some point in order to guarantee the project's maintainability, especially for companies with high turn-over.
 
-### 🗣️ **Ivica Bogosavjevic - *"The performance price of virtual funtions"***
+### 🗣️ **Ivica Bogosavjevic**: The performance price of virtual funtions
 
 [🎥 Video](https://www.youtube.com/watch?v=oy-lG3JiqSI)
 
@@ -1345,7 +1345,7 @@ The speaker then underlined that a common alternatives to vectors of pointers ex
 
 *Note : The author relied on tools like [Intel VTune](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html) to measure performances.*
 
-### 🗣️ **Sébastien Gonzalve - *"Why you should move your legacy code to smart pointers"***
+### 🗣️ **Sébastien Gonzalve**: Why you should move your legacy code to smart pointers
 
 [🎥 Video](https://www.youtube.com/watch?v=OanwYoajPQw)
 
@@ -1447,7 +1447,7 @@ This is **really** better
 - Eliminate dangling pointers - reducing bugs
 - Enforce design + make the code self documented about ownership of datas
 
-### 🗣️ **Damien Buhl - *"Our Adventure building a massively scalable C++ remote compiler cloud"***
+### 🗣️ **Damien Buhl**: Our Adventure building a massively scalable C++ remote compiler cloud
 
 [🎥 Video](https://www.youtube.com/watch?v=pUnrvCuqVUs)
 
@@ -1543,7 +1543,7 @@ Tipi.build is **built** with tipi.build
 
 - [Jsonb](https://www.depesz.com/2014/03/25/waiting-for-9-4-introduce-jsonb-a-structured-format-for-storing-json/) : faster than [Mongodb](https://www.mongodb.com/)
 
-### 🗣️ **Sy Brand - *"On the Aesthetics of Code"***
+### 🗣️ **Sy Brand**: On the Aesthetics of Code
 
 [🎥 Video](https://www.youtube.com/watch?v=CkGqINHZit0)
 
@@ -1672,7 +1672,7 @@ beauty claims universality
 - Can my code reflect me ?
 - Can code be beautyful
 
-### **Joël Falcou & Fred Tingaud - Conclusion**
+### **Joël Falcou & Fred Tingaud**: Conclusion
 
 Fear that the conference won't work
 

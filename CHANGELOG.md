@@ -13,6 +13,17 @@ title: CHANGELOG
 
 ---
 
+## v1.0.4
+
+{:.heading.post-date}
+May 20 2026
+
+- [ ] 📰 Migration (WIP)
+  - [x] [Meeting Cpp 2021 - Trip report](https://gist.github.com/GuillaumeDua/b354dd4c46df160dbfd04c31b2a51c80)
+  - [x] [Concept-based polymorphism in modern C++](https://gist.github.com/GuillaumeDua/b0f5e3a40ce49468607dd62f7b7809b1)
+  - [ ] [Trip report : CPPP Conference 2019](https://gist.github.com/GuillaumeDua/eb0ffbb85b7793faec1d9b4ca4b1b47f)
+  - [ ] [C++ : Polymorphic inheritance without vtable](https://gist.github.com/GuillaumeDua/0239fda353264b67ddcb39b5d9a01105)
+
 ## v1.0.3
 
 {:.heading.post-date}
@@ -21,10 +32,6 @@ May 19 2026
 - [x] Homepage: better excerpt
 - [ ] 📰 Migration (WIP)
   - [x] [CPPP 2021 - trip report](https://gist.github.com/GuillaumeDua/f1884df852fc99e4df258c8d404e844f)
-  - [ ] [Meeting Cpp 2021 - Trip report](https://gist.github.com/GuillaumeDua/b354dd4c46df160dbfd04c31b2a51c80)
-  - [ ] [Concept-based polymorphism in modern C++](https://gist.github.com/GuillaumeDua/b0f5e3a40ce49468607dd62f7b7809b1)
-  - [ ] [Trip report : CPPP Conference 2019](https://gist.github.com/GuillaumeDua/eb0ffbb85b7793faec1d9b4ca4b1b47f)
-  - [ ] [C++ : Polymorphic inheritance without vtable](https://gist.github.com/GuillaumeDua/0239fda353264b67ddcb39b5d9a01105)
 
 ## v1.0.2
 

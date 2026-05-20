@@ -1899,5 +1899,5 @@ If you enjoyed this paper:
 ## Related posts
 
 - [Conference - Meeting Cpp 2024 - Trip report]({{ '/2025/03/01/meeting-cpp-2024-trip-report/' | relative_url }}).
-- [Conference - C++ in Paris Conference 2021 - Trip report](https://gist.github.com/GuillaumeDua/f1884df852fc99e4df258c8d404e844f)
-- [Conference - Meeting Cpp 2021 - Trip report](https://gist.github.com/GuillaumeDua/b354dd4c46df160dbfd04c31b2a51c80)
+- [Conference - C++ in Paris Conference 2021 - Trip report]({{ '/2022/05/05/cppp-2021-trip-report/' | relative_url }})
+- [Conference - Meeting Cpp 2021 - Trip report]({{ '/2021/11/24/meeting-cpp-2021-trip-report/' | relative_url }})

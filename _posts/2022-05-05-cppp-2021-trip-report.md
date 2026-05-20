@@ -1680,13 +1680,3 @@ Fear that the conference won't work
 - Yet, great feedbacks from speakers, attenders
 
 Thanks to the volunteers, peoples responsibles for the video/recording/multimedia side, peoples helping for the discord, and of course speakers & sponsors
-
-## 🧙 About the author
-
-> C++ & software architecture enthousiast,  
-> I've been learning & teaching C++/software-design as an expert for the last past +10 years.
-
-For a living, I mainly create **audits** to then save sinking projects 🚣🏻‍♂️.  
-*(codebase, design & architecture, tools, methodology, management & HR policies*)
-
-[🔗 linkedIn](https://fr.linkedin.com/in/guillaume-dua-541a40144) | [🔗 Github](https://github.com/GuillaumeDua) | [🔗 gist.Github](https://gist.github.com/GuillaumeDua)

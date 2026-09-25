@@ -75,9 +75,31 @@ menu:
   - title: Change log
     url: /CHANGELOG/
 
-# fallbacks
-image: /hydejack/assets/img/nap.jpg
-color: "#4f86aa"
+# ------------------------------------------------------------
+
+# jekyll-seo-tag reads page-level `image` only, hence `defaults` rather than a site-level key.
+# `hide_image` keeps the preview card out of Hydejack's post header, where `image` doubles as the cover.
+defaults:
+  - scope:
+      path: ""
+    values:
+      image:
+        path: /assets/img/og-default.png
+        alt: "Guillaume Dua - a blog about C++, software design and project management"
+        width: 1200
+        height: 630
+      hide_image: true
+
+# `links` feeds the JSON-LD sameAs, on / and /about/ only. `logo` feeds the publisher logo and the sidebar avatar.
+social:
+  name: Guillaume Dua
+  links:
+    - https://github.com/GuillaumeDua
+    - https://www.linkedin.com/in/guillaume-dua
+logo: /assets/img/me.jpg
+
+favicon: /assets/icons/favicon-32x32.png
+apple_touch_icon: /assets/icons/apple-touch-icon.png
 
 # google_analytics:
 

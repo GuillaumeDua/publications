@@ -865,7 +865,7 @@ Andreas demonstrated a broad range of features, each tied to a concrete use-case
 
 Overall, the talk was a tour of "modern tools solving common/old embedded problems" shown through minimal, digestible and realistic/plausible examples.
 
-![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - bit_cast]({{ page.image_path | relative_url }}/08-01-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-bit_cast.jpg)
+![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - bit_cast]({{ page.image_path | relative_url }}/08-01-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-bit-cast.jpg)
 ![Andreas Fertig: Embedded-Friendly C++: Features That Make a Difference - start-lifetime]({{ page.image_path | relative_url }}/08-02-andreas-fertig-embedded-friendly-cpp-features-that-make-a-difference-start-lifetime.jpg)
 
 #### My takeaway
@@ -1546,7 +1546,7 @@ consteval auto range_to_array() {
 }
 ```
 
-![Robin Savenen Soderholm: vector to array - usage]({{ page.image_path | relative_url }}/17-robin-savenen-soderholm-vector-to_array-usage.jpg)
+![Robin Savenen Soderholm: vector to array - usage]({{ page.image_path | relative_url }}/17-robin-savenen-soderholm-vector-to-array-usage.jpg)
 
 #### ⚡ **Ganest Rengasamy**: Meet Qt
 

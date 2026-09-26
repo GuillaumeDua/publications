@@ -179,33 +179,30 @@ blockquote {
 
 /* --- Posts --- */
 
+/* Table of contents.
+   The theme moves it into the right gutter past `--break-point-dynamic`;
+   assets/js/toc-sticky.js pins it there and tracks the section being read. */
 #markdown-toc {
-  max-height: none !important;
-  overflow: visible !important;
   border: 1px solid #311694;
 }
 
-/* #markdown-toc {
-  position: sticky;
-  max-height: 90vh;
-  overflow-y: auto;
-  width: 250px;
-  margin-left: 2rem;
-  margin-bottom: 1rem;
-  border: 1px solid #311694;
-  border-radius: 4px;
-  padding: 1rem 1rem 1rem 2rem;
-} */
+/* `body` matches the specificity of the theme's `body:not(.no-toc) #markdown-toc`,
+   whose `overscroll-behavior: contain` traps the wheel in the rail once the rail's
+   own scroll reaches an end. */
+body #markdown-toc.affix {
+  background: var(--body-bg);
+  overscroll-behavior: auto;
+  scrollbar-width: thin;
+}
 
-/* sticky ? */
-/* #markdown-toc {
-  position: fixed;
-  max-height: 100vh;
-  overflow-y: auto;
-  border: 1px solid #311694;
-  padding: 1rem 1rem 1rem 2rem;
-  border-radius: 4px;
-} */
+#markdown-toc a.toc-active {
+  color: var(--body-color);
+  font-weight: var(--font-weight-bold);
+}
+
+#markdown-toc a.toc-active-branch {
+  color: var(--body-color);
+}
 
 .size-small  { width: 30%; }
 .size-medium { width: 60%; }

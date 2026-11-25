@@ -7,6 +7,7 @@ title: CHANGELOG
 
 - 📰 blog posts
   - Simple CMake
+  - Meeting C++ 2026 - Trip report
   - C++ in 2026
   - IBA/IBP + TDD: providing a fail-safe work context for juniors and AIs
   - Retex: 10+ years learning and teaching C++

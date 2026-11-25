@@ -37,6 +37,7 @@ exclude:
   - README.md
   - notes.md
   - _posts/2025-03-20-cpp_in_2026.md
+  - _posts/2026-11-25-meeting-cpp-2026-trip-report.md
 
 include:
   - LICENSE

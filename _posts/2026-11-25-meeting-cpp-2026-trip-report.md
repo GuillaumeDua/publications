@@ -1322,7 +1322,7 @@ my own question: "First, sorry to be the bad guy here: in many companies, people
 
 #### My takeaway
 
-<!-- TODO -->
+very stressed and exhausted speaker -> first talk/presentation ever
 
 ### 🗣️ **Dawid Zalewski**: C++26 static reflection: All you need is annotations
 
@@ -1338,11 +1338,131 @@ my own question: "First, sorry to be the bad guy here: in many companies, people
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+- first, a small intro to reflection, so attendees can then understand annotations
+
+C++ reflection is not a smaller thing, it's a monster. But coupled with annotation that's something that enable us to write user-facing APIs in another way.
+
+- "use our APIs in a declarative way, out of the box"
+- we all want things that work out of the box
+- problems appear when we want to do weird things -> we then have to write our own code
+- frustrating, especially for beginners but not only
+
+Only one compiler supports annotations so far: GCC >= 16. Try it, it's fun
+
+#### Reflection 101
+
+- not likes templates
+- std::meta::info is not template -> but it's only consteval info -> you can't do anything with it at runtime
+
+reflection annotation and meta::info are the ying and yang of reflection
+
+#### Reflection 101: things to do with `std::meta::info`
+
+#### Reflection 101: anything changed yet ?
+
+- wanna get what changed between two values of some aggregate type
+- `std::meta::access_context::current()` -> only visible data member from this place -> so here, public
+- `[:m:]` -> splice expression -> needs `m` to be a constant-expression
+- `nonstatic_data_members_of` returns a `vector` -> not a constant expression because it references to a result of operator new
+- `std::define_static_array(nonstatic_data_members_of(^^T, ctx))` -> delegate to some static storage -> fix
+
+#### How to annotate ?
+
+- annotation look like - but are not - attribute: `[[= value]]`
+- annotation are linked to something in your code
+- to get back the information of an annotation, use `extract`
+- you can put annotation on anything that has a name: class, namespaces, etc.
+
+#### How to annotate: a tag
+
+- for instance, to turn a feature on or off in some place
+
+<!-- next slide will use acronyme to make code smaller --->
+<!-- next slides will use some functions defined in the few next slides to keep code small --->
+
+#### How to annotate: a wrapped value
+
+- why write this abomination ?
+- instead, use splice ?
+  - cannot
+
+Reason: annotation contains tons of other meta infos (position in code, etc.)
+
+#### How to annotate: a value with a default
+
+- do the conversion operator for the tolerance, then all the rest is automatic
+
+#### How to annotate: a list of values
+
+- span are not structual type, since it has private members -> so cannot be a NTTP -> won't work
+- work-around for now: old-school const * + std::size_t
+
+#### How to annotate: the rust way
+
+for opt-ins
+
+#### structured binding
+
+- works with aggregates, std::array and tuplelikes
+- does not work with inaccessible members -> wont build
+- one then have to expose a custom tuplelike interface -> tuple_element, tuple_size -> how to access such members
+
+#### structured binding: once and for all
+
+- let's generate it for anything that can bind
+
+#### structured binding: access context
+
+unchecked
+
+#### structured binding: let's mess up
+
+- if someone add some data members, or if reorder data members -> it breaks
+- we dont want our private layout to be the public api
+
+#### structured binding: pick the members
+
+#### structured binding: fix the order
+
+- using a parameter for the unpack annotation
+
+#### BTW, we can throw compile-time exceptions
+
+#### structured-binding: functions (a.k.a getters)
+
+#### Secure views: the why
+
+#### Secure views: we need `define_aggregate`
+
+- let's do it from the bottom-up
+- express the same thing as classic c++, but with reflection-driven C++
+
+<!-- missing some sections here -->
+
+#### Secure views: the visible members
+
+- list annotations
+
+#### Secure views: one view per role
+
+#### Secure views: making one
+
+- how to initialize such values
+- C++26 -> structured-binding pack
+
+#### Secure views: the toolbox
+
+
+
+
+
+
+
+
 
 #### My takeaway
 
-<!-- TODO -->
+Fucking masterclass ! OMG loved it !
 
 <!-- 18:45 - Speaker and Staff Dinner, at Peridot. Speakers and staff only. -->
 

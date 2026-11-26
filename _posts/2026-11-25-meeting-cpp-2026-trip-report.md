@@ -1338,6 +1338,8 @@ very stressed and exhausted speaker -> first talk/presentation ever
 
 [🎥 Video](), [📄 slidedeck]()
 
+Subtitle of the deck: *Compile-time programming with C++26 static reflection*.
+
 - first, a small intro to reflection, so attendees can then understand annotations
 
 C++ reflection is not a smaller thing, it's a monster. But coupled with annotation that's something that enable us to write user-facing APIs in another way.
@@ -1349,6 +1351,57 @@ C++ reflection is not a smaller thing, it's a monster. But coupled with annotati
 
 Only one compiler supports annotations so far: GCC >= 16. Try it, it's fun
 
+> Within C++, there is a much smaller and cleaner language struggling to get out.
+>
+> - Bjarne Stroustrup
+
+The opening example, hand-written:
+
+```cpp
+class WeirdData {
+public:
+  WeirdData(uint32_t machine_id, std::string_view batch, std::string_view serial_nr);
+
+  friend constexpr auto operator<=>(const WeirdData&, const WeirdData&);
+
+  std::string unique_id() const { return batch_ + " " + serial_nr_; }
+
+private:
+  uint32_t    machine_id_;
+  std::string batch_;
+  std::string serial_nr_;
+};
+
+constexpr auto operator<=>(const WeirdData& lhs, const WeirdData& rhs) = default;
+```
+
+and the same thing declared, which is where the talk is going:
+
+```cpp
+class [[=derive(spaceship)]] WeirdData {
+public:
+  WeirdData(uint32_t machine_id, std::string_view batch, std::string_view serial_nr);
+
+  [[=compare_key(0)]]
+  std::string unique_id() const { return batch_ + " " + serial_nr_; }
+
+private:
+  [[=compare_key(1)]] uint32_t    machine_id_;
+                      std::string batch_;
+                      std::string serial_nr_;
+};
+```
+
+- <https://godbolt.org/z/nobGKn8dr>
+
+The roadmap, compile time on the left, runtime on the right:
+
+- 01 Reflection 101 - `^^T`, `[: r :]`
+- 02 How to annotate - `[[=Min(3)]]`
+- 03 Bind any class - `auto [a, b] = obj;`
+- 04 Secure views - `define_aggregate`
+- 05 Validating builder - `Builder<T>{}.build()`
+
 #### Reflection 101
 
 - not likes templates
@@ -1356,15 +1409,92 @@ Only one compiler supports annotations so far: GCC >= 16. Try it, it's fun
 
 reflection annotation and meta::info are the ying and yang of reflection
 
+```cpp
+struct Account {
+  int    id;
+  double balance;
+};
+
+int main() {
+  constexpr auto refl = ^^Account;
+
+  auto account = typename [: refl :]{42, 42.24};
+}
+```
+
+- `^^Account` produces a consteval-only reflection value
+- `[: refl :]` is a splice: it turns the reflection back into its underlying entity, here with `typename`, the type `Account`
+- the round trip he draws as a circle: `^^Account` goes one way, `[: reflection :]` comes back
+
 #### Reflection 101: things to do with `std::meta::info`
+
+```cpp
+struct Account { int id; double balance; };
+
+identifier_of(^^Account)                 // "Account"sv
+
+constexpr auto ctx = std::meta::access_context::current();
+nonstatic_data_members_of(^^Account, ctx) // std::vector<std::meta::info>
+type_of(^^Account::balance)               // ^^double
+is_public(^^Account::balance)             // true
+```
+
+- names come back as `std::string_view`
+- multiple items are put in a `std::vector` of reflections
+- a member is a reflection too: ask for its type, its access, its offset, ...
 
 #### Reflection 101: anything changed yet ?
 
 - wanna get what changed between two values of some aggregate type
+
+```cpp
+Account before{42, 42.24};
+Account after = before;
+after.balance += 100;
+
+auto diff = changed_fields(before, after);  // => {"balance"sv}
+```
+
+- any aggregate goes in, the names of the members that differ come out
+
+The naive implementation does not build:
+
+```cpp
+template <typename T>
+auto changed_fields(const T& a, const T& b) {
+  std::vector<std::string_view> changed{};
+  constexpr auto ctx = std::meta::access_context::current();
+  for (auto m : nonstatic_data_members_of(^^T, ctx)) {
+    if (a.[:m:] != b.[:m:])
+      changed.push_back(identifier_of(m));
+  }
+  return changed;
+}
+```
+
+```text
+error: the value of 'm' is not usable in a constant expression
+note: 'm' was not declared 'constexpr'
+```
+
 - `std::meta::access_context::current()` -> only visible data member from this place -> so here, public
 - `[:m:]` -> splice expression -> needs `m` to be a constant-expression
+- first fix, `template for (constexpr auto m : ...)`: the body is stamped out once per member, and in each copy `m` is a constant
 - `nonstatic_data_members_of` returns a `vector` -> not a constant expression because it references to a result of operator new
-- `std::define_static_array(nonstatic_data_members_of(^^T, ctx))` -> delegate to some static storage -> fix
+- `std::define_static_array(nonstatic_data_members_of(^^T, ctx))` -> delegate to some static storage -> fix, it copies into a static storage array
+
+```cpp
+template for (constexpr auto m :
+              std::define_static_array(nonstatic_data_members_of(^^T, ctx))) {
+```
+
+#### Reflection 101, the toolbox
+
+- reflect: `^^Entity` - a program's entity becomes a `std::meta::info` value
+- splice: `[: reflection :]` - a reflection goes back to code
+- query: `identifier_of(r)`, `type_of(r)`, `nonstatic_data_members_of(r, ctx)` - consteval queries
+- repeat: `template for (constexpr auto m : ...)` - one copy of the body per element
+- keep: `std::define_static_array(...)` - compile-time static storage made easy
 
 #### How to annotate ?
 
@@ -1373,14 +1503,73 @@ reflection annotation and meta::info are the ying and yang of reflection
 - to get back the information of an annotation, use `extract`
 - you can put annotation on anything that has a name: class, namespaces, etc.
 
+```cpp
+[[=42]]
+void function(){/*---*/}
+
+constexpr auto a = annotations_of(^^function)[0];  // a reflection of it
+static_assert(extract<int>(a) == 42);              // its value
+
+function();                                        // nothing special here
+```
+
+- an *annotation* is a value: `[[= any constant expression ]]`, of *structural type*
+- grab them with `annotations_of(refl)`
+- get the value of one with `extract<TypeOfAnnotation>(refl_of_ann)`
+- **an annotation does nothing by itself**
+
 #### How to annotate: a tag
 
 - for instance, to turn a feature on or off in some place
 
-<!-- next slide will use acronyme to make code smaller --->
-<!-- next slides will use some functions defined in the few next slides to keep code small --->
+```cpp
+struct skip_t {};
+constexpr skip_t skip{};
+
+struct Account { int id; double balance; [[=skip]] std::int64_t last_seen; };
+```
+
+Reading it back: `annotations_of_with_type(refl, ^^type) -> std::vector<std::meta::info>`, that is, a reflection of an annotated entity plus an annotation type, giving a vector of reflections of annotations.
+
+```cpp
+template for (constexpr auto m : dsa_nsdm(^^Account, ctx)) {
+  if constexpr (annotations_of_with_type(m, ^^skip_t).empty())
+    if (a.[:m:] != b.[:m:])
+      changed.push_back(identifier_of(m));
+}
+```
+
+- `dsa_nsdm` is his own shorthand for `define_static_array(nonstatic_data_members_of(...))`, to keep the slides narrow
+- the same goes for the predicate, which he factors out and reuses for the rest of the talk:
+
+```cpp
+template <typename Type>
+consteval bool has_annotation(std::meta::info r) {
+  return !annotations_of_with_type(r, ^^Type).empty();
+}
+```
 
 #### How to annotate: a wrapped value
+
+The motivation is floating-point comparison: `changed_fields` reports `{"balance"sv}` for a balance that went `0.1 + 0.2` against `0.3`, because `0.3 - (0.1 + 0.2) == -5.55112e-17`. So the annotation carries the tolerance:
+
+```cpp
+struct tolerance_t { double eps; };
+
+struct Account {                    int id;
+  [[=tolerance_t{0.005}]]           double balance;
+};
+
+template for (constexpr auto m : dsa_nsdm(^^Account, ctx)) {
+  bool differ = a.[:m:] != b.[:m:];
+  if constexpr (has_annotation<tolerance_t>(m)) {
+    constexpr auto tol = extract<tolerance_t>(annotations_of_with_type(m, ^^tolerance_t)[0]);
+    differ = std::abs(a.[:m:] - b.[:m:]) > tol.eps;
+  }
+  if (differ)
+    changed.push_back(identifier_of(m));
+}
+```
 
 - why write this abomination ?
 - instead, use splice ?
@@ -1388,18 +1577,99 @@ reflection annotation and meta::info are the ying and yang of reflection
 
 Reason: annotation contains tons of other meta infos (position in code, etc.)
 
+- the slide puts it as: **annotations are special, they carry extra information, not just a value**
+- what does work is going through `constant_of`:
+
+```cpp
+constexpr auto tol = [: constant_of(annotations_of_with_type(m, ^^tolerance_t)[0]) :];
+```
+
+- and the whole thing gets a helper, used from here on:
+
+```cpp
+template <typename Type>
+consteval Type extract_first(std::meta::info r) {
+  return extract<Type>(annotations_of_with_type(r, ^^Type)[0]);
+}
+```
+
 #### How to annotate: a value with a default
 
 - do the conversion operator for the tolerance, then all the rest is automatic
+
+```cpp
+struct tolerance_t {
+  double eps{ 0.005 };
+};
+constexpr tolerance_t tolerance{};
+
+struct Account {           int id;
+  [[=tolerance]]           double balance;       // eps == 0.005
+  [[=tolerance]]           double prev_balance;
+  [[=tolerance(1E-9)]]     double interest_rate;
+};
+```
+
+- the `tolerance(1E-9)` form needs a call operator on `tolerance_t`; `unpack_t`, further down, is the same pattern spelled out in full
 
 #### How to annotate: a list of values
 
 - span are not structual type, since it has private members -> so cannot be a NTTP -> won't work
 - work-around for now: old-school const * + std::size_t
 
+```cpp
+enum class role { owner, admin, auditor };
+
+struct accessible_by {
+  const role* roles;
+  std::size_t count;
+
+  consteval accessible_by(std::same_as<role> auto... rs)
+    : roles{std::define_static_array(std::array{rs...}).data()},
+      count{sizeof...(rs)} {}
+};
+
+struct Account {
+  [[=accessible_by(role::owner, role::admin)]] double balance;
+  /* ~~~ */
+};
+```
+
+```text
+error: annotation does not have structural type
+note: 'accessible_by::roles' has a non-structural type
+```
+
+- that error is what you get with `std::span<const role> roles;`, hence the pointer plus count
+
 #### How to annotate: the rust way
 
 for opt-ins
+
+```cpp
+struct diffable_t {};
+constexpr diffable_t diffable{};
+
+template <typename T>
+struct derive { T what; };
+
+struct [[=derive(diffable)]] Account { /* ~~~ */ };
+
+template <typename T>
+  requires (has_annotation<derive<diffable_t>>(^^T))
+auto changed_fields(const T& a, const T& b) { /* ~~~ */ }
+```
+
+- aggregate initialization plus template argument deduction at work
+- the wrapped tag is `derive<diffable_t>`
+
+#### How to annotate, the toolbox
+
+- tag: `[[=skip]]`
+- value: `[[=tolerance_t{0.005}]]`
+- value with a default: `[[=tolerance]]`, `[[=tolerance(1E-9)]]`
+- a list of values: `[[=accessible_by(role::owner, role::admin)]]`
+- the rust way: `[[=derive(diffable)]]`
 
 #### structured binding
 
@@ -1407,58 +1677,373 @@ for opt-ins
 - does not work with inaccessible members -> wont build
 - one then have to expose a custom tuplelike interface -> tuple_element, tuple_size -> how to access such members
 
+```cpp
+class Account {
+public:
+  Account(int id, double balance) : id_{id}, balance_{balance} {}
+  int    id()      const { return id_; }
+  double balance() const { return balance_; }
+private:
+  int    id_;
+  double balance_;
+};
+
+Account acc{42, 42.24};
+auto [id, balance] = acc;
+```
+
+```text
+error: cannot decompose inaccessible member 'Account::id_' of 'Account'
+note: declared private here
+```
+
+The tuple protocol, written out by hand:
+
+```cpp
+template <> struct std::tuple_size<Account> {
+  static constexpr std::size_t value = 2;
+};
+template <> struct std::tuple_element<0, Account> { using type = int;    };
+template <> struct std::tuple_element<1, Account> { using type = double; };
+
+template <std::size_t I>
+auto get(const Account& acc) {          // found by ADL
+  if constexpr (I == 0) return acc.id();
+  else                  return acc.balance();
+}
+
+auto [id, balance] = acc;
+```
+
+> Defining tuple-like access (...) for simple classes is (...) tedious, repetitive, slightly error-prone, and easily automated.
+>
+> - P0197R0 *Default Tuple-like Access* (2016), Vicente J. Botet Escriba
+
 #### structured binding: once and for all
 
 - let's generate it for anything that can bind
 
+```cpp
+template <TupleLike T> struct std::tuple_size<T> {
+  static constexpr std::size_t value = members_to_bind(^^T).size();
+};
+template <std::size_t I, TupleLike T> struct std::tuple_element<I, T> {
+  using type = [: type_of(members_to_bind(^^T)[I]) :];
+};
+
+template <std::size_t I, typename T> requires TupleLike<std::remove_cvref_t<T>>
+auto&& get(T&& obj) {
+  constexpr auto m = members_to_bind(^^std::remove_cvref_t<T>)[I];
+  return std::forward<T>(obj).[: m :];
+}
+```
+
+- it still won't compile, though, mostly because the code silently moved from *getters* to *private data members*
+
 #### structured binding: access context
 
 unchecked
+
+```cpp
+struct tuple_like_t {};
+constexpr tuple_like_t tuple_like{};
+
+template <typename T>
+concept TupleLike = has_annotation<derive<tuple_like_t>>(^^T);
+
+class [[=derive(tuple_like)]] Account { /* ~~~ */ private: int id_; double balance_; };
+
+constexpr auto ctx = std::meta::access_context::unchecked();
+
+consteval auto members_to_bind(std::meta::info type) {
+  return nonstatic_data_members_of(type, ctx);
+}
+
+auto [id, balance] = acc;   // compiles => id == 42, balance == 42.24
+```
+
+- `access_context::unchecked()` has god-like powers: every member, whatever its access
+- against `access_context::current()`, which sees what this spot in the code may access
 
 #### structured binding: let's mess up
 
 - if someone add some data members, or if reorder data members -> it breaks
 - we dont want our private layout to be the public api
 
+```cpp
+class [[=derive(tuple_like)]] Account {
+  /* ~~~ */
+private:
+  double balance_;
+  int    id_;
+};
+
+auto [id, balance] = acc;   // => id == 42.24, balance == 42
+```
+
+- the slide's one-liner: **private layout != public API**
+
 #### structured binding: pick the members
+
+```cpp
+struct unpack_t {};
+constexpr unpack_t unpack{};
+
+class [[=derive(tuple_like)]] Account {
+  /* ~~~ */
+private:
+  [[=unpack]] int         id_;
+  [[=unpack]] double      balance_;
+              std::int64_t last_seen_;
+};
+
+consteval auto members_to_bind(std::meta::info type) {
+  std::vector<std::meta::info> membs;
+  for (auto m : nonstatic_data_members_of(type, ctx))
+    if (has_annotation<unpack_t>(m))
+      membs.push_back(m);
+  return membs.empty() ? nonstatic_data_members_of(type, ctx) : membs;
+}
+```
+
+- annotate nothing and you get every member back, so the opt-in costs nothing by default
 
 #### structured binding: fix the order
 
 - using a parameter for the unpack annotation
 
+```cpp
+struct unpack_t {
+  std::size_t ord = -1;
+  constexpr unpack_t operator()(std::size_t n) const { return {n}; }
+};
+constexpr unpack_t unpack{};
+
+class [[=derive(tuple_like)]] Account { /* ~~~ */
+  [[=unpack(1)]] double       balance_;
+  [[=unpack(0)]] int          id_;
+                 std::int64_t last_seen_;
+};
+```
+
+```cpp
+consteval auto members_to_bind(std::meta::info type) {
+  struct entry { std::size_t ord, pos; std::meta::info m; };
+  std::vector<entry> entries;
+  for (auto m : nonstatic_data_members_of(type, ctx))
+    if (has_annotation<unpack_t>(m))
+      entries.push_back({extract_first<unpack_t>(m).ord, entries.size(), m});
+  if (entries.empty())
+    return nonstatic_data_members_of(type, ctx);
+  std::ranges::sort(entries, {}, [](entry e) { return std::pair{e.ord, e.pos}; });
+  return entries | std::views::transform(&entry::m) | std::ranges::to<std::vector>();
+}
+
+auto [id, balance] = acc;   // => id == 42, balance == 42.24
+```
+
+- the recipe as he states it: `membs` becomes `entries` (order from the annotation, layout position, member info), then sort by (unpack order, layout position) to pin the order
+
 #### BTW, we can throw compile-time exceptions
+
+```cpp
+for (std::size_t i = 1; i < entries.size(); ++i)
+  if (entries[i].ord == entries[i - 1].ord && entries[i].ord != unpack.ord)  // two -1's are OK
+    throw std::meta::exception("two members bind to the same position", entries[i].m);
+```
+
+```text
+error: uncaught exception of type 'std::meta::exception'; 'what()': 'two members bind to the same position'
+```
 
 #### structured-binding: functions (a.k.a getters)
 
+```cpp
+consteval auto members_to_bind(std::meta::info type) { /* ~~~ */
+  for (auto m : members_of(type, ctx)) /* ~~~ */
+}
+
+template <std::size_t I, TupleLike T> struct std::tuple_element<I, T> {
+  static constexpr auto m = members_to_bind(^^T)[I];
+  using type = [: std::meta::is_function(m) ? return_type_of(m) : type_of(m) :];
+};
+
+template <std::size_t I, typename T> requires TupleLike<std::remove_cvref_t<T>>
+decltype(auto) get(T&& obj) {
+  constexpr auto m = members_to_bind(^^std::remove_cvref_t<T>)[I];
+  if constexpr (std::meta::is_function(m)) return std::forward<T>(obj).[: m :]();
+  else                                     return (std::forward<T>(obj).[: m :]);
+}
+
+auto [overdrawn, id, balance] = acc;
+```
+
+- `members_of` instead of `nonstatic_data_members_of` brings in member functions, not only data members
+- `decltype(auto)` is what makes a function result forwarded and a member returned by reference, hence the parentheses in the `else`
+
+#### The toolbox
+
+- surprise: `obj.[: m :]` - the splice does not check access
+- access: `access_context::unchecked()` sees what your eyes can see, `access_context::current()` sees what this spot in the code may access
+- POC++: `std::vector`, `std::ranges::sort`, `std::pair` - annotations are plain values, `extract<AnnType>(m)` gives a value, and most containers and algorithms work in `consteval` code
+- throw: `throw std::meta::exception(msg, r)` - errors at compile time; uncaught gives a compile error with a message, `try` / `catch` works at compile time too, and `std::meta` functions throw it themselves
+
 #### Secure views: the why
+
+```cpp
+struct Account {
+  int         id;
+  double      balance;
+  std::int64_t last_seen;
+  std::string pin;
+};
+
+void audit(const Account& acc) {
+  std::println("{} last seen {}", acc.id, acc.last_seen);
+  std::println("pin: {}", acc.pin);        // compiles, runs & prints
+}
+```
+
+Where he wants to land:
+
+```cpp
+void audit(secure_view<Account, role::auditor> acc) {
+  std::println("{} last seen {}", acc.id, acc.last_seen);
+  std::println("pin: {}", acc.pin);
+}
+```
+
+```text
+error: 'secure_view<Account, role::auditor>' has no member named 'pin'
+```
+
+- `private` and `friend` are all-or-nothing relationships, which is the whole problem
 
 #### Secure views: we need `define_aggregate`
 
 - let's do it from the bottom-up
 - express the same thing as classic c++, but with reflection-driven C++
 
-<!-- missing some sections here -->
+```cpp
+struct auditor_view;
+consteval {
+  define_aggregate(^^auditor_view, {
+    data_member_spec(^^const int&,          {.name = "id"}),
+    data_member_spec(^^const std::int64_t&, {.name = "last_seen"}),
+  });
+}
+
+auditor_view v{acc.id, acc.last_seen};
+```
+
+- a struct of references, so that nothing is copied
+- an incomplete class, which `define_aggregate` then completes
+- one `data_member_spec` per data member
+- only inside a `consteval { }` block
+
+#### Secure views: who sees what
+
+```cpp
+enum class role { owner, admin, auditor };
+struct accessible_by { const role* roles; std::size_t count; /* ~~~ */ };
+
+struct Account {
+  [[=accessible_by(role::owner, role::admin, role::auditor)]] int          id;
+  [[=accessible_by(role::owner, role::admin)]]                double       balance;
+  [[=accessible_by(role::admin, role::auditor)]]              std::int64_t last_seen;
+                                                              std::string  pin;
+};
+```
+
+- `accessible_by` says who may see each member
+- no annotation, no biggie: no one sees it, which is what keeps `pin` out of every view
 
 #### Secure views: the visible members
 
 - list annotations
 
+```cpp
+consteval bool can_see(std::meta::info m, role who) {
+  if (!has_annotation<accessible_by>(m)) return false;
+  auto a = extract_first<accessible_by>(m);
+  return std::ranges::contains(std::span{a.roles, a.count}, who);
+}
+
+consteval auto visible_members(std::meta::info type, role who) {
+  return nonstatic_data_members_of(type, ctx)
+       | std::views::filter([who](auto m) { return can_see(m, who); })
+       | std::ranges::to<std::vector>();
+}
+```
+
 #### Secure views: one view per role
+
+```cpp
+template <typename T, role Who>
+struct secure_view_impl {
+  struct type;
+  consteval {
+    std::vector<std::meta::info> specs;
+    for (auto m : visible_members(^^T, Who))
+      specs.push_back(data_member_spec(add_lvalue_reference(add_const(type_of(m))),
+                                       {.name = identifier_of(m)}));
+    define_aggregate(^^type, specs);
+  }
+};
+
+template <typename T, role Who>
+using secure_view = secure_view_impl<T, Who>::type;
+```
+
+- `add_const`, `add_lvalue_reference` and friends are `std::meta` type traits for reflections
+- one synthesized `secure_view` type per `<T, Who>`
+
+What the compiler ends up building, for the three roles:
+
+```cpp
+// role::owner                 // role::admin                      // role::auditor
+struct type {                  struct type {                       struct type {
+  const int&    id;              const int&          id;             const int&          id;
+  const double& balance;         const double&       balance;        const std::int64_t& last_seen;
+};                               const std::int64_t& last_seen;    };
+                               };
+```
 
 #### Secure views: making one
 
 - how to initialize such values
 - C++26 -> structured-binding pack
 
+```cpp
+template <role Who, typename T>
+secure_view<T, Who> view_as(const T& obj) {
+  constexpr auto [...ms] = [: reflect_constant_array(visible_members(^^T, Who)) :];
+  return { obj.[: ms :]... };
+}
+```
+
+- `auto [...ms]` is a structured binding pack (C++ *hopefully* 26)
+- the first attempt used `std::define_static_array(...)` there and did not compile; `reflect_constant_array` turns a range into a reflection *of an array*, and arrays bind
+
+And it works:
+
+```cpp
+Account acc{42, 42.24, 1'700'000'000, "1234"};
+audit(view_as<role::auditor>(acc));
+
+auto [id, balance, last_seen] = view_as<role::admin>(acc);
+std::println("{}, balance {}, last seen {}", id, balance, last_seen);
+// 42, balance 42.24, last seen 1700000000
+```
+
 #### Secure views: the toolbox
 
-
-
-
-
-
-
-
+- feed: `[[=accessible_by(role::owner, role::admin)]]` - a list of values
+- fetch: `visible_members(^^T, Who)` - consteval, plain old C++
+- describe a member: `data_member_spec(^^m_type, {.name = ...})` - a data member, as a reflection
+- generate: `define_aggregate(^^a_type, {specs...})` - fills an incomplete class with data members, only in a `consteval { }` block, and the block sits right next to the class
+- initialize: `auto [...ms] = [: reflect_constant_array(...) :]` - one constant per member, as a pack
+- <https://godbolt.org/z/8zYoTfYY5>
 
 #### My takeaway
 

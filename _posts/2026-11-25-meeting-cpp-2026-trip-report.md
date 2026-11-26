@@ -130,9 +130,548 @@ Meeting  C++ started in 2012
 
 <!-- TODO: content -->
 
+"11 tips to elevate from repo to professional product"
+
+Known from his units library: mpunits. Evolution working group at the iso comitee
+
+Opening questions:
+
+- who ever wanted to use a 3rd party library, but found it too use to hard ?
+- who contributed ?
+- why likes writing documentation -> no one ?
+
+Why some projects fails, and how to improve that ?
+
+"Which project should I contribute/choose to learn modern c++ ?" -> well, it depends ...
+
+- builder are people who identify problems no one assigned them to solve
+- the specific pursuite matters less than the fact that you chose it yourself
+
+#### 1
+
+Choose:
+- the project you're interested in.
+- open source
+  - no contraints
+    - no limit specific to production project
+    - you decide which compilers and language version to target
+    - no customer requirements, no company coding standards
+  - you need a mission
+    - otherwise, it might become another boring job -> and you have a life, perhaps a family, etc.
+
+C++ libraries are great, but often frustrating to use
+Technical excellence != project excellence
+
+The "fortress" library syndrome:
+
+- hard to enter: tons of requirements like "install clang, cmake, conan, etc."
+- hard to understand the project itself -> no documentation, have to read the header files, which tools to use, etc.
+- defensive maintenainers: refuse to challenge design, refuse some contributions
+- no clear path to contributing: no CONTRIBUTING.md file, no "good first issue" label, etc. -> "just look at the code to see how it works"
+
+#### cost of friction
+
+- users -> give up and write their own project/libraraies -> NIH syndrome
+- contributors move to easier ecosystem: rust, python, etc.
+
+Goal of the talk:
+
+- 11 points on how to improve
+- tranform your repo from "code dump" to "production ready product"
+- turn curious visitors -> into active contributors and advocate
+
+#### user journey
+
+- discovery: one have to find the library
+- evaluation: does it work ? still maintained ? covered by some CI ?
+- understanding: how to use it ? how to integrate it to your project ?
+- integration
+- contribution -> do the project maintainers need some help ?
+
+#### stage 1 - discovery
+
+example: `mpusz/units`
+
+- not a good idea to provide such a generic name -> find a unique name
+- mpunits is unique, as opposed to just "units"
+- be consistent -> use it everywhere -> github repo, cmake target, conan package, namespace, include paths, etc.
+- straight-forward names, not some obscur acronyme
+- dont aggregate multiples projects into one repo
+
+The "5 minutes README test"
+
+- logo & badges: build status, coverage, license, version, etc.
+- the pitch
+- quick-start
+- live demo -> compiler explorer link
+
+Bad vs. good pitch
+
+- not too short, not too generic
+
+Track your reach as a project creator/maintainer
+
+- Star history -> track how your library is being adopted, compared to similar projects
+
+Discoverability blueprint
+
+- dont be a hidden gem ! If you dont advertise, it does not exist !
+- unique, searchable project name
+- consistent naming (namespace, cmake, package, header, etc.)
+- README
+- code example on the first screen
+- etc.
+
+#### Stage 2: evaluation
+
+the "green master" philosophy
+
+- one broken build is enough to loose some users's trust
+- portability is not a "future goal" -> it's a requirement
+
+have a CI/CD pipeline
+
+- github actions are the gold standard for OS
+  - compilers
+  - architectures
+  - configurations
+    - c++ standard
+    - formatting: fmtlib vs. std::format
+    - contracts: std, gsl-like, ms-gsl, none
+    - build: debut vs. release
+    - modules, import std, free standarding
+
+We should test all of those.
+
+For testing:
+
+- `-Wall` is not enough. your users compile your headers with their flags, not yours
+- you have to be the most restrictive user of your own library -> setup everything, all the most restrictivbe warnings: conversions, shadown, old-style-cast.
+- waarning as error in CI
+
+Only package AFTER the CI build matrix is successful
+
+Fuzz the build matrix: it is not possible to test everything -> CI workers limitation, causing timeout, long wait, etc.
+
+- each vector catches different bugs
+  - modules: missing export
+  - import std: header/module mixing conflicts
+  - freestanding: accidental `<iostream>`, etc.
+  - gsl-like vs. ms-gsl
+  - fmt vs. std::format
+  - oldest compiler
+
+Aim for 100% coverage
+
+- different compilers
+- different STL implemenations
+- etc.
+
+Random, but reproducible CI runs
+
+- random seed: github actions workflow_dispatch inputs
+  - specify seed
+  - seed = 0 -> generate new randomized matrix
+
+The quality gate: pre-commit hooks
+
+- static analysis (clang-tidy)
+- sanitizers (asan, usan, etc.) for runtime-heavy code
+- unit tests
+- measure code-coverage -> still a pain for consteval code
+- integration test
+
+Verify cmake consomption works (find_package)
+verify conan consumption works
+etc.
+
+Performance: prove it, track it
+
+- hard/cannot measure wall time on gh runner -> depends on the machine, different eveyrtime -> cannot be trusted
+- have proper instrumentalisation: CodSpeed or valgrind: count instructions, not seconds
+- relative comparison: cancels differences between machines, but not varied workload
+- diff the assembnly: against a hand-written
+
+If something fails -> have some report generated in github
+
+Keep the `main` branch always working !
+
+- branch protection
+- require passing CI
+- no direct push to main
+- no force pushes, no deletions
+- require PR reviews
+
+For solo developers:
+
+- local CI mirror -> some `check-all.sh` script for instance
+- pre-commit hooks
+- run both before every push
+- PR anyway for breaking changes
+
+#### stage 3: understanding
+
+the documentation paradox
+
+- how many of you enjoy writing documentation vs. how many of you appreciate a good documentation in a 3rd party software
+- doxygen encourages "invetory documentation"
+- be careful about useless documentation "set_width(width) width is the width to set" -> favor self-explainatory code
+- doxygen as a dictionary, prose documentation as a textbook -> complementary for users
+- writing documentation is not actually boring -> can be a fascinating design-related exercise
+
+What to do:
+
+- show off -> you spent weeks on a feature
+- explain
+- improve
+- repeat
+
+Systematic approach to technical documentation (diataxis.fr).
+Quadrants:
+
+- tutorials -> "I wanna lear"
+- how-to guides -> "I need to solve X"
+- explanation -> "I want to understand, how it works"
+- references -> "what's the API ?"
+
+Only doxygen -> mostly only the "Reference" quadrant
+
+beyond the 4 quadrants: each serves a spcific user need in the lifecycle
+
+- getting started
+- examples
+- migration guide -> from another library to this one
+- blog/release notes
+- bibliography: iso standards, academic references
+
+Encouraging you to have great documentation
+
+- `ProperDocs` with Material theme
+  - drop-in continuation of `MkDocs 1.x`
+  - used for mp-units
+  - API reference input generated by `MrDocs`
+- Sphinx with ReadTheDocs
+  - python ecosystem
+  - conan documentation
+- write the prose in Markdown
+
+#### zero-cost prototyping/playing
+
+- compiler explorer demo -> so users can instantly play with your library
+  - no install
+  - instant sharing
+  - libraries support, especially for header-only
+  - supports the fill lifecycle coverage
+    - prototyping -> explore ideas in seconds
+    - design discussion
+    - bug report -> add shared link in your bug-report filled form
+    - nice as part of the documentation
+  - zero-overheaad/MVE proofs
+  - contributors onboarding
+
+Don't claim overhead, show the assembly with compiler-explorer links
+
+Tutorials -> shared "play with it" comnpiler-explorer links
+interactive embeds in doc tutorials
+
+Provide release tags for your library -> stabilite guarantee
+
+#### seemless integration -> dependencies hurt the most
+
+- "managing libraries is the most pain-point in the C++ ecosystem"
+- lot of libraries have cmake written not for consumption -> hard to be consumed by others -> "asocial libraries"
+  - build.sh script
+  - no cmake exported target
+  - no ... (FILL WITH SLIDE)
+
+Seamless integration
+
+- users have their own build system -> repsect iut
+- cmake + conan/vcpkg
+
+No everyone is using package managers today -> and that's ok -> meet users where they are
+Lots of different consumption paths
+
+- legacy & coroporage environments
+  - strict dpenedency policies
+  - air-hgapped networks
+  - existing monorepo
+- niche and experimental builds
+  - cpm/fetchcontent
+  - bazel, meson, build2
+  - add_subdirectory
+
+Package manager use tend to grow a bit, but slowly -> conan/vcpkg vs. source integration
+
+#### modern cmake
+
+- target, not variables
+- simple consumption: find_package(yourlib required) + target_link_libraries
+
+#### C++ standard -> which C++ standard your users use ?
+
+- newest stand may loose some users ...
+- 28% of users cannot upgrade because compilers or libraries do not support a newer standard ...
+
+#### wide compatibility: the C++ reality
+
+- compiler have regression: ABI break, etc. -> may force you to skip some specific versions. For instance, mpunits support clang >= 16 but not 19 and 22.
+
+Conan is great because you can have different configuration options -> each can be turned on/off -> strategy
+
+#### Stage 5 - contribution "do peoples wants to help ?
+
+Have some collaborative triage
+Communication is the heart of your library
+
+First: separate issue from discussions
+
+Issues
+
+- actionable bugs
+- tasks
+- spcific feature requests
+
+Discussions
+
+- Q&A
+- show and tell
+- ideas
+- design proposals / RFCs, etc.
+
+The  "it doesnt work" loop -> waste time,  create confusion when users cannot explain what does not work for them
+
+- have issues templates -> build config, compiler-explorer MVE as a shared link, etc.
+- be nice to your users
+  - always thanks for reporting
+  - Empathy for the user's frustration
+  - professionalism > ego.
+  - be welcoming to everyone
+
+One-click dev environment
+
+- docker devcontainer -> everything in a clic to start working in one place. Greatly integrated in most IDEs live `vscode`. Embed the toolchain, etc.
+- compilers, build, analysis, docs, profiles, cache -> all required tools at once
+- not just for external contributors -> for your team -> consistency -> everyone have the same configuration, environment, etc.
+- can be run locally, not only in code spaces
+- provide better PR testing
+
+CI failing report can then integrate some "how to reproduce" command line that can be fed to some docker container
+
+#### community
+
+- a git tag is not user communication
+- How to migrate ?
+- What if it breaks something ?
+- Need to explain how change will affect users
+
+Inform the community about cool stuffs that you've done -> release are marketing events.
+
+Prose-based release notes
+
+- the "why": why did this version happend
+- the "what": what does it brings to users
+- etc.
+
+In C++, "breaking" is often invisible, until a user's build fail.
+
+- in the code, using `[[deprecated("reaason")]]` attribute
+- in the release blog:  explain breaking change, reason, etc.
+- crerate release announcement
+  - what is deprecated
+  - what is breaking
+  - what are the new features, fixes etc.
+- spread the work on linkedin, twitter, reddit, etc.
+
+A culture of appreciation
+
+- open-source runs on human motivation -> most peoples don't get paid for it
+- who ?
+  - your own users
+  - people who care about the domain
+  - contributors for the resume line (CV), or to learn bleeding-edge C++ on real codebase
+
+Your job is not make contribution rewarding enough -> don't loose them
+
+The problem: it's hard nowadays for junior developers to proove their impact. Companies look for experienced peoples.
+
+- have a CONTRIBUTORS.md
+- Release blog credits -> "special thanks to @someone for the new SI conversions"
+- Testimonial -> offer the write linkedin recommendation
+
+All this cause multiplier effect -> cause the community growing
+
+#### Recognition strategies
+
+easy win:
+
+- thanks users for their interests, efforts, interactions
+- mention contributors by name in release notes
+- use github "co-authored by" for pair-programming
+- create a "hall of fame" section in docs
+- share contributor spotlight on social media
+
+advanced:
+
+- help contributors write blog post about their work
+- invoke them to co-present at conferences
+- proviode reference letters for job applications/appliance
+
+Good first issues done right -> label them, and then mentor the people who them up
+
+#### let AI write the first draft
+
+The worlflow
+
+- feed C++ headers + design notes to an LLM
+- clearlydescribe what you need
+- human review for accuracy and for voice
+
+benefit
+
+- faster
+
+(SEE SLIDE)
+
+Warning: some users are allergic to AI, and will stop at the first sentence that sounds like AI.
+
+- a correct and userful page can be rejected unread -> some communities ban ai-written post outright
+- check the facts first -> most of the editing time goes there
+- check the wording -> does it sounds like you ?
+- skip idions and clever list -> readers who learner english elsewhere lose them
+
+Read the page before you judge it.
+
+#### Managing the AI influx
+
+The challenge
+
+- llm-generated PRs are increasing
+  - lower quality
+  - tons of them
+  - longer
+
+the danger
+
+- low effort, high volume contributions
+- ai refactors enrie designs without understanding rational
+
+Have an AI contribition policy guide !
+
+- contributors must understand and build able to defend any line
+- keep diff minimal
+- build and test yourself first
+- be transparent: if generated by llm, state it.
+- watch for confident-but-wrong code
+
+The "primary author" principle
+
+- protect design integrity
+  - dont replace a class design just because AI suggested it
+  - Do: ask the primary author about their rationale first
+
+remember
+
+- the original design often had specific reasons
+  - compile-time performance
+  - edge cases the AI doesnt see
+  - consistency with the broader architecture
+- most of thenm were never written down
+  - approach you tried and dropped
+  - discussions that settled the design
+  - what your learned since
+
+A model reas the code: it cannot read the experience that produce it
+
+#### Building a welcoming culture
+
+The foundation
+
+- be respectful to all users and contributors
+- help users will provide you more users, and so one
+
+Be proactive in building a community
+
+Passive maintancne leads to project death. You must be the "chief evangelist"
+Niche projects (like mp-units) need education
+provide opportunities to improve your codebase -> anything that can be added, improved, any use-case that can be added
+
+You have to seek for production feedback
+
+- creat an issue "im looking for production users" -> if you're just waiting, it might never show up !
+- be prepared for complaints rather than praise
+- listen to the "boring" problems
+  - compilation time
+  - header bloat
+  - etc.
+- providing feedback is super helpful, just as much as financially sponsoring
+- also use Slack, and other discussions
+
+#### from perspnal repo to community project
+
+- grwoth from personal hobby to ISO standadization candidate
+
+Avoid maintainer burnout -> you can't do it all, and you should not !
+
+Automate what's possible/boring
+
+- CI
+- clang-format
+- boths
+- etc.
+
+Empower others
+
+- triage permission to active contributors
+- documentation your decision-making prcess
+- it's ok to say "not now, not for this release"
+
+About burnout
+
+#### back to the initial question: "which project should I contribute to learn modern C++ ?"
+
+Green flags:
+
+- Contributing.md
+- maintainers respond kindly to questions
+- has github codebase -> one-cloickl setup
+- active CI with cleara error messages
+- documentation explains the "why"
+
+Don't be afraid of bleeding edge repos if they're welcoming
+
+If you are a maintainer -> be the one you with you had !
+
+when reviwering PRs
+
+- always thanks
+- explain your design
+- etc.
+
+From fortress to forum -> make easy to work with (project, peoples, etc.)
+
+#### Conclusion
+
+TIP: dont try to implement all 11 tips at once -> baby steps, incremental improvements
+
+Consider supporting mp-units to reach the C++ standard -> call for help -> still hundreds if not thousands more hour of works
+
+#### Insights from the question
+
+- asking AI the review AI only work to some extent -> developers/maintainers still need to understand and be able to defend every single line
+- Every developer needs to be able to write code on their own - without AI - so they are able to understand, review, and challenge AI-generated code
+- have your code injected/usesd in the documentation be tests by so the CI, so you know when something's broken.
+- try to convert contributors to active maintainers -> avoid burnout -> dont try to do everything all by yourself -> explain how you do stuffs.
+- Documentation - depending on the quadrants - will somehow overlap, it's normal/ok
+
 #### My takeaway
 
 <!-- TODO -->
+
+<!-- Also I started to draft a book about how to design a C++ component, library -->
+<!-- CppShelf is a collection of my C++ libraries -> might want to split it at some point, when mature enough -->
+
+like: About the talk's structure: announced the plan first, then expand/unfold it
 
 ### 🗣️ **Andreas Reischuck**: Simple use cases for Coroutines
 

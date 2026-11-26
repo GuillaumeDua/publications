@@ -774,6 +774,8 @@ I definitly wanna try how coroutine can be used in conjunction with qt signal/sl
 
 ### 🗣️ **Ivan Čukić**: Contracts and hardened libraries - a bright future for C++ safety?
 
+KDAB employee, author of "functional programming in C++", KDE developer, WG21, former university professor
+
 <!-- Slot: 14:30 - Track A (Saphir), hybrid -->
 <!-- Summary, paraphrased from https://meetingcpp.com/mcpp/schedule/talkview.php?th=9b787e508d55dc9cd5c06baf0026c220eae0a106
      C++ contracts - preconditions, postconditions, invariants - and hardened standard library
@@ -782,10 +784,141 @@ I definitly wanna try how coroutine can be used in conjunction with qt signal/sl
 
 [🎥 Video](), [📄 slidedeck]()
 
+#### Introduction: some changes made to this presentation vs. what was first planned
 
+- The abstract starts with "contracts are in"
+- DISapproved due to constracts
+- P4451R2 "early adoption of an always-enforced label" by Joshua Berne
 
+We can just believe and hope ? Let's see what comes with C++26
 
+Statement: ~~invalid~~ unhandler state that the system encourtered
 
+- leads to vulnerability
+- context/situation matters: example of how an astronaut fix something on the space station ->  same protocole cannot be applied on earth, as it's not the same environment
+
+Data validity -> see slide
+
+Making program assuymptions explicit and checkable:
+
+- pre(condition)
+- post(result: condition) -> promise the result is a valid result, if the preconditon was met
+- contract_assert(condition)
+
+Treat contact as death things
+
+- fail early, fail often
+- plan for failure and handle it -> dont run out of the room
+
+part of defensive programming
+
+#### How can we handle contracts ?
+
+- ignore -> do not evaluate
+- observe -> evaluate, invoke handler, continue
+- enforce -> evaluate, invoke handler, terminate or throw
+- quick_enforce -> evaluate, terminate (the most problematic one according to Cuvic)
+
+30 to 50% of error handling is not error-handling: just some logs and continue, etc.
+
+#### P3471 standard library hardening
+
+Detects -> (see slide)
+
+Let's terminate: each failure have impact, but different impact
+
+- games
+- text editors
+- databases like in some bank software
+- autopilots, medical service
+- OS
+- services in multi-service system
+
+From ignore semantic to 
+
+(missed some slides foir a minute here since  some delivery guy ring at my door)
+
+Killing a program is NOT safety -> even when some security issues, we don't want to loose all the system
+
+termination is a first step of fortification -> to be confirmed, not sure about that one
+
+safety at compile-time -> example: `some_std_array[some_function()] = 42` with some_function has some precondition rreturning index/value from 0 to size(some_std_array) - 1.
+
+#### Formal verification ?
+
+impossible, becaus
+
+- halting problem
+- arbitrary inputs
+
+with:
+
+- encoded class invariants
+- encoded preconditions and postconditions
+
+if precondition for a function call cannot be proven -> mark the call as invalid
+if the postcondition cannot be proven for the return value -> mark the call as invalid
+
+Be careful of false-negatives
+
+(slide with `int abs(int x)`) Imagine a C++29 profile that enforces this for contracts, or at least a clang-tidy check
+
+"Make interfaces easy to use correctly, and hard to use incorrectly" - Scott Meyers
+
+- can now be improved to "impossible to use incorrectly"
+
+We usually think this applies to higher-level class/type design
+
+Would `std::array::operator[](std::size_t) -> std::optional<T&>` ? -> just move the problem to another sector -> `optional::operator*`/`get`.
+
+UB and fast, vs. safe and slow
+
+Example: CloudFlare outage -> error properly detected, but not handled -> "internal server error"
+
+Terminating a program IS NOT the answer.
+
+(slide: std::array/vector as member of non-trivial class -> should be considered code smell)
+
+- Do we want something easy to implement, or something that is safe ?
+
+In most situation, you don't need the full API of a vector
+One might want std::queue, stack, flat_set -> subset APIs
+
+#### API minimization
+
+- shrink API of vocabulary types to exactly what you need - then uise wrappers in your classes
+- Atomic API - do one thing, do it right
+- add invariants, preconditions and postconditions, and prove them
+- go to the next level of abstraction
+
+What the compiler can do - or how can we use the compiler - to have some magic compile-time logic that ensure we only pass values that are safe -> compile-time checks (ex: `ctc::arrray<engine_t, 42>::operator[](ctc::index<0, 42>)`)
+
+`CTC::array`: compile-time check array
+
+GOAL: have compiler check stuffs at compile-time, so we dont have to check at runtime
+
+pattern-matching helps !
+see github.com/intel/safe-arithmetic
+
+#### Vector indexing
+
+Way more difficult to do that array, since the size is a runtime info
+
+#### about class design
+
+- list all features you nee
+
+Narrow argument types, pass exprerssions instead of values, or use inversion of control
+
+prove your current level is safe, then move on to the next level, and so on
+
+#### From questions
+
+- Stop writing complex classes -> if you do so, you stop partitioning, you stop designing
+  - a function should have either a single loop, or no loop at all
+  - dont break SRP, SoC, etc.
+  - etc.
+- What about checks that are performed tons of time ? -> for instance, on the same callstack
 
 #### My takeaway
 

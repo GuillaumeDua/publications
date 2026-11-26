@@ -1045,6 +1045,8 @@ Cited on the slides:
 
 ### 🗣️ **Henrik Vallgren**: Compile time is the future of Automotive Software
 
+experienced a bit of lagg on this talk, and low quality video
+
 <!-- Slot: 16:00 - Track A (Saphir), hybrid -->
 <!-- Alternative track of interest:
        - Lieven de Cock (Track B, Opal), "A gentle introduction to Reflection" -->
@@ -1056,7 +1058,267 @@ Cited on the slides:
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+
+AUTOSAR rules
+failure can cause loss of lifes
+
+Why automotive needs predictability -> safety: a software-defined vehicle needs absolute dependability
+
+The same defect, caught at two different moments:
+
+- found at build time: the compiler rejects it, it fails on a developer's machine or on the build server -> cost is a failed build
+- found at run time: the vehicle hits it, it fails in a car, possibly while driving -> cost is field issues, recalls, safety risk
+
+> Moving as much as possible to build time minimises risk: **breakage moves outside the car**
+
+DBC -> signal description/specs in the automotive industry
+
+What should be known at compile time:
+
+- signal definitions: CAN messages and signals from DBC files become C++ types and values the compiler can use
+- dependency graphs: who reacts to which message is declared as types, so the call graph is fixed at build time
+- sections 1 to 3 below are the compile-time half, 4 and 5 are about keeping it predictable at run time
+
+#### 1 - message and signal model
+
+Message content as a compile-time collection
+
+- DBC as input -> generated C++
+
+```text
+BO_ 2364539904 EEC1: 8 Vector__XXX
+ SG_ EngineSpeed : 24|16@1+ (0.125,0) [0|8031.875] "rpm" Vector__XXX
+```
+
+```cpp
+struct MessageEEC1 {
+    static constexpr std::string_view messageName {"EEC1"};
+    static constexpr uint32_t         messageId   {2364539904};
+
+    Property<float, 24, 16,
+             propertyName_EngineSpeed, LittleEndian,
+             FactorOffset<float, factorOffset_EngineSpeed>,
+             MinMaxTest<float, minMax_EngineSpeed>>
+        property_EngineSpeed;
+
+    constexpr auto properties() { return std::tie(property_EngineSpeed); }
+};
+```
+
+- `properties()` returns a tuple of references: a heterogeneous collection the compiler can walk
+
+#### 2 - generic serialisation: one operation per signal
+
+Compile-time iteration over that heterogeneous collection:
+
+```cpp
+template <typename Operation, std::size_t index = 0,
+          typename Collection, typename... Params>
+void iterate_collection(Collection& collection, const Params&... params)
+{
+    if constexpr (index < std::tuple_size<Collection>::value)
+    {
+        Operation::call(std::get<index>(collection), params...);
+        iterate_collection<Operation, index + 1>(collection, params...);
+    }
+}
+```
+
+- `if constexpr` ends the recursion, and the operation is a type, so each element gets its own instantiation
+
+The entry point - template functions make the compiler handle type correctness:
+
+```cpp
+template <typename Collection, typename Input>
+void decode_impl(Collection collection, const Input& input)
+{
+    iterate_collection<DecodeOp>(collection, input);
+}
+
+template <typename MSG, typename Input>
+void decode(MSG& msg, const Input& input)
+{
+    decode_impl(msg.properties(), input);
+}
+```
+
+- one `decode()` for every message type, and zero per-signal code
+
+The operation itself:
+
+```cpp
+struct DecodeOp
+{
+    template <typename Value, typename Input>
+    static void call(Value& data, const Input& input)
+    {
+        constexpr uint16_t offset  = Value::bit_start;
+        constexpr uint64_t bitmask = (uint64_t{1} << Value::bit_count) - 1;
+        if constexpr (Value::endian == LittleEndian)
+        {
+            data.value = static_cast<typename Value::ValueType>(
+                (input >> offset) & bitmask);
+        } // else ...
+        Value::FactorOffset::applyFactorOffset(data.value);
+    }
+};
+```
+
+- DecodeOp example: insanly fast (about a nanosec)
+- offsets and masks are constants, so the compiler folds each signal down to a shift and a mask
+
+#### 3 - dependency graph
+
+Just a few lines of code, very simple, compile-time
+
+Dependencies are expressed as collections too:
+
+```cpp
+declare_dependencies(MessageEEC1,        MonitorEngineSpeed);
+declare_dependencies(MonitorEngineSpeed, DomainX, UseCaseY);
+```
+
+- which draws `MessageEEC1 -> MonitorEngineSpeed -> { DomainX, UseCaseY }`
+
+How it works:
+
+```cpp
+// default: a type has no dependants
+template <typename T>
+constexpr auto dependants() { return std::tie(); }
+
+// references to the dependants' single instances
+template <typename... Ts>
+constexpr auto makeDependencies() { return std::tie(instance<Ts>()...); }
+
+// each declaration is an explicit specialisation
+#define declare_dependencies(Tin, ...)              \
+    template <> constexpr auto dependants<Tin>()    \
+    { return makeDependencies<__VA_ARGS__>(); }
+
+// helper: one object per type
+template <typename T>
+T& instance() { static T object; return object; }
+```
+
+- no declaration means an empty tuple, which is where the graph ends
+- standard C++17, no compiler extensions
+
+Executing it:
+
+```cpp
+template <typename T>
+void apply_dependencies(const T& t)
+{
+    auto dependencies = dependants<T>();
+    constexpr std::size_t count =
+        std::tuple_size<decltype(dependencies)>::value;
+    iterate_impl<0, count>([&](auto index)
+    {
+        auto& val = std::get<index>(dependencies);
+        val.on_event(t);
+        apply_dependencies(val);
+    });
+}
+```
+
+- notify each dependant, recurse into its own dependants, stop where `dependants<T>()` is empty
+
+Putting it together, one call per incoming message type:
+
+```cpp
+template <typename MSG, typename Input>
+void handleMsg(const Input& input)
+{
+    MSG msg;
+    decode(msg, input);
+    apply_dependencies(msg);
+}
+
+handleMsg<MessageEEC1>(frame);
+```
+
+- `MSG msg;` is created on the stack: no allocation
+- `decode(msg, input)` fills every property from the input
+- `apply_dependencies(msg)` walks the compile-time graph
+- every type is known at compile time, so the compiler sees the whole path from bytes to reactions
+
+#### 4 - runtime model
+
+- directed single-producer/single-onsumer lock-free queues.
+- when a module has work, it gets a thread from the pool, processes, and returns
+- a module never runs concurrently, runs then returns, and owns all its objects
+- single-threaded means never concurrent: inside a module, everything is sequential and predictable
+
+Fast lookup, from messageId to handler: select N bits of the messageId to pick a bucket, then `bucketStart[i]` and `bucketStart[i + 1]` bound a short linear search, like begin and end iterators.
+
+```cpp
+std::size_t i = (messageId >> shift) & ((1u << N) - 1);            // select N bits
+for (std::size_t k = bucketStart[i]; k < bucketStart[i + 1]; ++k)  // short linear search
+    if (handlers[k].id == messageId) { handlers[k].fn(input); break; }
+```
+
+- `bucketStart` holds 2^N + 1 entries, `handlers` holds `{id, fn}` sorted by bucket
+- `bucketStart[i] == bucketStart[i + 1]` means an empty bucket
+
+Error model:
+
+- error handling can be quiet complexe -> exception in C++ rely on memory allocation, and we can't simply allow this.
+  - but think that C++ exception are a great model, and one does not want to create another model
+  - the constraint as he puts it: memory allocation is not allowed in automotive after startup
+  - use some preallocations -> preallocate the memory buffer at startup; you might also consider some thread local storage in some case
+  - throw simple errors, integers for instance, with no methods that might allocate
+
+Attempt at crash recovery - a crash in a self-driving vehicle could be a disaster, but when an integer error is caught in a dependency call chain, several properties work in our favour:
+
+- we're in a signle-threaded module
+- memory was laid out at compile-time -> only static members allowed
+- dependency graph was laid out at compile-time
+- we know the type of the object that crashed
+
+```cpp
+template <typename T>
+void restore(T& object)
+{
+    // skip ~T(): state is unreliable
+    new (&object) T{};  // fresh initial state
+}
+```
+
+> running the constructor with placement new restores the object to its original state
+
+ASIL -> automotive Safety Integrity Level
+
+#### 5 - testing
+
+Testing with inputs from logs: a CSV file, one line per entry, first the object type then the object data.
+
+- CSV line: the object type, then its data
+- create the object: the type name picks the type
+- read the properties, one by one from the line
+- feed the graph: same code path as in the car
+
+It is only another input operation for `iterate_collection`.
+
+#### Why "future"?
+
+- single implementation of each aspect of the system
+- minimal code generation: only the DBC-to-types step
+- no boilerplate code, the generic operations do the work
+- high performance, the compiler folds it all away
+
+#### Outlook
+
+Using the same generic serialisation concept, he wrote a program that reads XSD files and generates classes from them.
+
+- generic serialisation (this talk) -> XSD reader and generator (working) -> classes for ARXML and FMI (in progress) -> automated system creation (the goal)
+- the same reader and generator handle both ARXML (AUTOSAR) and FMI, the Modelica Association's Functional Mock-up Interface
+
+#### Insights from questions
+
+my own question: "First, sorry to be the bad guy here: in many companies, peoples argue that one cannot use compile-time code - especially with templates - because it makes the code more complicated, thus hard to understand for regular developer (understand, not experts), and thus prevent us from using such feature"
+
+- answer: that's a question I often get. most C++ developers think of classic OOP, but I'm thinking of more modern C++ as a way to automate/generic what I need. type checking by the compiler. compilers are smarter than most peoples. we're all jaw-dropping like "how the hell can it be so efficient". Without template, we'll all get tons of function all the way. I think this is a safe system for intermediate developers. Anyway, we should not all mess up with safety.
 
 #### My takeaway
 

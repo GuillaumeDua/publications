@@ -17,7 +17,7 @@ tags: [ cpp, trip-report, meeting-cpp, conference ]
 | Event                 | [Meeting C++ Conference, 2026](https://meetingcpp.com/2026/) |
 | Author                | Guillaume Dua                                                |
 | Date                  | 11/26/2026 - 11/28/2026                                      |
-| My attendance sponsor | Myself                                                       |
+| My attendance sponsor | Myself ! (for once, it’s an exception)                       |
 | Revision              | R1                                                           |
 
 ---
@@ -784,6 +784,16 @@ KDAB employee, author of "functional programming in C++", KDE developer, WG21, f
 
 [🎥 Video](), [📄 slidedeck]()
 
+The deck carries a running subtitle on every slide, which is also its plan: *"Introduction to the first steps of fortification and minimization experiment"*.
+
+Opening slide, titled "Vulnerabilities":
+
+> When I breakdown  
+> Just a little and lose my head  
+> Nothing I try to do can work the **same way**
+>
+> - The Alan Parsons Project
+
 #### Introduction: some changes made to this presentation vs. what was first planned
 
 - The abstract starts with "contracts are in"
@@ -797,7 +807,14 @@ Statement: ~~invalid~~ unhandler state that the system encourtered
 - leads to vulnerability
 - context/situation matters: example of how an astronaut fix something on the space station ->  same protocole cannot be applied on earth, as it's not the same environment
 
-Data validity -> see slide
+Slide "Guardrails", two kinds of guardrail:
+
+- data validity:
+  - encapsulation, and keeping the internal state valid
+  - state modelling using sum types (`std::variant`)
+- operation validity:
+  - contracts
+  - API minimization
 
 Making program assuymptions explicit and checkable:
 
@@ -821,28 +838,51 @@ part of defensive programming
 
 30 to 50% of error handling is not error-handling: just some logs and continue, etc.
 
+The two studies he put on the slide behind that figure:
+
+- Kery, M. B., Le Goues, C., and Myers, B. A. 2016 - *Examining Programmer Practices for Locally Handling Exceptions*
+- Cabral, B. and Marques, P. 2007 - *Exception Handling: A Field Study in Java and .NET*
+
 #### P3471 standard library hardening
 
-Detects -> (see slide)
+Detects violations of selected standard-library preconditions:
+
+- out-of-bounds `vector::operator[]`
+- `front()` on an empty container
+- dereferencing an empty `optional`
+- invalid `span` access
 
 Let's terminate: each failure have impact, but different impact
 
 - games
-- text editors
-- databases like in some bank software
-- autopilots, medical service
-- OS
-- services in multi-service system
+- text editors, word processors, image editors
+- databases, bank software
+- autopilot, medical devices
+- operating systems
+- services in a multi-service system (threads or processes)
 
-From ignore semantic to 
+The question he hangs on that list, over a Bjarne Stroustrup CppCon slide ("Profiles for Simplicity and Guarantees", notions of what constitutes safety violations): **what is NOT OK to terminate?**
 
-(missed some slides foir a minute here since  some delivery guy ring at my door)
+- the line he boxed in red on Stroustrup's slide: *"Termination errors: a library that terminates in case of 'unanticipated conditions' being part of a program that is not allowed to unconditionally terminate"*
+
+From ignore semantic to
 
 Killing a program is NOT safety -> even when some security issues, we don't want to loose all the system
 
 termination is a first step of fortification -> to be confirmed, not sure about that one
 
-safety at compile-time -> example: `some_std_array[some_function()] = 42` with some_function has some precondition rreturning index/value from 0 to size(some_std_array) - 1.
+- the deck's own subtitle backs this reading: fortification first, minimization second
+
+safety at compile-time -> the index comes from a function whose postcondition already bounds it, slide "Ave compiler":
+
+```cpp
+// numbers : std::array<int, 6>;
+
+numbers[some_function()] = 42;
+//      ^ post(r: r >= 0 && r < 4)
+```
+
+- the postcondition, not the array size, is what the compiler gets to reason with - and here it is narrower than the array
 
 #### Formal verification ?
 
@@ -861,7 +901,16 @@ if the postcondition cannot be proven for the return value -> mark the call as i
 
 Be careful of false-negatives
 
-(slide with `int abs(int x)`) Imagine a C++29 profile that enforces this for contracts, or at least a clang-tidy check
+Slide "Frama-C", the annotation is ACSL:
+
+```cpp
+/*@ requires x > INT_MIN
+    ensures (x >= 0 ==> \result == x)
+         && (x <  0 ==> \result == -x); */
+int abs(int x) { ... }
+```
+
+Imagine a C++29 profile that enforces this for contracts, or at least a clang-tidy check
 
 "Make interfaces easy to use correctly, and hard to use incorrectly" - Scott Meyers
 
@@ -877,12 +926,31 @@ Example: CloudFlare outage -> error properly detected, but not handled -> "inter
 
 Terminating a program IS NOT the answer.
 
-(slide: std::array/vector as member of non-trivial class -> should be considered code smell)
+Slide "Thought experiment":
+
+- `std::array` and `std::vector` as member variables in a non-trivial class are a **code smell**
+- using `operator[]: size_t -> T&` is outright **forbidden**
+- range-based access is fine
+
+Then, next slide:
+
+> They must understand that great responsibility is the inseparable consequence of great power.
+>
+> - French National Convention, 1793
 
 - Do we want something easy to implement, or something that is safe ?
 
 In most situation, you don't need the full API of a vector
 One might want std::queue, stack, flat_set -> subset APIs
+
+#### Quicksort, as a worked example
+
+Slide "Quicksort", reading `⊢` as "entails" / "gives you":
+
+- non-empty range ⊢ random element position
+- element position ⊢ element value
+- set of element positions ⊢ midpoints, edges, random picks
+- valid range ⊢ partitioned sub-ranges
 
 #### API minimization
 
@@ -891,13 +959,49 @@ One might want std::queue, stack, flat_set -> subset APIs
 - add invariants, preconditions and postconditions, and prove them
 - go to the next level of abstraction
 
-What the compiler can do - or how can we use the compiler - to have some magic compile-time logic that ensure we only pass values that are safe -> compile-time checks (ex: `ctc::arrray<engine_t, 42>::operator[](ctc::index<0, 42>)`)
+Slide "Gone fishin'", the runtime-checked starting point he then wants to beat:
 
-`CTC::array`: compile-time check array
+```cpp
+auto operator[](std::size_t index)
+    pre(index < N)
+{
+    // ...
+}
+```
+
+What the compiler can do - or how can we use the compiler - to have some magic compile-time logic that ensure we only pass values that are safe -> compile-time checks
+
+`ctc::array`: compile-time check array, slide "Array indexing":
+
+```cpp
+ctc::array<engine_t, 42> engines;
+ctc::index<0, 40> index;
+ctc::index<0, 2>  offset;
+
+engines[index];                    // Ok
+engines[index + 1_ctc];            // Ok
+engines[index + offset];           // Ok
+engines[midpoint(index, offset)];  // Ok
+
+engines[index + 3_ctc];            // Error
+engines[index + index];            // Error
+```
+
+- the bounds ride in the index type, so it is the arithmetic on the bounds that gets checked: `40 + 2` still fits in 42, `+ 3_ctc` and `index + index` do not
+- the slide spells the two declarations `ctx::index` and everything else `ctc::` - typo on the slide
 
 GOAL: have compiler check stuffs at compile-time, so we dont have to check at runtime
 
-pattern-matching helps !
+pattern-matching helps ! -> second "Array indexing" slide, narrowing a wide index back into a bounded one:
+
+```cpp
+good = match(bad,
+    [] (index<0, 10> i) { return ... },
+    [] (index<0, 30> i) { return ... },
+    [] (auto i)         { return ... }
+);
+```
+
 see github.com/intel/safe-arithmetic
 
 #### Vector indexing
@@ -909,6 +1013,8 @@ Way more difficult to do that array, since the size is a runtime info
 - list all features you nee
 
 Narrow argument types, pass exprerssions instead of values, or use inversion of control
+
+- the one bullet he highlighted on the closing "Summary" slide, which is otherwise the API minimization list above
 
 prove your current level is safe, then move on to the next level, and so on
 
@@ -925,6 +1031,15 @@ prove your current level is safe, then move on to the next level, and so on
 <!-- TODO -->
 
 #### Additional resources
+
+Cited on the slides:
+
+- P3471 Standard Library Hardening
+- Frama-C and its ACSL annotations
+- <https://github.com/intel/safe-arithmetic>
+- Bjarne Stroustrup, *Profiles for Simplicity and Guarantees* (CppCon)
+- Kery, M. B., Le Goues, C., and Myers, B. A. 2016 - *Examining Programmer Practices for Locally Handling Exceptions*
+- Cabral, B. and Marques, P. 2007 - *Exception Handling: A Field Study in Java and .NET*
 
 <!-- TODO -->
 

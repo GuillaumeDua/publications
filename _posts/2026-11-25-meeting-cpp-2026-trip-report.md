@@ -663,6 +663,7 @@ Consider supporting mp-units to reach the C++ standard -> call for help -> still
 - have your code injected/usesd in the documentation be tests by so the CI, so you know when something's broken.
 - try to convert contributors to active maintainers -> avoid burnout -> dont try to do everything all by yourself -> explain how you do stuffs.
 - Documentation - depending on the quadrants - will somehow overlap, it's normal/ok
+- 90% of my tests are `static_assert`, I have thousands for of them it's my main testing framework. So when my code compiles, well it basically work.
 
 #### My takeaway
 
@@ -675,6 +676,8 @@ like: About the talk's structure: announced the plan first, then expand/unfold i
 
 ### 🗣️ **Andreas Reischuck**: Simple use cases for Coroutines
 
+Dresden C++ usergroup host
+
 <!-- Slot: 13:15 - Track E (Amethyst), hybrid -->
 <!-- Alternative track of interest:
        - Dušan Jovanović (Track C, Jade), "The Algebra Behind Great C++ APIs" -->
@@ -684,11 +687,90 @@ like: About the talk's structure: announced the plan first, then expand/unfold i
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+Issue with the sounds on the livestream -> no sound for the first ~10 minutes, so I had a look at Dušan Jovanović (Track C, Jade), "The Algebra Behind Great C++ APIs"
+
+#### 1st use case: hourglass app -> using QNetworkAccessManager with coroutines
+
+- redmine + hourglass -> http/rest -> QT
+
+stack:
+
+- QT
+  - GUI + QML
+  - multimedia
+  - file + settings
+  - Devices
+  - network
+  - etc.
+
+#### basic: QNetworkAccessManager get(request) -> reply
+
+- connect to finished signal -> get reply
+- nice, but always end in some "callback hell"
+
+#### How to improve
+
+NetworkTask for CoRoutine
+
+(See slide with code example)
+
+- simple, small, straight-forward
+- coroutines are binding together all the part we have, to avoid obfuscating our code with complex stuffs.
+
+Hourglass app summary
+
+- use existing qt networkting
+- qt signa/slot as coroutine runtime
+- minmal infrsstructuren eeded
+- readable network orchestration
+
+#### 2nd example: desktop duplicated
+
+- do live conding, but also have notes to remember what to show/demonstrate
+- select screen parts -> duplicate to presentation
+- useful for Ms-teams share: streaming extra-wide screen is just unreadable for other users
+- encompass/highlight the shared part of the screen, so you know what's shared
+
+Core loop
+
+- capture (acquire change) -> render (update texture + draw) -> main (update ui status) -> then starts over
+- one solution how to do it -> 3 differents threads. on windows, use QueueUserAPC (enqueue some function pointer)
+
+Show some code with the windows thread API.
+
+With coroutine, we end up with a simpler solution: simpler to implement, simpler to read, simpler to understand
+
+Show some code about how to encapsulate the winders thread API with coroutines
+
+(see slides for more code examples)
+
+#### Where are your low-hanging coroutines ?
+
+nice use-cases for coroutines, to simplify your code :
+
+- sagas over multiple steps
+- state machine managed in one place
+- callback chains
+
+#### conclusion
+
+play more with coroutines
+
+- smart small
+- read the flow
+- respect the lifetime
+
+From questions:
+
+- How slides are built ? Slidery, a javascript framework (to be confirmed) + AI for animation
+
 
 #### My takeaway
 
 <!-- TODO -->
+
+I definitly wanna try how coroutine can be used in conjunction with qt signal/slots to simplifiy implementations -> making code simpler to read, thus maintain.
+
 
 ### 🗣️ **Ivan Čukić**: Contracts and hardened libraries - a bright future for C++ safety?
 
@@ -700,7 +782,10 @@ like: About the talk's structure: announced the plan first, then expand/unfold i
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+
+
+
+
 
 #### My takeaway
 

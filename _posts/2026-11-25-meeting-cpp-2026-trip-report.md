@@ -35,7 +35,7 @@ tags: [ cpp, trip-report, meeting-cpp, conference ]
 <!-- 15th edition ? -->
 
 This year - and like every year: see my [trip-report for last year's conference]({{ '/2026/03/13/meeting-cpp-2025-trip-report/' | relative_url }}) - I attended Meeting C++ 2026.  
-This is the **15th** edition of the conference, held in Berlin (Andel Hotel) and online.  
+This is the **15th** edition of the conference, held in Berlin (Vienna House by Wyndham Andel's Berlin Hotel) and online.  
 As last year, I joined remotely, from home.
 
 > ⚠️ **Disclaimer**:
@@ -66,6 +66,49 @@ Resources:
 
 <!-- Slot: 09:30 - Track A (Saphir) -->
 <!-- TODO: keynote/talk/track counts, onsite and remote attendance figures -->
+
+- Hubilo changed name to Virtual pro, but same plateform
+- badges disappeared lolz
+- like always, some words about safety for the covid pandemic
+- Sponsors
+  - Main sponsors: Thinkcell
+  - Booths: HRT (Hudson River Trading), Thinkcell, Conan.io by JFrog
+  - Video sponsor: Bloomberg
+  - KDAB -> dedicated photographer
+  - online sponsor -> Andreas Feretif
+- Since I'm attending online, I'll miss the social events
+  - speakers & staff dinner on thursday
+  - social reception
+- inclusivity: vegan food
+- social media
+  - `#meetingcpp`
+  - `Include C++` discord: `includecpp.org` -> `#meetingcpp`
+  - Slack: `cpplang.slack.com` -> `#meetingcpp`
+
+Code of conduct:
+- berlincodeofconduct.org
+- coc.meetingcpp.com
+- condict@meetingcpp.com
+- Trust & safety team, code of conduct team
+
+Track D is online track
+
+RIP Rainer Grimm
+- had ALS
+- One of the big meetingc++ contributor
+- check books, blog, etc.
+- blog will continue thanks to Klaus Igleberger and other writer/maintainer
+
+Cippi is back ! (Klaus Igleberger)
+
+Lougne track (along the hall)
+
+- Diversity meeting (today 15:30)
+- C++ committee meetup (tomorrow 15:30)
+
+Meeting  C++ started in 2012
+- 2012: 150 attendees
+- 2026: 300 onsite, lots online
 
 #### Sponsors
 

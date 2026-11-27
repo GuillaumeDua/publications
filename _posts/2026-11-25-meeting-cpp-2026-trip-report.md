@@ -2142,6 +2142,7 @@ It's all about stimulous -> in our culture, we only consider some of them to be 
 - neurodiverse: applies to a pupulation: one person cannot be diverse
   - A team can be.
 - typical: standard, normal, most common, most likely, socially expected, taught -> what is typical ? how to define typical ?
+  - the slide pushes the word one step further: "Correct? Right? Appropriate?"
 
 Judgy words from typical to neurodivergeant -> "this is not correct"
 
@@ -2158,6 +2159,9 @@ Imagine being at a sporting event, your team is winning. Something happens. A po
 
 - I'm 5'4" -> in canada, that makes me slightly above average
 - but I use to think I'm shorter than other, because I spend most of my time surrounded by men
+- the slide numbers: 5'4" is 162.5 cm, and the canadian average for a woman is 5 ft 3.9 inches
+- in Norway or the Netherlands, definitely not above average for a woman
+- two overlaid bell curves on the slide, women and men, with the legend: average 0 SD (50th percentile), kinda tall 1 SD (84.2), tall 2 SD (97.8), extremely tall 3 SD (99.9)
 
 #### Typical height in context
 
@@ -2176,9 +2180,9 @@ It's context dependent
 - adjustable podiums/lecterns -> so peoples can see my face behind
 - steps up to the stage -> was a bit of an issue to get on and off the stage with such a short height
 - stepstool or ladder in the kitchen -> what if the milk or coffee filters are up the fridge ?
-- doorways 
+- doorways with higher openings
 
-[...]
+Many of these work in one direction only
 
 #### Imagine you're 6'8"
 
@@ -2186,20 +2190,30 @@ It's context dependent
 - you tell them you are height divergent and need accomodations
 - they assure you they are all set up for height divergent peoples
 - on your first day in the office you find that nothing is appropriate
+  - regular chairs and desks
+  - extra short chairs and desks
+  - no extra tall chairs or desks
+  - a stepstool in the break room
+  - you bump your head going into the room
 - You don't feel accomodated
 
 #### Is the normal distribution typical ?
 
+The slide is a grid of nine shapes: (a) bell shaped, (b) triangular, (c) uniform (rectangular), (d) right skewed, (e) left skewed, (f) J shaped, (g) reverse J shaped, (h) bimodal, (i) multi-modal
+
 #### why does it matter ?
 
-- they are many ways to identity the "tyupical" value of smthg that is distributed, like heigh [...]
-
-[...]
+- they are many ways to identity the "tyupical" value of smthg that is distributed, like heigh or income
+- what do the most individuals have ? -> mode
+- half have more, half have less -> median
+- average -> mean
+- for a normal distribution, these are all the same
 
 #### But not in general
 
 - for skewed distributions, your intuition about what is "typical" is likely to be wrong
-- same goes for bimodal distribution
+- same goes for bimodal distribution -> the value between the two modes may be the mean, but it certainly isn't typical
+- most people do have the mode value, but you can't assume most have the median or the mean
 
 #### What is Typical ?
 
@@ -2211,17 +2225,19 @@ It's context dependent
 - you know how to measure
 - you probably know your own heught
 - you can estimate the height of others
-- [...]
+- but do you know how sharp your vision or your hearing are ?
+- if you have autism or ADHD, how much do you have ?
 
 #### Typical varies with context
 
 - many nother european women are much taller than me
 - social norm for behavior vary with location too
   - eye contact
-  - etc.
-- immigrant may find themselves treated as neurodivergent
+  - pauses that indicate it's someone else's turn, as opposed to interrupting
+  - standing distance from another person
+- immigrant may find themselves treated as neurodivergent, when they have always been considered neurotypical at home
 
-[...]
+Many "divergences" in one culture (geography, education level, income level) are not divergent at all in another
 
 not all culture have different way to look or stand new at someone they're talking to
 
@@ -2239,6 +2255,16 @@ They're not correlated. What's typical here ? what amount/ratio of peoples will 
 imagine for each question 80% give the "typical reponse.
 most peoples may give a typical answer to at least one question -> but not to all questions
 
+| Questions  | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   |
+|------------|-----|-----|-----|-----|-----|-----|-----|-----|
+| % all yes  | 80% | 64% | 51% | 41% | 33% | 26% | 21% | 17% |
+
+-> eight questions at 80% each, and only 17% of people answer "typical" to all of them
+
+#### Screening for neurodivergence
+
+Image-only slide: two notepads side by side, one ticked five times, the other once
+
 #### How typical are you ?
 
 - do you write exclusively with your right hand ?
@@ -2255,13 +2281,25 @@ At least a quater of the peoples in the room - handvoted - have troubles soprtin
 
 #### yes or no [...]
 
+Slide: "do you have a problem with small items you own many of, such as socks?" -> Yes / No / "No, because I Have A System"
+
 - divergeants: "no socks does not bother me, I have a system"
 - other peoples don't have a system
+
+Quoted on the slide, Victoria Duncan (@victoriaduncan.bsky.social, 23 Jul 2025):
+
+> Neurodivergent screening tests will be like "do you struggle with wearing socks" and ND people will be like "nope does not describe me, for you see I have a System" and folks that is what the question is getting at
 
 #### Does everyone have a system ?
 
 - 80% of persons have a system
 - if people notice, you are pleasaed to say "thanks, I have a system"
+- survey question: "when answering how difficult, or yes/no that something was difficult, did you take into account any systems or procedures you have established to deal with that thing?"
+  - early responses: 40% with, 40% without, only 20% no system
+  - later: about 45% with, 15% without, 40% no system
+- perhaps this is why screening tools are notoriously inaccurate
+
+> You have constructed a way to function as expected in a world that is misconfigured for you
 
 What if you're doing some test in the magasines, and your only possible answer are yes or no ? not "i have a system"
 if you have a system, you built a system that works for you -> so you behave as other expect
@@ -2274,12 +2312,20 @@ if you have a system, you built a system that works for you -> so you behave as 
   - from other peoples's reactions
   - from booksof social instruction
   - from a dear friend who helps
+- the slide's advice: if you want to answer "yes, before I learned not to", answer yes anyway, even though you have developed a work around
+- what you have learned is likely how to mask -> it helps to have plenty of time when you don't have to mask
 
 You learn more about your own wiring than how other peoples juge you for
 
 > The less masking you will do, the less healthier you will be
 
 #### The questions the screenrs dont ask
+
+- do you have shirts you absolutely cannot wear but keep because someone gave them to you ?
+- are there brands of gas station you can't use because their pumps beep too much ?
+- can you tell me which way is West right now ?
+- do you know how many steps there are on a staircase you took very recently, or take often ? do you count everything ?
+- if I ask you to imagine something, do you actually "see" it ?
 
 #### What does this mean ?
 
@@ -2288,6 +2334,17 @@ You learn more about your own wiring than how other peoples juge you for
 
 Two neurodivergeante don't diverge the same way. Some overlap tho.
 
+#### So are we all neurodivergent in some way ?
+
+- autism
+- ADHD
+- dyslexia
+- OCD
+- synesthesia
+- handedness
+- aphantasia
+- ...
+
 #### Divergence and definit are not the same
 
 Peoples saying "that's not a defect" ...  -> neurodivergeante is NOT a deficit. It's divergeante. It's not wrong, in a polite euphemism.
@@ -2295,6 +2352,7 @@ Peoples saying "that's not a defect" ...  -> neurodivergeante is NOT a deficit. 
 - to be different is not to be lesser or flawed
 - peoples with a divergence may just be working a lot harder
 - lefthanded is a also a neurodiverent -> actually I'm ambidextrous
+  - and actually it doesn't matter: neurologically there is "right handed" and "not right handed"
 - have real deficits around left and right
 - i also have   strenghts thaht suprise many people -> like reading peoples thsirt in mirror selfie without noticing
 
@@ -2320,6 +2378,11 @@ Peoples saying "that's not a defect" ...  -> neurodivergeante is NOT a deficit. 
 Autistic burnout can be fatal -> mental hospital, or even some people not surviving
 masking is kinda rewarding, you can be proud, but also dangerous
 
+- many authorities demand that effort of the neurodivergent -> and believe effort alone will be enough
+- same demand for the height divergent: "you should be able to reach the high shelf, just try harder" -> if you can't get the book from the high shelf, you just don't get to learn today
+- if you function like everyone else by putting in a lot of effort, your brain hasn't changed -> only your behaviours no longer diverge
+- maybe you didn't even know that others are playing on an easier mode -> or that it's possible to mask less and still function
+
 #### Is a person neurotypical ?
 
 - some behaviors are
@@ -2329,6 +2392,7 @@ masking is kinda rewarding, you can be proud, but also dangerous
 - some people do no
 - so ?
 - does being short help you understand why is can be hard to be tall ?
+- what use is it to label a person as divergent ?
 
 Being short does not help you understand what it means to be tall, and vice-versa
 
@@ -2344,9 +2408,12 @@ Being short does not help you understand what it means to be tall, and vice-vers
 
 offer breaks, for anyone who wants/need.
 
+The slide closes on: why not give accommodations to anyone who requests them ?
+
 #### So, Don't label peoples ?
 
 - dont label people neurodivergent
+  - though it beats labelling them lazy, not trying, wasting potential, disruptive, needs discipline (punishment)
 - it can be helpful to know about speicifc divergences
 - more speicfic than than
   - sensitives to noises
@@ -2355,6 +2422,11 @@ offer breaks, for anyone who wants/need.
 it's more useful to be specific
 
 #### A lifetime of corrections
+
+The whole slide is a post from Tim Clare (@timclare.bsky.social, 24 Jul 2025):
+
+> If you find your ADHD/autistic loved one hard to empathize with sometimes, bear in mind they've likely experienced a life of daily corrections:  
+> don't leave that there / stop fidgeting / sit down / be quiet / walk properly / be more tidy / calm / be less forgetful / weird / boring / enthusiastic
 
 understanding the hard mode some peoples are playing -> empathy -> important
 
@@ -2374,27 +2446,36 @@ understanding the hard mode some peoples are playing -> empathy -> important
 so much noises, lights, chaos
 
 - bars, nightclubs, sporting events
-- office spaces and counters 
+- office spaces and counters, as a customer -> bank, renewing a drivers license, applying for something
+- gyms and fitness centres, yoga and dance lessons
+- general retail -> clothes store, department store
+- grocery store
+- conferences related to your profession
 
 #### where do peoples feel welcome ?
 
 - current educational environment -> shcool, university, etc.
 - public transit -> airports, airplanes, buses
 - other peoples's homes
-- restaurants
-- [...]
+- restaurants -> waiters, knife and fork
+- niche retail -> trains, game/comic store, farm supply store, for a niche you are into
+- controlled nature -> city parks with benches
+- uncontrolled nature -> hiking trails, lakes and rivers, forests
 
 #### how can you help other peoples to belong ?
 
 - understand that we're not all the same -> in some cases wildly
 - you are not an accurate measure of what everyone else is like
+  - your own divergence doesn't magically give you empathy for someone else's
 - you have to listen to peoples when they say it's hard for them
+  - even if it's not hard for you at all
 - be prepared to make suimple accommodations all the time
 - dont coach unless asked for. and consider that your suggestion is one that's been hehard a thousand times before
   - you might think coaching is a brillant idea -> but no, it's just bothering the person you're offering your help to.
 - dont correct peoples your are not raising or managing
   - it's not your role
   - "don't interrupt" vs. "i'd love to listen what you have to say" -> words matter. Don't use dos and donts.
+  - even an "I" statement may not land as anything but a correction
 
 #### Helping neurotypical belong
 
@@ -2414,8 +2495,9 @@ so much noises, lights, chaos
 - there are many ways to be non typical
   - accomodation need to handle more than just one
 - not everything is distributed in the same shape
-  - is typical the mode ? mean / median ?
+  - is typical the mode ? mean / median ? is there even a typical answer ?
 - not evertyhing is as siumple to measure as height
+  - or as revealed to others
 - the answers are not Yes and No
 - a divergence is not always a deficit -> synesthesia, etc.
   - but it does not mean it does not count -> can be strengh, better fit in certain context, etc.
@@ -2428,7 +2510,10 @@ so much noises, lights, chaos
 - does it matter whether a person is neurtypical or not ?
 - are you where you belong ? are  you with your people ?
 - how can you help more perople belong ?
-- what can you learn about ways to make things smoother
+- what can you learn about ways to make things smoother for others ?
+- are you proud of your systems ? are you playing on hard mode ?
+- is it likely that plenty of other people are playing on hard mode without you realizing it ?
+- what would this world be like if everyone felt they belonged ?
 
 #### From questions / insights
 

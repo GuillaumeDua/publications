@@ -2061,7 +2061,49 @@ I always enjoyed reflection and api simplification: see [csl::ag](https://github
 ### 🗣️ **Jens Weller**: Good Morning Meeting C++26?!
 
 <!-- Slot: 10:00 - Track A (Saphir) -->
-<!-- TODO -->
+
+- 502 proxy error on the meetingcpp website fixed
+- talks that was online are already available on youtube ! -> Joel Falcou's talk
+
+#### Let's do some C++ experiments
+
+- for the last years, jens was exploring C++ for tshirt designs -> fonts, svg, convert text into path, etc.
+- use QPainterPath since last year's -> colorful conference logo
+- not the same as last years -> reverse the orders of the colors
+
+Jens is working on a new book : meeting C++ through exploration (prerelease)
+quick-bench (from Fred Tingaud) is down and need some peoples to work on -> required for demos for Jens's book
+
+Gave some room for Guy Davidson on stage to explain what happend to the Brasil meeting last week, with C++26 being rejected by the national body - ballot rejection, close to quota but rejected - , and what we can do about it.
+
+contracts are controversials
+
+- some days of chaotic schedule changes -> what to do with C++26 ? Cancel the whole project ? fix it ? new standard
+- now, we have to re-ballot with all the fix
+- get rid of contracts ?
+- yeaars and years of working on contract features -> it's still in, so we'll see what happend
+  - 50-50 confident it will pass -> it's up to the national body
+- next meeting is in march, in istanbul -> no opportunity to meet and discuss until there
+
+What changed ? -> new paper -> contracts are now always enforce
+
+Guy said this was the most exhausting time of his entirely life
+
+- national body wants this feature
+- it's getting really hard to push new features because we're all engineer and all have some opinions
+
+Also fixed std::execution allocation on the stack.
+
+#### schedule changes
+
+- Kerstin Keller - as discussed in private - is feeling sick so her talk about ODR violation is moved to "later".
+
+Book shop at the entry
+exhibitors in the hallway
+
+Hand vote "who wants the contracts in the C++26 standard ?
+
+About the rest of C++26: we have lots of new C++ features to make your API lovely.
 
 ### 🗣️ **Kate Gregory**: Brains And Belonging (Center Keynote)
 
@@ -2070,9 +2112,349 @@ I always enjoyed reflection and api simplification: see [csl::ag](https://github
      Brain differences, statistical distributions, results from the speaker's own survey, and what it means
      to feel normal and to belong. -->
 
+> "Typical is a social construct" - Kate Gregory
+
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+MeetingC++ is the conference that made me a keynote speaker
+
+"Hands up if you have a brain" XD
+
+Imagine yourself in a store - especially at this time of yeaar - crowded and noisy: bright light, noisy musie, dozens of people having conversation (each others, phone, etc.)
+
+- how do you react ?
+  - ignore it ?
+  - notice
+  - get grumpy
+  - experience physical pain
+  - shot down and stop talking and interacting
+  - leave wiuth one some of what you came for
+  - leave with nothing
+  - thrive on it, have a great time
+
+It's all about stimulous -> in our culture, we only consider some of them to be typical, and the other weird
+
+#### Some definition
+
+- Neurotypical -> how you react reaction/response preference, or ability
+- neurodivergeant -> non-typical reactions/responses, preference, or abilities
+- neurodivergeant: tons of way to differ from Neurotypical
+- neurodiverse: applies to a pupulation: one person cannot be diverse
+  - A team can be.
+- typical: standard, normal, most common, most likely, socially expected, taught -> what is typical ? how to define typical ?
+
+Judgy words from typical to neurodivergeant -> "this is not correct"
+
+#### TGypical is a social construct
+
+- varies over time
+- varies from a culture to another
+- with a culture it varies by gender, education level, social class
+- in different contexts, two wildly different [...]
+
+Imagine being at a sporting event, your team is winning. Something happens. A point is scored. the crowd is screaming, peoples get hugged by strangers next to them, drink goes flying, etc. -> people doing the exact same thing, but not in the same context.
+
+#### Let me ask you: Is my height typical ?
+
+- I'm 5'4" -> in canada, that makes me slightly above average
+- but I use to think I'm shorter than other, because I spend most of my time surrounded by men
+
+#### Typical height in context
+
+It's context dependent
+
+- women
+- people in general
+- mostly men
+- mostly men who are comfortable giving talks and presensations
+
+=> I don't change, the context change.
+
+#### Accommodations for the height-divergent
+
+- adjustable microphone stands -> full range of possible height
+- adjustable podiums/lecterns -> so peoples can see my face behind
+- steps up to the stage -> was a bit of an issue to get on and off the stage with such a short height
+- stepstool or ladder in the kitchen -> what if the milk or coffee filters are up the fridge ?
+- doorways 
+
+[...]
+
+#### Imagine you're 6'8"
+
+- you do a video interface for a job and get an offer
+- you tell them you are height divergent and need accomodations
+- they assure you they are all set up for height divergent peoples
+- on your first day in the office you find that nothing is appropriate
+- You don't feel accomodated
+
+#### Is the normal distribution typical ?
+
+#### why does it matter ?
+
+- they are many ways to identity the "tyupical" value of smthg that is distributed, like heigh [...]
+
+[...]
+
+#### But not in general
+
+- for skewed distributions, your intuition about what is "typical" is likely to be wrong
+- same goes for bimodal distribution
+
+#### What is Typical ?
+
+- measuring smthg with a normal distrubition ?
+- or smthg else ?
+
+#### And this assume you can measure it
+
+- you know how to measure
+- you probably know your own heught
+- you can estimate the height of others
+- [...]
+
+#### Typical varies with context
+
+- many nother european women are much taller than me
+- social norm for behavior vary with location too
+  - eye contact
+  - etc.
+- immigrant may find themselves treated as neurodivergent
+
+[...]
+
+not all culture have different way to look or stand new at someone they're talking to
+
+#### But pretend typical makes sense
+
+imagine 10 or 20 thing you could measure for which there is a clear "typical" or "not typical" responses
+
+- do you live in a city ?
+- do you leave your home every day ?
+- do you eat bread ?
+- how many movies do you watch a year ?
+
+They're not correlated. What's typical here ? what amount/ratio of peoples will get the typical answer.
+
+imagine for each question 80% give the "typical reponse.
+most peoples may give a typical answer to at least one question -> but not to all questions
+
+#### How typical are you ?
+
+- do you write exclusively with your right hand ?
+- can you right things upside down or in a mirror ?
+- do numbers have associated colours ?
+- do you find reading hard ? spelling even  familar words ?
+- do you have trouble sitting still ? like I'm pacing on stage right now
+- do others tell you not to do things such as fidget or pace ?
+- do bright lights bother you ? loud sounds ?
+- are certain phyiscal snesation intolerable ?
+- do you have difficulties with small items most people own many of ? Like socks ?
+
+At least a quater of the peoples in the room - handvoted - have troubles soprting and finding matching socks every day
+
+#### yes or no [...]
+
+- divergeants: "no socks does not bother me, I have a system"
+- other peoples don't have a system
+
+#### Does everyone have a system ?
+
+- 80% of persons have a system
+- if people notice, you are pleasaed to say "thanks, I have a system"
+
+What if you're doing some test in the magasines, and your only possible answer are yes or no ? not "i have a system"
+if you have a system, you built a system that works for you -> so you behave as other expect
+
+#### "before I learned not to"
+
+- this is cousin of "no, because I hafve a system"
+- typical is what we teach our children
+- it can also be whjat we carefully learn
+  - from other peoples's reactions
+  - from booksof social instruction
+  - from a dear friend who helps
+
+You learn more about your own wiring than how other peoples juge you for
+
+> The less masking you will do, the less healthier you will be
+
+#### The questions the screenrs dont ask
+
+#### What does this mean ?
+
+- if you screen on yes/no, and not on "how hard is it", the screening is probably inaccurate
+
+
+Two neurodivergeante don't diverge the same way. Some overlap tho.
+
+#### Divergence and definit are not the same
+
+Peoples saying "that's not a defect" ...  -> neurodivergeante is NOT a deficit. It's divergeante. It's not wrong, in a polite euphemism.
+
+- to be different is not to be lesser or flawed
+- peoples with a divergence may just be working a lot harder
+- lefthanded is a also a neurodiverent -> actually I'm ambidextrous
+- have real deficits around left and right
+- i also have   strenghts thaht suprise many people -> like reading peoples thsirt in mirror selfie without noticing
+
+#### Strenghs mentioned on the survey
+
+- spotting anomalous details -> like prime numbers on a bit sheet of numbers
+- noticing patterns -> pairs of package, etc.
+- hyper focus
+- discipline -> tremendous discipline and patience after years of adapting
+- patience
+- empathy -> as opposed to what peoples says
+
+#### who decides strehgts vs deficits ?
+
+- is given neurodivergent behavior a problem to diagnose or a difference to understand ?
+  - fidgeting
+  - stimming
+  - requiring more transition time than others
+- if these behaviours [...]
+
+#### Divergence: hard mode
+
+Autistic burnout can be fatal -> mental hospital, or even some people not surviving
+masking is kinda rewarding, you can be proud, but also dangerous
+
+#### Is a person neurotypical ?
+
+- some behaviors are
+  - in our social context
+  - remember, typical and normal are social constructs even for height
+- some people display mostly or entirely neurotypiical responses
+- some people do no
+- so ?
+- does being short help you understand why is can be hard to be tall ?
+
+Being short does not help you understand what it means to be tall, and vice-versa
+
+#### Accomodations
+
+- "I could ask for , or give accomodation"
+- but you dont know what accomodations neurodivergent needs
+  - your spcific needs
+- can people only get relief from stressors if yheyt have a diagnosis
+  - bright lights
+  - unrelenting sounds
+  - long meetings where everyone sits still -> tons of bladder infection in such companies
+
+offer breaks, for anyone who wants/need.
+
+#### So, Don't label peoples ?
+
+- dont label people neurodivergent
+- it can be helpful to know about speicifc divergences
+- more speicfic than than
+  - sensitives to noises
+  - learn differently than most peoples
+
+it's more useful to be specific
+
+#### A lifetime of corrections
+
+understanding the hard mode some peoples are playing -> empathy -> important
+
+#### To be normal is to belong
+
+- Have you "found your people" ? when you do so, it's magical. you fit in. yes, I'm where I belong
+- isnt it wonderful to feel like you fit in and are accepted ?
+- isnt it terribific when someone notices one of your strenghts ?
+- if a wide dfiversity of brains are all normal, then we all belong
+  - wherether we are typical or not
+- can we form or join an atmosphere of comity ?
+  - social harmony, friendly respect, mutual civility and courtesy
+- typical is over-rated, it may not even exists
+
+#### where do peoples feeld unwelcome ?
+
+so much noises, lights, chaos
+
+- bars, nightclubs, sporting events
+- office spaces and counters 
+
+#### where do peoples feel welcome ?
+
+- current educational environment -> shcool, university, etc.
+- public transit -> airports, airplanes, buses
+- other peoples's homes
+- restaurants
+- [...]
+
+#### how can you help other peoples to belong ?
+
+- understand that we're not all the same -> in some cases wildly
+- you are not an accurate measure of what everyone else is like
+- you have to listen to peoples when they say it's hard for them
+- be prepared to make suimple accommodations all the time
+- dont coach unless asked for. and consider that your suggestion is one that's been hehard a thousand times before
+  - you might think coaching is a brillant idea -> but no, it's just bothering the person you're offering your help to.
+- dont correct peoples your are not raising or managing
+  - it's not your role
+  - "don't interrupt" vs. "i'd love to listen what you have to say" -> words matter. Don't use dos and donts.
+
+#### Helping neurotypical belong
+
+- in many groups, being neurotypical isnt typical
+  - 15% on my survey
+- often rely on non-verbal signals to indicate their preferences in a conversations
+  - if you wait for a spoken requestion, you may be stressing them since they rthing they are being clear
+- may feel uncomfortable with extended discussions on topics they dont have a specifc interest in
+- may say "why are you doing that?" but dont want to know why
+  - it's code for "dont do that" ...
+- may be unfmaliar with being a minority -> only woman in the room, only engineer, only canadian in the room, etc.
+  - it's different form being part of the majority, can be very uncomfortable
+
+#### Quick recap
+
+- typical is a social construct, and it varies with context
+- there are many ways to be non typical
+  - accomodation need to handle more than just one
+- not everything is distributed in the same shape
+  - is typical the mode ? mean / median ?
+- not evertyhing is as siumple to measure as height
+- the answers are not Yes and No
+- a divergence is not always a deficit -> synesthesia, etc.
+  - but it does not mean it does not count -> can be strengh, better fit in certain context, etc.
+- behaviours are neurtypical. peoples ? maybe not
+- we all want to belong
+- we can all help each other to belong -> that is the right thing to do
+
+#### Things to ask ourselves ?
+
+- does it matter whether a person is neurtypical or not ?
+- are you where you belong ? are  you with your people ?
+- how can you help more perople belong ?
+- what can you learn about ways to make things smoother
+
+#### From questions / insights
+
+- You brought up the question that does it matters to even diagnose
+  - for children, the piece of paper are not magical
+- typicality differs by culture
+- when you're the only neurodivergent in the room, you feel isolated.
+  - how to overcome that ?
+
+My question: "Do you think peoples should or should not get diagnosed ? Being labeled as "neurodivergent" might be either a criteria used to by others to either help you being accepted as you are, but also be rejected as a weirdo since they won't know, or arent't willing to know.
+Discrimination is a real thing"
+
+- they are numbers of consequences of getting diagnosed, some are good, some are bad
+  - ADHD meds are life-changing
+  - but also changes in yourself -> you ain't getting less weird
+  - you have a pattern and a framework to put your behavior into
+  - in militant word, people who are against are labeled as "smthg-phobic"
+  - when you know why peoples are trying to push you down, you can act on that
+  - it helps you provide a filter for other to understand you
+    - you can't decide for other peoples, for sure
+
+
+
+
+
+
 
 #### My takeaway
 
@@ -2089,6 +2471,12 @@ I always enjoyed reflection and api simplification: see [csl::ag](https://github
      the hardened standard library, then a look ahead to C++29. -->
 
 [🎥 Video](), [📄 slidedeck]()
+
+Why this one over Andreas Fertig's "When Your Compiler Runs Your Code", same slot:
+
+- the ballot rejection lands this morning -> a C++26 feature tour given hours later stops being a tour, it becomes the account of what just happened
+- my day 1 notes all assume C++26 ships reflection, contracts and the hardened library -> I need the framing before I can write those sections
+- constexpr pitfalls hold whatever the ballot does -> Fertig's talk keeps, and goes on the YouTube list with the other parallel tracks I miss
 
 <!-- TODO: content -->
 

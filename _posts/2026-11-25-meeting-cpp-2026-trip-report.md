@@ -3477,8 +3477,696 @@ Jens's question: what about the mobile experience ?
 
 [🎥 Video](), [📄 slidedeck]()
 
+#### Who is Antoine
 
+freelance C++ and Qt contractor at an oil company
 
+the "About Me" slide, as a struct:
+
+```cpp
+struct antoine_morrier {
+  static constexpr auto role   = "Freelance C++/Qt developer";
+  static constexpr auto client = "SLB";
+  static constexpr auto github = "github.com/qnope";
+  static constexpr auto talk   = "github.com/qnope/ThreadSafe";
+  static constexpr auto blog   = "cpp-rendering.io";
+  static constexpr auto skills = Skills::Template |
+                                 !Skills::Thread;
+};
+// nothing shared, nothing borrowed:
+static_assert(is_sendable_v<antoine_morrier>);
+```
+
+#### Professional context
+
+#### Why this talk
+
+- data races and race conditions can be catastrophic -> Therac-25 incident
+  - due to race conditions: a radiation dose ~100 times higher
+- Rust makes data races impossible at compile time, directly in the language
+- purpose of this talk:
+  - make a library to catch data races at compile time
+  - it removes a whole class of bugs that are very hard to catch
+  - reduce the likelihood of race conditions by a huge amount
+
+#### what will we build during this talk ?
+
+- a task launcher
+
+"a task launcher that does not compile if there are potential data races or dangling references", in four parts:
+
+- **Problems** -> two buggy examples that compile
+- **Adding constraints** -> make the buggy code visible and add constraints
+- **Vocabulary** -> Sendable, Synchronizable, Lifetime-Aware
+- **Reflection walking** -> using C++26 to compute the traits used
+
+#### problems
+
+- data races
+- dangling references
+
+of course, prefer real thread pools over `std::vector<jthread>`
+
+```cpp
+class asynchronous_task_launcher {
+public:
+
+  template <typename F> void launch_task(F f) {
+    // runs in background
+    threads_.emplace_back(std::move(f));
+  }
+
+private:
+  // joined at destruction
+  std::vector<std::jthread> threads_;
+};
+```
+
+-> "Nothing here is wrong yet. Nothing here is checked either."
+
+#### data races
+
+- that's undefined behavior, memory issue -> can be fixed with std::atomic or std::mutex
+
+```cpp
+void count_to_a_million(int& counter) {
+  for (int i = 0; i < 1'000'000; ++i)
+    ++counter;
+}
+
+int main() {
+  int counter = 0;
+  {
+    asynchronous_task_launcher launcher;
+    launcher.launch_task(
+            [&counter] { count_to_a_million(counter); });
+    launcher.launch_task(
+            [&counter] { count_to_a_million(counter); });
+  }
+  std::println("{}", counter);
+  return 0;
+}
+```
+
+- compiles, no warning
+- expected 2'000'000, result 1'999'942 "... and a different number next time"
+
+#### dangling reference
+
+the task may outlive the caller
+
+```cpp
+asynchronous_task_launcher launcher; // Could be a member
+void greet(std::string name) {
+    std::string message = "Hello " + name;
+    launcher.launch_task(
+            [&message] { std::println("{}", message); });
+} // message dies here; the task may not even have started
+
+int main() {
+    greet("Berlin");
+} // the launcher joins here: it printed... whatever was left
+```
+
+- compiles, no warning
+- output varies from run to run: "Hello, Berlin!", then half of it, then a segmentation fault
+- the reference outlived its referent -> use-after-free
+
+#### one function, two contracts
+
+timeline on the slide: the caller returns while the task is still running -> the task may outlive the caller
+
+whatever crosses the boundary must be:
+
+- safe to **send** across threads
+- **alive** on its own: it must not depend on the caller's locals
+
+-> "A reference to a local is a time bomb."
+
+#### the compiler didnt see anything
+
+- Goal: make the compiler able to see what's wrong, through types informations
+- "the information is in the source, but not in the types": a mutable reference to `counter`, while we know it is not safe to mutate an `int` concurrently, and a reference to `message` that outlives `message`
+- "Checking the arguments is the goal of the game."
+
+#### make the arguments analyzable
+
+a closure hides what it captures -> whatever the lambda captured, a value, a reference, a raw pointer, is invisible to the compiler. No check can be performed.
+
+so do what `std::thread` does:
+
+```cpp
+launcher.launch_task(count_to_a_million,
+                     ref(counter));
+launcher.launch_task(print, ref(message));
+
+// F    = void (*)(int&)
+// Args = {std::reference_wrapper<int>}
+```
+
+-> now every argument is a type, a thing the compiler can look at. The captured reference became a `reference_wrapper<int>`.
+
+#### check everyargument
+
+Make sure argument can be used in our code first -> static assertions, with errors -> nice compilation error
+
+```cpp
+class asynchronous_task_launcher {
+public:
+  template <typename F, typename ...Args>
+  void launch_task(F f, Args... args) {
+    static_assert(is_allowed_in_task_v<F>,
+                  "the callable must be movable, "
+                  "Sendable and Lifetime-Aware");
+    static_assert((is_allowed_in_task_v<Args> && ...),
+                  "every argument must be movable, "
+                  "Sendable and Lifetime-Aware");
+
+    threads_.emplace_back(std::move(f), std::move(args)...);
+  }
+private:
+  std::vector<std::jthread> threads_;
+};
+```
+
+- arguments are taken **by value**: the launcher owns what it moves onto the thread, and the caller keeps nothing to race on
+- one trait to write: `is_allowed_in_task<T>`
+
+#### vocabulary
+
+- what does Rust do ?
+  - Send: a T may be transferred to another thread (move or copy) -> shoot and forget a resources to another thread
+  - Sync: a synchronizable object, shared by several threads at the same time
+    - `Sync<T>` = `Send<T&>` equivalent relationship
+  - borro checker handles variable lifetimes
+  - unsafe impl Send for T {}: for a user-defined type when the user guarantees thread safety for T
+  - auto traits: derived from the fields, structurally. one raw pointer field, and the whole struct is not Send or Sync.
+
+Goal of the talk: do the same as a C++26 library.
+
+last bullet of that slide: "same plan in C++26, as a library: Send ≈ **Sendable**, Sync ≈ **Synchronizable**, lifetime management ≈ **Lifetime-Aware** - three traits computed by reflection walks, conservative by default, trust through unsafe."
+
+#### Sendable somehow is Send
+
+a T is copyable (or movable) into another thread
+
+- most basic types: `int`, `string`
+- for `T*` or `T&`:
+  - only if T is Synchronizable
+  - `Send<T&>` = `Sync<T>`
+  - if T is Synchronizable, it is Sendable: if several threads may use it at once, one certainly may
+  - *(not true in Rust)*
+
+```cpp
+static_assert( is_sendable_v<int>);
+static_assert( is_sendable_v<std::string>);
+
+// shared, but the referent is Synchronizable
+static_assert( is_sendable_v<std::atomic<int>&>);
+static_assert(!is_sendable_v<int&>);
+static_assert(!is_sendable_v<const int*>);
+
+struct config {
+    int retries;
+    std::string host;
+};
+static_assert( is_sendable_v<config>);
+static_assert(!is_sendable_v<std::function<void()>>);
+```
+
+#### Synchronbizable somehow is Sync
+
+A T may be used (and mutated) from several threads at the same time
+
+- mutability is always a risk
+  - data races
+  - broken invariants
+- Const T is safe to read concurrently
+  - when it has no mutable member
+- const behind an indirection is never trusted
+
+```cpp
+// readers only
+static_assert(!is_synchronizable_v<int>);
+static_assert( is_synchronizable_v<const int>);
+static_assert( is_synchronizable_v<std::atomic<int>>);
+
+static_assert( is_synchronizable_v<const std::string>);
+
+struct memo { int key; mutable int cached; };
+// a mutable member: a hidden writer
+static_assert(!is_synchronizable_v<const memo>);
+
+static_assert(!is_synchronizable_v<const int *const>);
+```
+
+#### lifetime-aware type
+
+a concept invented by Antoine
+
+- a time knowning its own lifetime
+- reference and poitners are not
+- borrowed range and views are not
+- function pointers are: live for the whole program -> not mutable
+- smart pointers are if the underlying type is: ownership is transitive
+- containers
+- aggregates
+
+on the slide: ❌ `int&`, `int*`, `reference_wrapper<T>`, `std::span`, views - ✅ function pointers, smart pointers (`weak_ptr` knows when the underlying object is destroyed), containers and aggregates if every element and member is
+
+```cpp
+static_assert(is_lifetime_aware_v<std::string>);
+static_assert(is_lifetime_aware_v<std::vector<int>>);
+static_assert(is_lifetime_aware_v<std::optional<int>>);
+static_assert(is_lifetime_aware_v<std::shared_ptr<int>>);
+static_assert(is_lifetime_aware_v<std::weak_ptr<int>>);
+
+static_assert(!is_lifetime_aware_v<std::span<int>>);
+static_assert(!is_lifetime_aware_v<std::string&>);
+static_assert(!is_lifetime_aware_v<std::string_view>);
+```
+
+#### Summary
+
+|                            | `is_sendable` | `is_synchronizable` | `is_lifetime_aware` |
+| -------------------------- | ------------- | ------------------- | ------------------- |
+| `int`                      | ✅            | ❌                  | ✅                  |
+| `const int`                | ✅            | ✅                  | ✅                  |
+| `int&`                     | ❌            | ❌                  | ❌                  |
+| `atomic<int>`              | ✅            | ✅                  | ✅                  |
+| `shared_ptr<int>`          | ❌            | ❌                  | ✅                  |
+| `struct {int a;};`         | ✅            | ❌                  | ✅                  |
+| `atomic<int>&`             | ✅            | ❌                  | ❌                  |
+| `shared_ptr<atomic<int>>`  | ✅            | ❌                  | ✅                  |
+
+#### implementing is_allowed_in_task ?
+
+```cpp
+template <typename T>
+struct is_allowed_in_task :
+    std::conjunction<
+        std::is_move_constructible<T>,
+        is_sendable<T>,
+        is_lifetime_aware<T>> {};
+```
+
+-> `is_sendable` already handles synchronizability through references to T
+
+#### back to examples
+
+- fixing things a bit to make sure it's safe
+- reduce your cognitive overhead
+
+```cpp
+// rejected
+void count_to_a_million(int& counter);
+launcher.launch_task(count_to_a_million,
+                     ref(counter));
+
+// accepted
+using Counter = shared_ptr<atomic<int>>;
+void count_to_a_million(Counter counter);
+
+auto counter = make_shared<atomic<int>>(0);
+
+launcher.launch_task(count_to_a_million,
+                     counter);
+launcher.launch_task(count_to_a_million,
+                     counter);
+```
+
+```cpp
+// rejected
+launcher.launch_task(print,
+                     ref(message));
+
+// accepted
+void print(string message) {
+    println("{}", message);
+}
+launcher.launch_task(print,
+                     move(message));
+```
+
+-> "the fixed code is not only accepted; it is correct by construction: whatever crosses the boundary is safe to send and stays alive on its own. The compiler checked it."
+
+#### reflection walking - implementing the traits
+
+- "happy-man operator" `^^T`
+
+```cpp
+// reflection space
+constexpr auto reflection = ^^T;
+// equivalent of traits
+is_reference_type(reflection);
+is_polymorphic_type(reflection);
+add_lvalue_reference(reflection);
+is_defaulted(reflection_of_function);
+
+nonstatic_data_members_of(reflection, access_context);
+
+extract<bool>(reflection);
+substitute(trait, {types...}); // ^^trait<types...>
+
+consteval bool trait_value(info trait, info type) {
+    return extract<bool>(substitute(trait, {type}));
+}
+```
+
+#### The shape of a trait
+
+four pieces, for each of the three traits:
+
+- `is_sendable<T>` -> the class template
+- `is_sendable_v<T>` -> the value helper
+- `is_sendable_type(t)` -> the reflection function
+- `diagnose_is_sendable(t)` -> the walker, computes the result
+
+```cpp
+template <typename T> struct is_sendable :
+    std::bool_constant<detail::diagnose_is_sendable(^^T)> {};
+
+template <typename T>
+constexpr bool is_sendable_v = is_sendable<T>::value;
+
+consteval bool is_sendable_type(std::meta::info type) {
+    return detail::trait_value(^^is_sendable_v, type);
+}
+```
+
+-> same idea for Synchronizable and Lifetime-Aware
+
+#### two helper notions: Default types and Dynamically known types
+
+default type:
+
+- scalar, and not pointer, unless it points to a function
+- class or union
+
+  - it has reflectable state (closures are not reflectable... yet)
+  - copy constructor is defaulted (if any)
+  - move constructor is defaulted (if any)
+  - copy assignment operator is defaulted (if any)
+  - move assignment operator is defaulted (if any)
+  - destructor is defaulted (if any)
+
+dynamically known
+
+- it is non-polymorphic
+- it is polymorphic and final -> otherwise a derived class could add unsafe members
+
+#### implementating is_dunamically_type_known
+
+#### is a type a "default type" ?
+
+the flowchart on that slide:
+
+```text
+is_pointer ---yes--> is_function ---yes--> True
+    |                     |
+    no                    no ------------> False
+    v
+is_scalar  ---yes--> True
+    |
+    no
+    v
+class or union ---no--> False
+    |
+   yes
+    v
+is_closure_with_capture ---yes--> False
+    |
+    no
+    v
+copy, move, destructor defaulted ---yes--> True
+```
+
+#### implementing diagnose_is_sendable
+
+```cpp
+consteval bool diagnose_is_sendable(std::meta::info type) {
+    const auto unqualified = remove_cv(type);
+    if (unqualified != type)
+        return is_sendable_type(unqualified);
+    if (is_synchronizable_type(type))
+        return true;
+    if (is_reference_type(type) || is_pointer_type(type)) {
+        type = remove_cvref(remove_pointer(type));
+        return is_dynamic_type_known(type) &&
+               is_synchronizable_type(type);
+    }
+    if (!is_default_type(type))
+        return false;
+    return all_bases_and_members(type, is_sendable_type);
+}
+```
+
+#### The real walker
+
+```cpp
+consteval bool all_bases_and_members(info type,
+                                     bool (*question)(info)) {
+    if (!is_class_type(type) && !is_union_type(type))
+        return true;
+
+    const auto context = access_context::unchecked();
+
+    for (auto base : bases_of(type, context))
+        if (!question(type_of(base)))
+            return false;
+
+    for (auto member : nonstatic_data_members_of(type, context))
+        if (!question(remove_cv(type_of(member))))
+            return false;
+    return true;
+}
+```
+
+#### is a type "synchronizable"
+
+see diagram -> forget to take the slide ... fuck -> TODO: ask Antoine for the slide-deck
+
+-> slide 31 in the deck numbering, between "The real walker" (30) and "Synchronizable, mutable" (32). The "About Me" slide points at `github.com/qnope/ThreadSafe` for the code.
+
+#### synchronizable, mutable
+
+```cpp
+struct memo {
+  int key;
+  mutable int cached;
+};
+static_assert(!is_synchronizable_v<const memo>,
+              "mutable member");
+
+struct safe_counter {
+  mutable std::atomic<int> hits;
+};
+static_assert(is_synchronizable_v<const safe_counter>,
+              "atomic is safe");
+```
+
+#### synchronizable, constness
+
+```cpp
+int x = 0;
+const int& r = x;    // r promises not to write...
+++x;                 // ...and x is written anyway
+
+struct holds_ref { const int& value; };
+static_assert(!is_synchronizable_v<const holds_ref>);
+// holds_ref{r}; x = 18; write-path
+static_assert(!is_sendable_v<const int*>);
+// another alias may write; the const is a view, not a property
+
+struct ref_to_atomic { std::atomic<int>& c; };
+static_assert( is_synchronizable_v<const ref_to_atomic>);
+// the pointee handles the sharing itself
+```
+
+#### implementing diagnose_is_lifetime_aware
+
+```cpp
+consteval bool diagnose_is_lifetime_aware(std::meta::info type)
+{
+    if (const auto unqualified = remove_cv(type); unqualified != type)
+        return is_lifetime_aware_type(unqualified);
+
+    if (!is_default_type(type))
+        return false;
+
+    return all_bases_and_members(type, is_lifetime_aware_type);
+}
+```
+
+#### walker on some known types
+
+#### why do we need an unsafe layer ?
+
+support other threading framework, custom code by users, etc.
+so users can explicitly flag their code as "thread-safe"
+
+- the walker rejects safe types: `std::atomic`, `std::vector`, ... -> user-provided copy operations
+- opt-in only: the primary template is `false_type`. A specialization can only grant trust.
+- named unsafe: "makes it abundantly clear that it is unsafe and that responsibility lies with the user"
+
+#### Implementing the unsafe traits
+
+```cpp
+template <typename T>
+struct is_unsafe_sendable : std::false_type {};
+
+template <typename T>
+constexpr bool is_unsafe_sendable_v = is_unsafe_sendable<T>::value;
+
+consteval bool is_unsafe_sendable_type(std::meta::info type) {
+    return detail::trait_value(^^is_unsafe_sendable_v, type);
+}
+
+consteval bool diagnose_is_sendable(std::meta::info type) {
+    if (is_unsafe_sendable_type(type))
+        return true;
+    // ...
+}
+```
+
+#### atomic variables are Synchronizable
+
+```cpp
+template <typename T>
+struct is_unsafe_synchronizable<std::atomic<T>> :
+    std::bool_constant<is_sendable_v<T>> {};
+```
+
+#### Standard containers
+
+```cpp
+constexpr std::array allowed_std_wrappers = {
+    ^^std::vector, ^^std::deque,
+    ^^std::forward_list,
+    ^^std::map, ^^std::tuple, ...
+};
+// The idea is to do the same for all containers: map, tuple...
+// Reflection can help with the above array, but not shown here
+template <typename T>
+struct is_unsafe_sendable<std::vector<T>> :
+    is_sendable<T> {};
+
+template <typename T>
+struct is_unsafe_synchronizable<const std::vector<T>> :
+    is_synchronizable<const T> {};
+
+template <typename T>
+struct is_unsafe_lifetime_aware<std::vector<T>> :
+    is_lifetime_aware<T> {};
+```
+
+#### Standard smart pointers
+
+|                         | `is_unsafe_sendable`                 | `is_unsafe_lifetime_aware` |
+| ----------------------- | ------------------------------------ | -------------------------- |
+| ⚠️ `unique_ptr<T>`      | `is_sendable<T>`                     | `is_lifetime_aware<T>`     |
+| `shared_ptr<T>`         | `is_synchronizable<std::decay_t<T>>` | `is_lifetime_aware<T>`     |
+| `weak_ptr<T>`           | `is_synchronizable<std::decay_t<T>>` | `is_lifetime_aware<T>`     |
+| `reference_wrapper<T>`  | `is_synchronizable<std::decay_t<T>>` | ❌                         |
+
+-> "any polymorphic type must be final"
+
+#### Some library objects
+
+- `synchronized_value<T>`: a simple object with a `std::mutex`. Access goes through a `locked_value`, which guarantees that access always happens under a lock -> this object is Synchronizable.
+- `copy_on_write<T>`: a simple `std::shared_ptr<const T>` with const access. Mutable access copies the value into a new `shared_ptr` -> this object is Sendable.
+
+#### improve error messages
+
+C++ errors are long and hard to read -> because very detailed
+
+```cpp
+struct inner  { int* borrowed; };
+struct middle { inner inner_; };
+struct outer  { middle middle_; };
+launcher.launch_task(process, outer{});
+```
+
+```text
+error: static assertion failed:
+  every argument must be movable,
+  Sendable and Lifetime-Aware
+note: 'is_sendable_v<outer>'
+evaluates to false
+```
+
+-> "OK, it's false. But why ?"
+
+with `std::define_static_array` and `std::define_static_string`, you can generate proper error messages:
+
+```text
+outer::middle_::inner_::borrowed(int*) shares its pointee with the
+other thread, and int is not Synchronizable
+```
+
+#### trait_answer: a book that knows why
+
+```cpp
+struct trait_answer {
+    const char* reason = nullptr;  // nullptr means yes
+    std::span<const char* const> path = {};
+
+    constexpr explicit operator bool() const { return reason == nullptr; }
+
+    consteval trait_answer prepend(std::meta::info step) const {
+        if (!reason)
+            return *this;
+        const char* current_step = define_static_string(identifier_of(step));
+        std::deque steps(path.begin(), path.end()); // [inner_, borrowed]
+        steps.push_front(current_step); // [middle_, inner_, borrowed]
+        return {reason, define_static_array(steps)};
+    }
+
+    consteval const char* message() const {...}
+};
+```
+
+#### other ideas
+
+- handle qt object that "moveToThread" automatically
+- handle databse and transaction automatically inside a thread
+- perform checking of sendability on the potential return type of a task
+- adding scoped multithreading. here no need [...]
+
+#### Limits
+
+It's not a magic framework
+
+- global variables are not handled
+- data races are caught but not race conditions
+- lots of false negatives, but it's better to be too restrictuve
+- captures are opaque
+- polymorphic need to be final
+- compile-time cost
+- recursive types are not handled
+- rish of ODR violations
+
+two details from the slide: captures are opaque is why closure types that capture values are not supported, and the compile-time cost is "way better than I expected (under 1 s for the whole test suite)"
+
+#### conclusion: what did we build ?
+
+A task launcher that does not compiler
+
+- **make it visible**: arguments, not captures. Whatever crosses the thread boundary is a type.
+- **check two contracts**: Sendable and Lifetime-Aware, computed by C++26 reflection
+- **trust explicitly**: what the walker cannot prove safe needs an explicit opt-in -> `is_unsafe_*`
+
+"Rust did it in its standard, we did it as a simple C++26 library"
+
+the last slide, with `github.com/qnope/ThreadSafe`:
+
+```cpp
+static_assert(
+    is_allowed_in_task_v<
+        decltype(questions),
+        answer...>);
+// passes.
+```
 
 
 

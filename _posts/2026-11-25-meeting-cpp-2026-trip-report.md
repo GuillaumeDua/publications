@@ -2048,6 +2048,11 @@ std::println("{}, balance {}, last seen {}", id, balance, last_seen);
 #### My takeaway
 
 Fucking masterclass ! OMG loved it !
+I'll definitly dig deeper into this in the upcoming months.
+I always enjoyed reflection and api simplification: see [csl::ag](https://github.com/GuillaumeDua/CppShelf/tree/main/libs/ag) -> "csl::ag gives any C++ aggregate a std::tuple-like interface - query its field count, access fields by index, iterate or apply a callable over them, and pretty-print the whole thing - all in C++20, with no reflection, no macros, and no changes to your types."
+
+- reflection makes standard what dark magic abomination was before (all the dirty/questionable trik one had to rely on to somewhat achieve a hint of such feature/behavior)
+- Custom annotations open a whole new world of possibilities on top of reflection
 
 <!-- 18:45 - Speaker and Staff Dinner, at Peridot. Speakers and staff only. -->
 

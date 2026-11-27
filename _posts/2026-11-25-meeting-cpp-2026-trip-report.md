@@ -2255,9 +2255,9 @@ They're not correlated. What's typical here ? what amount/ratio of peoples will 
 imagine for each question 80% give the "typical reponse.
 most peoples may give a typical answer to at least one question -> but not to all questions
 
-| Questions  | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   |
-|------------|-----|-----|-----|-----|-----|-----|-----|-----|
-| % all yes  | 80% | 64% | 51% | 41% | 33% | 26% | 21% | 17% |
+| Questions | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   |
+| --------- | --- | --- | --- | --- | --- | --- | --- | --- |
+| % all yes | 80% | 64% | 51% | 41% | 33% | 26% | 21% | 17% |
 
 -> eight questions at 80% each, and only 17% of people answer "typical" to all of them
 
@@ -2563,7 +2563,218 @@ Why this one over Andreas Fertig's "When Your Compiler Runs Your Code", same slo
 - my day 1 notes all assume C++26 ships reflection, contracts and the hardened library -> I need the framing before I can write those sections
 - constexpr pitfalls hold whatever the ballot does -> Fertig's talk keeps, and goes on the YouTube list with the other parallel tracks I miss
 
-<!-- TODO: content -->
+TODO: add who is Guy -> member of iso commitee, etc.
+
+#### Other talks
+
+Sitting on top of other great talks.
+
+#### ISO/IUEC DIS 14882
+
+- explain the process, schedule, timeline
+- delivering things incrementally
+- relies on volunteers -> y'all can wwrite proposal, and/or make more peoples contributing to the standard
+- national body are the souverain of ISO. Any can join. each have different priorities.
+
+#### What do we want from a new standard ?
+
+- more and better abstraction -> super useful, especially because we tend to spend more and more time reviewing human or AI codes
+- safer code
+- faster code
+
+see Andrei Alexandrescu talk from cpponsea -> will be the same at the next cppcon
+
+#### What's on the next standard ?
+
+- P2900 - contracts
+  - peoples use `assert` and `static_assert` for now
+  - `contract_assert` is a new language keyword -> does not suffer from the coma/parenthesis issues `assert` has
+
+#### How doo you toggle contracts ?
+
+- ignore
+- observe
+- enforce
+- quick-enforce
+
+#### Contract violation handling
+
+#### Contract violation object
+
+- precondition -> before
+- postcondition -> after
+
+see the bercher-meyers book. Or Guy's own book on design by contract.
+
+with contracts, pre and post condition part of the function signature. It documents the code, so it's part of the LLMs.
+
+there's much more to discuss about contract, but the immediate benefits are
+
+- C++ hardening library
+- more safety to existing code -> thus value
+- hardened, debug, safer modes -> better if/when standardize
+- goal: performance guarantees, and way to enable safer modes
+
+We now have ways to check stuffs in a more subtle and certain way than simple asserts: contracts.
+
+#### Speaking of containers ...
+
+- `std::inplace_vector` -> treat vectors like arrays
+- `std::hive` -> formely `colony` in earlier revisions of the paper
+  - list is becoming less and less relevant, especially for specialist use-case -> cache matters.
+  - caches is why `flat_map` and `flat_set` are use for.
+  - not a faster vector, but a much much faster list
+  - reach the 28th revision -> large amount of work
+- constexpr extended support for containers -> shout out to Hana Dusikova !
+  - all containers should be contexpr -> except for hive, because for now it relies on some `reinterpret_cast` -> which is basically UB-related/causing
+- exception in consteval context -> emit compiler error message
+- errorneous now have a specific definition in the standard. For example, uninitialized variables
+  - errorneous -> incorrect code
+  - `[[indeterminate]]` attribute to specify what is errorneous on purpose
+
+fun fact: P0059 -> first paper Guy wrote for free concurrent ring buffer. -> bugs, concurrency, race conditions, etc. -> hard to specs.
+
+#### This takes a while
+
+#### the concurrency story - C++11
+
+- std::thread, std::async
+- how to prevent races ?
+- std::mutex
+- std::atomic
+
+all of that is a bit low-level, we need to improve abstractions
+
+- std::condition_variable
+- std::promise (shared state), std::future
+- std::memory_order
+
+#### the concurrency story - C++14
+
+- std::shared_timed_mutex
+- std::shared_lock
+
+#### the concurrency story - C++17
+
+- std::shared_mutex
+- std::scoped_lock
+- std::hardware_destructive_interference_size
+- std::hardware_constructive_interference_size
+
+#### the concurrency story - C++20
+
+- std::couting_semaphore, std::binary_semaphore
+
+#### the concurrency story - C++23
+
+- _Atomic (to be checked)
+
+slide: "this takes slightly less time" -> still not composable
+
+#### What's the problem here ?
+
+- structured programming -> control flow
+- get rid of goto
+- error propagation with throw/exception is trivial
+
+asynchronous lifetimes
+
+[...]
+
+#### What is a function, anyway ?
+
+signal errors
+
+#### Sender and receivers
+
+as an excellente abstraction of how functions work
+
+#### sender algorithms
+
+sender factories
+
+- std::schedule
+- std::just
+
+sender adapters
+
+- std::when_all -> union
+- std::when_any -> intersection
+- std::then
+
+sender consumers
+
+- std::sync_wait
+
+all of this is on the stack
+lazy evaluation, like range views
+
+-> add simple example slide here
+
+The time of `search` is the complete graph of execution -> complete hell -> perfect use-case for auto here
+
+Nothing happended -> we only composed a call graph
+we need to then use async_wait
+
+#### Simple example
+
+- way simpler to read
+- please play with it, write a web-crawler for instance
+
+#### other concurrency
+
+- vectorization -> SIMD
+- the red code is not standard -> one variation for each architecture
+
+Solution : `#include <simd>`
+
+- simd::basic_vec
+- simd::chunk, cat
+- simd::min, max, minmax
+- reduce
+- all_of, any_of, none_of
+- permute
+
+#### upgrade to `#include`
+
+- `#include` lexically substitutes text
+- new preprocessor directive: `#embed`, to avoid loading time -> share binary datas, etc.
+  - (to me: to be confirmed with documentation, proposal)
+  - super useful with resources, lua, etc.
+
+#### The big one: reflection
+
+reflection vs. static reflection
+
+- other languages have runtime reflection -> overhead.
+- C++ now have static reflection -> zero overhead, that's compile-time
+
+What can be reflected ? type, variables, function, parameters, class members, etc.
+
+-> see yesterday's amazing talks about reflection
+
+Calling "[:e:]" the kawai-operator XD
+
+Few obvious use-case
+
+- enum-to-string
+- serializing structs
+
+#### So much more
+
+#### When can I try all this stuffs ?
+
+- gcc 16.2 -> doing great
+- clang 23
+- EDG front-end is now open-source -> what vs use as front-end for intellisense
+
+#### What is the pipeline for C++29
+
+- pattern-matching ? sockets ?
+- more new features ?
+- or should we stabilize/fix what we already have ?
+
+personnal note: about std::hive, I remember reading the first revision of the paper about 10 years ago
 
 #### My takeaway
 

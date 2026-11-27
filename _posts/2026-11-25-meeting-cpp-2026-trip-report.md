@@ -3081,6 +3081,10 @@ personnal note: about std::hive, I remember reading the first revision of the pa
 
 #### Beginnings
 
+> "No, you can't use range-for; it might be slow!"
+>
+> Somewhere in Chicago, March 2012
+
 - some colleague stating that range-for are slow need some benchmarks ?
   - uses the watch command for some primitive compiler-explorer like view -> first draft
   - show it's one cycle, one instruction fewer
@@ -3091,11 +3095,27 @@ Matt was also teching himself how to create simple his first website using nodej
 
 From primitive to now full of features
 
+three steps on the same slide:
+
+- a terminal split in two: `vim` editing `int square(int x) { return x * x; }` on one side, a `watch`-refreshed asm dump on the other -> `square(int): imul edi, edi / mov eax, edi / ret`
+- "GCC Explorer" in a browser, on `localhost:10240` -> "Interactive compiler", source + "C++ editor" + "Assembly output" panes, g++ (Ubuntu 8.2.0-7ubuntu1) 8.2, options `-O2 -std=c++0x -march=native`
+- today's compiler-explorer -> a dozen panes at once, several languages side by side, execution output, control flow graph
+
 #### life of a query
 
-S3
+Browser -> CloudFront -> Load Bal. -> serving fleet of `ce-node`s -> DynamoDB, EFS, S3
+
+- "request makes its way to a node" -> one node of the fleet highlighted
+- next slide, same diagram with everything it actually goes through: "More complex than that..."
+- and the one after: "...and now there's a queue"
 
 #### compiler explorer in 2026
+
+- 100% site uptime since 2021
+- 99.98% compiler uptime (past year)
+- 4-40 computers, Linux, Windows, x86, ARM, GPUs
+- 14+ years of **permanent** short links
+- 1.8 million compilations per week
 
 **permanent** shortlinks -> super important
 
@@ -3110,16 +3130,58 @@ see stats.compiler-explorer.com
   - how to make it safe ? parsing ? -> `#include "../../../etc/passwd"` XD
   - or even abuse the preprocessor -> `#define PASSWD`
 
+the "How it started" slide:
+
+```cpp
+#define PASSWD "../../../etc/passwd"
+#include PASSWD
+```
+
 #### 2012's approach
 
 - about `ldd` -> `LD_PRELOAD`
   - to overwite the C `open` function to add more safety -> prevent to open unwanted files -> permission denied for attempting to open for instance `/etc/passwd`
+
+```c
+int open(const char *pathname, int flags, mode_t mode) {
+  if (!allowed(pathname, flags)) {
+    return -1;
+  }
+  static int (*real_open)(const char*, int, mode_t) = NULL;
+  if (!real_open) real_open = dlsym(RTLD_NEXT, "open");
+  return real_open(pathname, flags, mode);
+}
+
+// and so on for openat, creat, etc
+```
+
 - What else could go wrong ? `gcc` -> `-fplugin=name.so`
   - your gcc can run an arbitrary bit of code ! This is a problem
   - `-wrapper <program>` -> invoke all subcommands under a wrapper program -> for instance, `/bin/bash` !
-- `-specs=file`
+- `-specs=file` -> "process file after the compiler reads in the standard specs file, in order to override the defaults which the gcc driver program uses when determining what switches to pass to cc1, cc1plus, as, ld, etc."
+
+(the three of them read straight out of `man gcc`, on screen)
 
 Solution in 2012 ? More regular expressions
+
+```text
+optionsForbiddenRe=(?x)
+    (?: -W[alp], )?          # Optional warning prefix
+    (?:
+        (?:
+             -wrapper        # No wrappers
+           | -fplugin.*      # No plugins
+           | -specs          # No specs
+           | -load           # No loading of any kind
+           | -plugin         # Even more no plugins
+           | @.*             # No loading options from files
+           | -I              # No funky include paths
+           | -i              # of any kind
+        )
+        (?: = .* )?          # Optional argument
+      | --                   # End of options
+    )
+```
 
 #### safe !? now ?
 
@@ -3162,9 +3224,45 @@ Gives you very fine grain control of the sandbox
 simple/easy to configure
 replaced all of our sandboxing with this
 
+the configuration shown on screen:
+
+```text
+rlimit_fsize: 16
+rlimit_nofile: 100
+cgroup_mem_max: 209715200
+cgroup_pids_max: 14
+cgroup_cpu_ms_per_sec: 500
+
+mount {
+    dst: "/dev"
+    fstype: "tmpfs"
+}
+mount {
+    src: "/dev/null"
+    dst: "/dev/null"
+    rw: true
+}
+mount {
+    dst: "/tmp"
+    fstype: "tmpfs"
+    rw: true
+    noexec: true
+    nosuid: true
+}
+mount {
+    src: "/lib"
+    dst: "/lib"
+}
+mount {
+    src: "/opt/compiler-explorer"
+    dst: "/opt/compiler-explorer"
+}
+```
+
 #### defense in depth
 
 - limiting what attackers can get, even if they break the first lines of defense
+- the three layers on the slide: namespace, UNIX account, AWS node
 
 #### problems
 
@@ -3175,12 +3273,17 @@ replaced all of our sandboxing with this
 
 - tough to run RCE - remote code execution - as a service
 - luckily "bad guys" dont seem to want to hack us
+- GH loves to tell me "may allow RCE" -> a CodeQL "uncontrolled command line" error on the slide, pointing at `child_process.spawn(command, args, ...)`
 
 #### Storage
 
 - only part of the project that is not open-source, for securiy reason
 
 #### What do we store ?
+
+- compilers: 7,193 of them, 99 languages -> 2.4TB live, 530GB tarballs
+- libraries: 399, for 1,197 versions -> ~300GB
+- short links: 2.4 million, 82 million clicks -> 23.3GB, plus a 450MB index
 
 #### Initial
 
@@ -3197,10 +3300,20 @@ with docker images, you have to add your new `RUN` at the end, so you dont inval
 
 NFS is great. but some problems too
 
+```text
+admin-node~ $ df -h /opt
+Filesystem                                 Size  Used Avail Use% Mounted on
+fs-db4c8192.efs.us-east-1.amazonaws.com:/  8.0E  2.4T  8.0E   1% /opt
+```
+
+-> EFS happily reports 8 exabytes available
+
 #### problems
 
 - performance -> you can't configure **caching** for NFS -> major caching issues -> bursting the bandwith
 - kernel upgrade issu
+
+the EFS graph on that slide: `BurstCreditBalance` draining down to nothing while `TotalIOBytes` keeps spiking
 
 #### cefs
 
@@ -3228,6 +3341,13 @@ some kind of a fake/virtual FS
 - script maps name to image
 - unmount when idle
 
+```text
+$ ls -l /efs/cefs-images/some-gcc.sqfs
+-rw------- 1 root root 153956352 Jul 17 08:03 /efs/cefs-images/some-gcc.sqfs
+$ ls /cefs/some-gcc  # magically mounts the above...
+bin/  include/  info/  lib/  lib64/  libexec/  man/  share/
+```
+
 did not really worked that way
 
 #### cefs v2
@@ -3248,6 +3368,8 @@ steps, transition along the way to move from v1 to v2
 - mounts: 2,182 vs ~25
 - mount time: 30-50s vs. 18s
 
+startup duration graph under the table: the whole upper band, the one sitting between 30s and 1min, drops onto the ~20s line
+
 #### Issues
 
 - CPU usage (v1) -> run top and say "what the hell this is running 100% cpu to mount squash images" -> it was systemd
@@ -3261,6 +3383,20 @@ steps, transition along the way to move from v1 to v2
 - NFS/Samba
 - Compiler CI system
   - github is great for CI, but when you have dozens of compilers to build and test every night -> you need your own system
+
+#### Stats
+
+the public dashboard on screen -> stats.compiler-explorer.com, compilations over the last week:
+
+- c++: 851,307
+- c: 305,824
+- rust: 53,340
+- java: 35,345
+- csharp: 32,258
+- python: 29,163
+- then swift, fortran, assembly, cuda, haskell, zig, odin, ocaml, pascal, dart, vb, llvm -> down to ~7,800 for the last one on the panel
+
+(numbers read off the dashboard screenshot -> re-check them before publishing)
 
 #### Ligntning FQAs
 
@@ -3280,20 +3416,35 @@ This is a community project, nothing's a secret !
 
 #### Income
 
-- sponsors
-- community spoort
-- merchs
-- AWS credits
+Nov '25 - Oct '26:
+
+- sponsors: $34k
+- community spoort: $20k
+- merchs: $5k
+- AWS credits: $29k
 - total: 88k
 
 That's not bad, but again that's a free open-source project
 
 #### Costs
 
+- AWS: $46k
+- monitoring: $1.5k
+- misc: $3.5k
 - Total: 51k
 - saved: 11k (44k in reserves)
 
 I want to make sure this all project outlive me. I heard that quick-bench is now gone, that's sad.
+
+#### Merchandise
+
+shop.compiler-explorer.com
+
+#### Thanks
+
+- Github & commercial sponsors, patrons
+- partouf, Ofek, Jeremy, narpfel and the whole CE crew
+- HRT ("We're hiring!!")
 
 #### Questions
 
@@ -3326,7 +3477,10 @@ Jens's question: what about the mobile experience ?
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+
+
+
+
 
 #### My takeaway
 
@@ -3470,3 +3624,37 @@ If you enjoyed this trip-report:
 - [Conference - Meeting Cpp 2024 - Trip report]({{ '/2025/03/01/meeting-cpp-2024-trip-report/' | relative_url }}).
 - [Conference - C++ in Paris Conference 2021 - Trip report]({{ '/2022/05/05/cppp-2021-trip-report/' | relative_url }})
 - [Conference - Meeting Cpp 2021 - Trip report]({{ '/2021/11/24/meeting-cpp-2021-trip-report/' | relative_url }})
+
+---
+
+## todo
+
+<!-- working section: drop it before publishing -->
+
+Still to attend:
+
+- [ ] 11/27: Antoine Morrier (16:00), Daniela Engert (17:15)
+- [ ] 11/28: the four talks, the lightning talks and the closing panel
+
+Writing:
+
+- [ ] rewrite the raw notes into the report proper -> 7 sections still carry a `<!-- TODO: content -->` marker
+- [ ] 12 of the 14 `#### My takeaway` sections are empty
+- [ ] introduction: this year's framing, and what to keep of the recurring-themes list
+- [ ] opening section: keynote/talk/track counts, onsite and remote attendance, sponsors, code of conduct and trust & safety team
+- [ ] "Allow me a digression here": write it, or drop the section
+- [ ] conclusion
+
+To check:
+
+- [ ] the **15th edition** claim, against Jens Weller's update talk (11/28, 14:00)
+- [ ] Guy Davidson, "Other talks": the I/l characters in the video ids read off the slide
+- [ ] Guy Davidson: `TODO: add who is Guy`
+- [ ] Matt Godbolt, "Stats": the per-language numbers read off the dashboard screenshot
+
+Before publishing:
+
+- [ ] fill the 16 `[🎥 Video]()` and `[📄 slidedeck]()` pairs, once Meeting C++ publishes them
+- [ ] replace the cover image -> the placeholder is the conference's own title card, reuse rights not stated
+- [ ] rename the file to the real publication date
+- [ ] remove the post from `exclude:` in `_config.yml`

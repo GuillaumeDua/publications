@@ -2565,9 +2565,19 @@ Why this one over Andreas Fertig's "When Your Compiler Runs Your Code", same slo
 
 TODO: add who is Guy -> member of iso commitee, etc.
 
+- the ISO project page on screen lists Guy Davidson as convenor of WG21
+- Bloomberg Engineering, on the slide template
+
 #### Other talks
 
 Sitting on top of other great talks.
+
+- Timur Doumler, CppCon 2026 -> <https://www.youtube.com/watch?v=N_lM_Uq1UAc>
+- Inbal Levi, ACCU on Sea 2026 (video out real soon now) -> <https://slides.com/inballevi/cpp-26>
+- Marc Gregoire, CppCon 2025 -> <https://www.youtube.com/watch?v=PcidhLUYp-4>
+- Herb Sutter, C++ On Sea 2025 -> <https://www.youtube.com/watch?v=kKbT0Vg3ISw>
+
+(video ids read off the slide -> check the I/l characters before publishing)
 
 #### ISO/IUEC DIS 14882
 
@@ -2575,6 +2585,17 @@ Sitting on top of other great talks.
 - delivering things incrementally
 - relies on volunteers -> y'all can wwrite proposal, and/or make more peoples contributing to the standard
 - national body are the souverain of ISO. Any can join. each have different priorities.
+
+live ISO project page (ed.8, id.91179, ISO/IEC JTC 1/SC 22/WG 21), currently at stage 40.20, DIS ballot ongoing:
+
+- registered 2025-01-02, timeframe SDT 36 -> 21 months in, 2 months 19 days in the current stage
+- 30.00 CD registered 2025-08-04, consultation 2025-08-05, comment period closed 2025-10-01
+- 30.99 CD approved for registration as DIS 2026-05-31, 40.00 DIS registered 2026-06-01
+- 40.20 DIS ballot initiated 2026-07-30 -> ballot open from 2026-07-31 to 2026-10-23, close of voting 2026-10-22
+- next: 50.00 final text received or FDIS registered for formal approval, target 2027-02-11, limit 2028-01-01
+- 60.60 international standard published, target 2027-06-01
+
+responsibilities on that page: convenor Guy Davidson, project leader Thomas Koeppe, committee manager Bill Ash, secretariat ANSI
 
 #### What do we want from a new standard ?
 
@@ -2592,19 +2613,61 @@ see Andrei Alexandrescu talk from cpponsea -> will be the same at the next cppco
 
 #### How doo you toggle contracts ?
 
-- ignore
-- observe
-- enforce
-- quick-enforce
+- ignore: do not check predicate
+- observe: check predicate; if false emit diagnostic and continue
+- enforce: check predicate; if false emit diagnostic and terminate
+- quick-enforce: check predicate; if false terminate immediately
+
+-> picked with a command line flag
 
 #### Contract violation handling
 
+```cpp
+void handle_contract_violation
+(const std::contracts::contract_violation& violation)
+{
+    page_CTO("Panic!", violation.comment());
+}
+```
+
+same slide, second body:
+
+```cpp
+    std::breakpoint(); // new for C++26! Hurrah!
+```
+
 #### Contract violation object
+
+```cpp
+#include <contracts>
+namespace std::contracts {
+  class contract_violation {
+  public:
+    const char* comment() const noexcept;
+    detection_mode detection_mode() const noexcept;
+    std::exception_ptr evaluation_exception() const noexcept;
+    assertion_kind kind() const noexcept;
+    std::source_location location() const noexcept;
+    evaluation_semantic semantic() const noexcept;
+    bool is_terminating() const noexcept;
+  };
+}
+```
 
 - precondition -> before
 - postcondition -> after
 
 see the bercher-meyers book. Or Guy's own book on design by contract.
+
+#### Pre- and post-conditions
+
+```cpp
+UI_item* UI_from_screen(int x, int y)
+  pre (x >= 0 && x <= screen_x_max)
+  pre (y >= 0 && y <= screen_y_max)
+  post (u: u != nullptr)
+  post (u: u->is_active());
+```
 
 with contracts, pre and post condition part of the function signature. It documents the code, so it's part of the LLMs.
 
@@ -2616,6 +2679,15 @@ there's much more to discuss about contract, but the immediate benefits are
 - goal: performance guarantees, and way to enable safer modes
 
 We now have ways to check stuffs in a more subtle and certain way than simple asserts: contracts.
+
+#### Standard library hardening - P3471
+
+preconditions on standard library functions are now hardened. `a[n]` as the worked example:
+
+- Result: `reference`; `const_reference` for constant `a`
+- Preconditions: `n < a.size()` is true
+- Effects: equivalent to `return *(a.begin() + n);`
+- Remarks: required for `basic_string`, `array`, `deque`, `inplace_vector`, and `vector`
 
 #### Speaking of containers ...
 
@@ -2632,9 +2704,68 @@ We now have ways to check stuffs in a more subtle and certain way than simple as
   - errorneous -> incorrect code
   - `[[indeterminate]]` attribute to specify what is errorneous on purpose
 
+#### constexpr exceptions
+
+```cpp
+consteval auto hello(std::string_view input) {
+  if (input.empty()) {
+    throw invalid_argument{"empty name provided"};
+      // compile-time error at throw
+      // expression site when reached
+  }
+  return concat_into_a_fixed_string("hello ", input);
+}
+```
+
+```cpp
+const auto a = hello("");     // compile-time error at call site
+                              // "empty name provided"
+const auto b = hello("Hana");
+
+try {
+  const auto c = hello("");   // this exception is caught
+}
+catch (std::invalid_argument const&) {
+  // the cold path (one hopes)
+}
+```
+
+#### Erroneous behaviour
+
+```cpp
+extern void f(int);
+
+int main() {
+  int x;
+  f(x);
+}
+```
+
+```cpp
+int main() {
+  int x [[indeterminate]];
+  std::cin >> x;
+}
+```
+
 fun fact: P0059 -> first paper Guy wrote for free concurrent ring buffer. -> bugs, concurrency, race conditions, etc. -> hard to specs.
 
 #### This takes a while
+
+```cpp
+std::optional<Player> find_player_candidate(Lobbies& lobbies) {
+  auto EU_player = lobbies.find_player(Territory::EU);
+  auto US_player = lobbies.find_player(Territory::US);
+
+  auto candidate = find_player(EU_player, US_player);
+
+  auto player = invite_candidate(candidate);
+
+  return player ? std::optional<Player>(*player) : std::nullopt_t;
+}
+```
+
+(the slide's return line reads `std::nullopt_t`, the type, where `std::nullopt` is meant)
 
 #### the concurrency story - C++11
 
@@ -2664,12 +2795,35 @@ all of that is a bit low-level, we need to improve abstractions
 #### the concurrency story - C++20
 
 - std::couting_semaphore, std::binary_semaphore
+- std::latch, std::barrier
+- std::atomic_ref, std::atomic_flag, std::atomic_notify
+- std::jthread
+- std::stop_token, std::stop_source, std::stop_callback
 
 #### the concurrency story - C++23
 
 - _Atomic (to be checked)
 
-slide: "this takes slightly less time" -> still not composable
+#### This takes slightly less time
+
+```cpp
+std::optional<Player> find_player_candidate(Lobbies& lobbies) {
+  auto EU_player = std::async(std::launch::async, [&] {
+                     return lobbies.find_player(Territory::EU);});
+  auto US_player = std::async(std::launch::async, [&] {
+                     return lobbies.find_player(Territory::US);});
+
+  auto search = find_player(EU_player.get(), US_player.get());
+
+  auto player = std::async(std::launch::async, [&] {
+                  return invite_candidate(std::move(search));});
+
+  return player.get() ? std::optional<Player>(*player) :
+                        std::nullopt_t;
+}
+```
+
+-> still not composable
 
 #### What's the problem here ?
 
@@ -2677,15 +2831,30 @@ slide: "this takes slightly less time" -> still not composable
 - get rid of goto
 - error propagation with throw/exception is trivial
 
+> Structured concurrency refers to a way to structure asynchronous execution so that child operations
+> are guaranteed to complete before their parents, just the way a function is guaranteed to complete
+> before its caller.
+
 asynchronous lifetimes
 
 [...]
 
 #### What is a function, anyway ?
 
+- bunch of code wrapped in braces and given a name
+- input values and return value
+- error handling
+- async: thread location
+- async: cancellation mechanism
+
 signal errors
 
 #### Sender and receivers
+
+- sender: what to do
+- receiver: respond to what was done
+- operation state: bundled sender and receiver
+- scheduler: where to execute the operation state
 
 as an excellente abstraction of how functions work
 
@@ -2695,6 +2864,8 @@ sender factories
 
 - std::schedule
 - std::just
+- std::just_error
+- std::just_stopped
 
 sender adapters
 
@@ -2711,6 +2882,14 @@ lazy evaluation, like range views
 
 -> add simple example slide here
 
+```text
+sender factory
+  => sender adaptor
+  => sender adaptor
+  ...
+  => sender consumer
+```
+
 The time of `search` is the complete graph of execution -> complete hell -> perfect use-case for auto here
 
 Nothing happended -> we only composed a call graph
@@ -2718,13 +2897,61 @@ we need to then use async_wait
 
 #### Simple example
 
+```cpp
+std::optional<Player> find_player_candidate(Lobbies& lobbies) {
+  auto EU_player = lobbies.find_player_sender(Territory::EU);
+  auto US_player = lobbies.find_player_sender(Territory::US);
+
+  auto search = std::execution::when_all(
+    std::move(EU_player), std::move(US_player))
+    | std::execution::then([](Lobby_source EU, Lobby_source US) {
+                   return find_player(EU, US);})
+    | std::execution::let_value([](Candidate& candidate) {
+                   return invite_candidate(std::move(candidate));});
+
+  if (auto player = std::this_thread::sync_wait(std::move(search)))
+    return *player;
+  return {};
+}
+```
+
 - way simpler to read
 - please play with it, write a web-crawler for instance
+
+then the same thing again, with coroutines:
+
+```cpp
+std::execution::task<std::optional<Player>> find_player_candidate
+  (Lobbies& lobbies) {
+  auto [EU_player, US_player] = co_await
+    std::execution::when_all(
+      lobbies.find_player_sender(Territory::EU),
+      lobbies.find_player_sender(Territory::US));
+
+  co_return co_await
+    invite_candidate(
+      find_player(EU_player, US_player));
+}
+```
 
 #### other concurrency
 
 - vectorization -> SIMD
 - the red code is not standard -> one variation for each architecture
+
+```cpp
+void vector_scale(const float* input, float* output, size_t size, float scale)
+{
+  for (auto i = 0u; i < size; ++i) {
+    output[i] = input[i] * scale;
+  }
+}
+```
+
+the same loop, rewritten once per target:
+
+- `<immintrin.h>` -> `__m256`, `_mm256_set1_ps`, `_mm256_loadu_ps`, `_mm256_mul_ps`, `_mm256_storeu_ps`, plus a scalar tail loop
+- `<riscv_vector.h>` -> `vfloat32m1_t`, `__riscv_vsetvl_e32m1`, `__riscv_vle32_v_f32m1`, `__riscv_vfmul_vf_f32m1`, `__riscv_vse32_v_f32m1`
 
 Solution : `#include <simd>`
 
@@ -2739,8 +2966,22 @@ Solution : `#include <simd>`
 
 - `#include` lexically substitutes text
 - new preprocessor directive: `#embed`, to avoid loading time -> share binary datas, etc.
-  - (to me: to be confirmed with documentation, proposal)
+  - P1967 "#embed - a simple, scannable preprocessor-based resource acquisition method" (JeanHeyd Meneide), in C23 first, then C++26
   - super useful with resources, lua, etc.
+
+```cpp
+constexpr unsigned char d[] = {
+  #embed <data.dat>
+};
+
+constexpr unsigned char logo[] = {
+  #embed <logo.png>
+};
+
+constexpr unsigned char script[] = {
+  #embed <battle.lua>
+};
+```
 
 #### The big one: reflection
 
@@ -2760,7 +3001,53 @@ Few obvious use-case
 - enum-to-string
 - serializing structs
 
+```cpp
+template <class E>
+requires std::is_enum_v<E>
+constexpr std::string_view enum_name(E value) {
+  template for (constexpr std::meta::info e
+    : std::define_static_array(std::meta::enumerators_of(^^E))) {
+    if (value == [:e:])
+      return std::meta::identifier_of(e);
+  }
+  return "<entry error>";
+}
+
+enum class Bodypart { head, torso, arm, leg };
+static_assert(enum_name(Bodypart::head) == "head");
+```
+
+-> highlighted on the slide: `template for`, and `std::meta::enumerators_of(^^E)`
+
+```cpp
+// A function template which has a type parameter T
+
+template for (constexpr std::meta::info member :
+  std::define_static_array(std::meta::nonstatic_data_members_of(
+    ^^T, std::meta::access_context::unprivileged())))
+{
+  // formatting...
+  file += std::meta::identifier_of(member);
+  // formatting...
+  file += std::to_string(t.[:member:]);
+  // formatting...
+}
+```
+
 #### So much more
+
+new headers:
+
+- `<contracts>`
+- `<debugging>`
+- `<hazard_pointer>`
+- `<hive>`
+- `<inplace_vector>`
+- `<linalg>`
+- `<meta>`
+- `<rcu>`
+- `<simd>`
+- `<text_encoding>`
 
 #### When can I try all this stuffs ?
 

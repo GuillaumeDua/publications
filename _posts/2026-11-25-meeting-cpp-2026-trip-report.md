@@ -3748,16 +3748,16 @@ static_assert(!is_lifetime_aware_v<std::string_view>);
 
 #### Summary
 
-|                            | `is_sendable` | `is_synchronizable` | `is_lifetime_aware` |
-| -------------------------- | ------------- | ------------------- | ------------------- |
-| `int`                      | ✅            | ❌                  | ✅                  |
-| `const int`                | ✅            | ✅                  | ✅                  |
-| `int&`                     | ❌            | ❌                  | ❌                  |
-| `atomic<int>`              | ✅            | ✅                  | ✅                  |
-| `shared_ptr<int>`          | ❌            | ❌                  | ✅                  |
-| `struct {int a;};`         | ✅            | ❌                  | ✅                  |
-| `atomic<int>&`             | ✅            | ❌                  | ❌                  |
-| `shared_ptr<atomic<int>>`  | ✅            | ❌                  | ✅                  |
+|                           | `is_sendable` | `is_synchronizable` | `is_lifetime_aware` |
+| ------------------------- | ------------- | ------------------- | ------------------- |
+| `int`                     | ✅             | ❌                   | ✅                   |
+| `const int`               | ✅             | ✅                   | ✅                   |
+| `int&`                    | ❌             | ❌                   | ❌                   |
+| `atomic<int>`             | ✅             | ✅                   | ✅                   |
+| `shared_ptr<int>`         | ❌             | ❌                   | ✅                   |
+| `struct {int a;};`        | ✅             | ❌                   | ✅                   |
+| `atomic<int>&`            | ✅             | ❌                   | ❌                   |
+| `shared_ptr<atomic<int>>` | ✅             | ❌                   | ✅                   |
 
 #### implementing is_allowed_in_task ?
 
@@ -4062,12 +4062,12 @@ struct is_unsafe_lifetime_aware<std::vector<T>> :
 
 #### Standard smart pointers
 
-|                         | `is_unsafe_sendable`                 | `is_unsafe_lifetime_aware` |
-| ----------------------- | ------------------------------------ | -------------------------- |
+|                        | `is_unsafe_sendable`                 | `is_unsafe_lifetime_aware` |
+| ---------------------- | ------------------------------------ | -------------------------- |
 | ⚠️ `unique_ptr<T>`      | `is_sendable<T>`                     | `is_lifetime_aware<T>`     |
-| `shared_ptr<T>`         | `is_synchronizable<std::decay_t<T>>` | `is_lifetime_aware<T>`     |
-| `weak_ptr<T>`           | `is_synchronizable<std::decay_t<T>>` | `is_lifetime_aware<T>`     |
-| `reference_wrapper<T>`  | `is_synchronizable<std::decay_t<T>>` | ❌                         |
+| `shared_ptr<T>`        | `is_synchronizable<std::decay_t<T>>` | `is_lifetime_aware<T>`     |
+| `weak_ptr<T>`          | `is_synchronizable<std::decay_t<T>>` | `is_lifetime_aware<T>`     |
+| `reference_wrapper<T>` | `is_synchronizable<std::decay_t<T>>` | ❌                          |
 
 -> "any polymorphic type must be final"
 
@@ -4177,13 +4177,286 @@ static_assert(
 ### 🗣️ **Daniela Engert**: Same C++, but quicker to the finish line
 
 <!-- Slot: 17:15 - Track A (Saphir), hybrid -->
+<!-- alternative talks:
+  - Hana Dusíková - C++ starts with [cpp]
+  - Roth Michaels - What changes when everyone gets an AI coding agent
+-->
 <!-- Summary, paraphrased from https://meetingcpp.com/mcpp/schedule/talkview.php?th=30963a895a147e9b29a7733fd7887e632af52650
      Compilation speed: language features that slow compilers down or speed them up, the pitfalls, and
      measurements from in-house applications. -->
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+#### About me
+
+std::format - formatting library
+
+From the slide: electrical engineer, 45+ years building computers and writing software, 35+ years of hardware and software in applied digital signal processing, WG21 member for 5 years (EWG, SG15).
+
+Plan of the talk: the motivation, the tools the language gives us, measurements on real production code, lessons learned.
+
+#### Motivation
+
+3 times creating machine with the same codebase : the customer wanted some improvements, but the codebase was bottlnbecked, impossible to use anymore
+
+- 1st: designed mid-2000s, delivered to a steel mill in Austria in 2008 (C++03, 32-bit Windows XP)
+- 2nd: functionally enhanced, a sister division, 2011 (C++03, 64-bit Windows 7)
+- 3rd: contracted in 2021, "just a few additional requirements", at the frontier of known technology
+
+15 years of maintenance with many granted customer wishes took its toll -> build times rose to unbearable heights (xkcd 303, "my code's compiling", on the slide)
+
+replayed from the Meeting C++ 2019 talk: `#include <libGalil/DmcDevice.h>` -> 457'440 lines after preprocessing, 1546 ms, against `import libGalil;` -> 5 lines, 62 ms  
+(msvc 19.24, average of 100 invocations, time on top of an empty `main`)
+
+#### How to reduce build times ?
+
+What can we do when best practices are not enough ?
+
+identify piece of code that are unecessary -> avoid work
+
+the usual answers first: faster build machines, faster tools (compilers, linkers, code generators), simpler code to compile ("beware of myths, obsolete suggestions, and convictions!"), renegotiate goals and project scopes
+
+the two words of the talk:
+
+- **efficacy** -> remove the unnecessary work, and start the unavoidable work earlier
+- **efficiency** -> re-use as much of the already done unavoidable work as possible
+
+#### Where is unecessary work hidden ?
+
+#### Phases of translation `[lex.phases]`
+
+- preprocessing costs a lot
+- the other in yellow on the slide
+
+the two in yellow: 4. preprocessing (`#include`, macro definitions, conditional compilation) and 7. compilation (processing the TU, generating object files)
+
+#### include guards
+
+- to prevent multiple inclusions -> directly or indirectly
+
+the slide, on a subsequent nomination of `"header.h"`:
+
+- bad: the entire nominated code is processed up to and including phase 4, then subject to conditional compilation
+- good: the code is not even touched
+
+#### include guard optimisation
+
+have a look at the dedicated website
+
+`IncludeGuardian.io`. implementations only recognize *certain* forms of guard, and only optimize out subsequent nominations written *identically*: the plain `#ifndef GUARD` / `#define GUARD` pair, `#pragma once` and a `_Pragma(ONCE)` macro qualify; `#if !defined(GUARD)`, `#define GUARD 1`, and the `#ifdef GUARD` / `#undef GUARD` shape do not.
+
+#### name lookup
+
+- reduce sets of candidates -> so the compiler can search for a name is a particular scope
+- be aware of lookup phase: argument dependent name lookup, etc. -> look for hidden friends, etc.
+- qualified vs unqualified names lookup
+
+the worked example: `My::Class` calling `libA::operation(A{}, b)` qualified, then the same call unqualified with a `using` -> what must the compiler do when instantiating `callUnqualified()`, and which of the four candidates spread over `libA`, `libB` and `User` is chosen?
+
+Tips:
+
+- use qualified name whereever possible
+  - when you want names to be bound on first appearance
+  - qualified name lookup are cheap !
+- use unqualified names
+  - only when you really intend to create a customization point
+  - when you need ADL to find hidden friends
+  - when you need deferred name lookup
+  - when your overload sets are small
+
+#### unfortunate use of templates
+
+asking the audience:
+
+- "who use template metaprogramming a.k.a TMP"
+- "who is aware of using TMP" even if you're not doing yourself
+- "who uses std::move" ? everybody
+
+everybody use metaprogramming: `std::move` return type is a metaprogramming thing: type compilatation with `std::remove_reference_t<>`
+
+#### unfortunate use of templates - cost of operation
+
+From a talk from Odin holmes. The rule of Chiel -> name of his intern
+
+slide footnote: Chiel Douwes, former intern at AUTO INTERN GmbH, Germany
+
+<!-- TODO: add the slide as-is here -->
+
+SFINAE is super slow -> because that's a failure first, then a fallback
+
+For TMP, please use the functions from the standard -> because the compilers are aware of these function, and often apply specific optimisation to these function or type-traits. Boost type-traits library is not that much optimized for instance.
+
+#### A detour into API precompilation
+
+whenever I gave a talk in the past couple of years, I got a different question:
+
+- "do I actually use precompiled headers ?"
+- "how do precompiled headers preformed, compared to modules ?"
+
+But I never had an answer to that.
+To approach this question, we need to figure out what precompilation means. Like what is means to precompile a library API.
+
+#### Translation units
+
+- languages entitiers
+- macros
+- flags
+
+3 sets -> defines the compilation environment
+translation state
+
+- entities carry the *meaning* of the text seen in the TU, macros determine the *textual* body of the TU after phase 4 (the input of the translation), flags determine the *artifacts* (the output)
+- `E`, `M`, `F` -> compilation environment `CE = (M, F)`, compilation state `S = (E, M, F)`
+
+during the compilation, all the 3 sets will grow
+at the beginning, we have simple state with the command-line macros, etc.
+but then we have more from the libraries, then our headers, then etc.
+
+Then we have multiples translation units -> multiples compilations sets of our own header files
+but if the header file are oblivious of the compilation order -> we can add our header file at the very beginning of all our translation unit. Or even better, have a dedicated TU for our header file
+
+- this is what precompiled header artifact are
+
+so the compiler can replace these header-file textual inclusion and compilation of its content, by its already precompiled header artefact, and so skip the steps.
+
+⚠️ the red part of the slide: all three TUs take a compile-compile dependency to the precompiled header  
+(the precompile-TU itself "introduces a compilation dependency", shown as the arrow back from the artifact)
+
+#### header vs. PCF vs. header unit vs. named module
+
+<!-- TODO: add slide with table as-is here -->
+
+in one line: plain headers create no compilation dependency and isolate nothing, the three precompiled forms all create one.
+only named modules isolate the compile environment on *egress* and keep internal entities and names invisible, and the PCH is the only one of the four that is neither standard nor composable.
+
+#### API imports
+
+How do precompile headers do, compared to modules ?
+
+how to bring a precompiled API to a TU, without adding content to such unit ?
+
+#### write the header unit for a library
+
+- e.g source of header unit `<asio>`
+- it is an ordinary guarded header: `#define ASIO_HEADER_ONLY`, `#include <asio/asio.hpp>`, the optional `<asio/ssl.hpp>` under `ASIO_USE_SSL`, then `#undef`
+- precompile it and drop the BMI in a cache: clang `-fmodule-header -o bmi-cache/Asio.pcm`, gcc `-fmodules -fmodule-mapper=precompile -fmodule-header`, msvc `-exportHeader -ifcOutput bmi-cache/Asio.ifc`
+- no object file is generated, except with msvc which puts one in the cache too
+
+#### Wrap the module import for force-inclusion
+
+- wrap `import <Qt>;` into a header `Qt.pre`, guarded, and skipped while IntelliSense or ReSharper is parsing (`_MSC_VER` / `__INTELLISENSE__` / `__RESHARPER__`)
+- next to the import, `extern template` declarations for the `QExplicitlySharedDataPointer<...>` destructors -> no implicit instantiation left in every TU
+- then compile as always, and force-include the wrapper: clang `-fmodule-file=bmi-cache/Boost.pcm -include Boost.pre`, gcc `-fmodule-mapper=precompiled -include Boost.pre`, msvc `-ifcMap precompiled.toml -FI Boost.pre`
+- clang is "a bit 'icky': no support for a module mapper (yet?)"
+
+#### Demo
+
+- small TU using a fake library called "once"
+- this library is package into header unit
+
+Asking the audience which compiler try first -> Clang !
+
+- same with gcc
+- same with msvc
+
+=> in all 3 compilers, we see benefits on using a precompiled api of a library
+
+read off the terminal: `real 0m1,014s` with the header files, `real 0m0,580s` with the pre-built module.
+the `#warning` planted in `trace.h` fires in the header build and not in the module build -> the header is not opened at all.  
+(the two runs also print a different result, "found no greeting" then "found a greeting" -> check against the video)
+
+#### 3rd party libraries
+
+now we have convince ourselves that this technic offer benefits, let's have a look acommon open sources libraries
+
+Asio 1.36, Boost 1.89 (79 libs out of 153), Cereal 1.3.0, Eigen 3.4.0, log4cplus 2.0.8, NLohmann.Json 3.12, Qt 6.2.4 (core, gui, widgets), Xerces 3.3.0, plus MFC 14.0, the MS STL, the UCRT and part of the Windows SDK. some prebuilt, some header-only, a few both.
+
+#### Entire codebase, program, or single TU
+
+How do we precompile all those libraries ?
+
+- each dependends on the STL
+- and sometimes other libraries
+
+the fan-in on the slide: user code on top, the nine libraries below it, and everything bottoming out in the STL, Windows and the UCRT -> those have to be precompiled first, and shared by all of them
+
+#### some baseline measurements
+
+How to measure ? instrument your compiler
+
+the setup: a `pch.h` holding the interfaces of all dependencies, a `main.cpp` including it before an empty `main`, and the snapshot taken between the two.
+test machine: AMD Ryzen 5900X @ 4 GHz (Zen3, 12 cores / 24 threads), 64 GB RAM, msvc 19.50.35724.
+
+#### Results
+
+Time to (pre-)compile the entire APIs of all 3rd-party libraries
+
+<!-- TODO: add slide with result as-is here -->
+
+all the precompiled apis are way faster than headers
+
+the three charts, with deduplicated modules as the 100% baseline: *producing* the precompiled APIs costs roughly the same everywhere (headers 74%, PCH 76%, modules 120% wall clock).
+*providing* them to a TU is where it pays: 100% for headers against ~3% wall clock for any of the three precompiled forms.
+and the artifacts: headers and PCH need about 20x the compiler memory of modules, the PCH about 9x the disk.
+
+#### Build times of an in-house program (CTP-test)
+
+Real test case with a real program of Daniela's company -> not a toy example this time, with real meaning
+
+- using Qt, and other heavy libraries
+
+Huge benefinit/gains
+
+against the existing header build: 33% CPU / 46% wall clock with precompiled modules, 29% / 33% once code generation is out of the picture.
+in the breakdown, acquiring the API goes from 53.7% of the build down to 5.2%, and the rest of the frontend from 42.1% to 21.2%.
+
+#### Build times improvements across the entire codebase
+
+49 translation units: what the compiler has to see drops to about a third (classes, class/function/alias/variable templates and their specializations), and to a sixth for functions.
+spread over the whole codebase, relative to the existing build rules: median 42.2% wall clock (36.7% to 48.1%), 11.7% for acquiring the API, 63.4% in the backend.
+
+#### Summary
+
+- dont ask your compiler to do unecessary work
+- compose by modules
+- precompile library implementation as much as possible -> because more stable than other TU
+
+the rest of the list: guard your headers properly, qualify your identifiers wherever possible, prefer value-based over type-based metaprogramming, instantiate commonly used classes ahead of time and move them into the implementation part, precompile APIs as much as you can, make precompiled components composable, and shift precompilation out of the regular build to open up parallel compilation.
+
+Modules and "constant evaluation" are a match made in heaven -> reflection, etc.
+This is the best thing you can ask from your compiler
+
+#### Conclusion
+
+Investigation took about 6 weeks -> gains was about a factor of 2
+
+excessive coupling hurts a lot
+using modules in a very particular way -> make us able to put a facade in front of some pieces of code -> so they behave like virtual libraries, even if they're not libraries -> all of that gave us additional improvement by a factor of 10, only by the use of modules !!!
+
+#### Questions
+
+My questions: "How do you profile build time, so you can then pin-point what are the pain-points and so improve what's the most actionable/perfectible elements in your build ?"
+
+- highly depends on your compiler, you can also use a debugger on your compiler to check
+- detective work help you to tell you "do this or do that" and get the most out of it -> "please use cheap pieces of code instead of heavy template instanciation" -> if some template depend on some template parameter, perhaps you can move some parameter elsewhere so you have it elsewhere"
+  - that's just some small things, but it really add up when doing
+- meaning no specific tool
+
+My second question: I wonder if cmake has some idiomatic way to create PCH / header-units ? I mean, some unified synthax, rather than compiler-specific generator-expression
+
+- maybe there is a new version of cmake that can know. Someone in the audience: 4.5 has some experimentale
+
+#### Additional resources
+
+Cited on the slides:
+
+- the living C++ standard draft, currently at the C++26 Committee Draft
+- *Include Guards and their Optimization* -> `IncludeGuardian.io`
+- Odin Holmes, *Type Based Template Metaprogramming is Not Dead*, C++Now 2017
+
+
+
+
 
 #### My takeaway
 
@@ -4317,17 +4590,16 @@ If you enjoyed this trip-report:
 
 ## todo
 
-<!-- working section: drop it before publishing -->
+<!-- working section: I'll drop it before publishing ofc -->
 
 Still to attend:
 
-- [ ] 11/27: Antoine Morrier (16:00), Daniela Engert (17:15)
-- [ ] 11/28: the four talks, the lightning talks and the closing panel
+- [ ] 11/28: the four talks, the lightning talks (if any ?) and the closing panel
 
 Writing:
 
-- [ ] rewrite the raw notes into the report proper -> 7 sections still carry a `<!-- TODO: content -->` marker
-- [ ] 12 of the 14 `#### My takeaway` sections are empty
+- [ ] rewrite the raw notes into the report proper -> 6 sections still carry a `<!-- TODO: content -->` marker
+- [ ] 12 of the 15 `#### My takeaway` sections are empty
 - [ ] introduction: this year's framing, and what to keep of the recurring-themes list
 - [ ] opening section: keynote/talk/track counts, onsite and remote attendance, sponsors, code of conduct and trust & safety team
 - [ ] "Allow me a digression here": write it, or drop the section
@@ -4339,6 +4611,9 @@ To check:
 - [ ] Guy Davidson, "Other talks": the I/l characters in the video ids read off the slide
 - [ ] Guy Davidson: `TODO: add who is Guy`
 - [ ] Matt Godbolt, "Stats": the per-language numbers read off the dashboard screenshot
+- [ ] Daniela Engert, "Results" and the two build-time sections: the percentages read off the chart screenshots
+- [ ] Daniela Engert, "Demo": the header build prints "found no greeting" and the module build "found a greeting"
+- [ ] Daniela Engert: the three slides still to insert as images (rule of Chiel, the four-way comparison table, the result charts)
 
 Before publishing:
 
@@ -4346,3 +4621,8 @@ Before publishing:
 - [ ] replace the cover image -> the placeholder is the conference's own title card, reuse rights not stated
 - [ ] rename the file to the real publication date
 - [ ] remove the post from `exclude:` in `_config.yml`
+
+
+After publishing:
+
+- finish own my talk "sysiphus vs. tantalus"

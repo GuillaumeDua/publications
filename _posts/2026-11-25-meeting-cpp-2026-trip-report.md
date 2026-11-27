@@ -3076,7 +3076,238 @@ personnal note: about std::hive, I remember reading the first revision of the pa
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+"have you ever heard of compiler explorer" XD
+"there won't be some code on the slides"
+
+#### Beginnings
+
+- some colleague stating that range-for are slow need some benchmarks ?
+  - uses the watch command for some primitive compiler-explorer like view -> first draft
+  - show it's one cycle, one instruction fewer
+
+#### Now and then
+
+Matt was also teching himself how to create simple his first website using nodejs
+
+From primitive to now full of features
+
+#### life of a query
+
+S3
+
+#### compiler explorer in 2026
+
+**permanent** shortlinks -> super important
+
+see stats.compiler-explorer.com
+
+#### sandboxing: running strangers' code
+
+- for a long time, compiler-explorer was just compiling, not executing -> coz that's scary
+- but compilation is scary enough
+- how it stated: `#include</etc/passwd>`
+  - ways to exfiltrate files
+  - how to make it safe ? parsing ? -> `#include "../../../etc/passwd"` XD
+  - or even abuse the preprocessor -> `#define PASSWD`
+
+#### 2012's approach
+
+- about `ldd` -> `LD_PRELOAD`
+  - to overwite the C `open` function to add more safety -> prevent to open unwanted files -> permission denied for attempting to open for instance `/etc/passwd`
+- What else could go wrong ? `gcc` -> `-fplugin=name.so`
+  - your gcc can run an arbitrary bit of code ! This is a problem
+  - `-wrapper <program>` -> invoke all subcommands under a wrapper program -> for instance, `/bin/bash` !
+- `-specs=file`
+
+Solution in 2012 ? More regular expressions
+
+#### safe !? now ?
+
+No.
+
+- other compilers ?
+- new options ?
+- compiler bugs ?
+- WINE
+
+#### reasonnable question one might ask: why not docker ?
+
+- attempted in 2017
+- already in docker
+- docker-in-docker
+
+#### Firejail: a sandboxing program as a solution
+
+- lightweight security sandbox
+- landed in 2019
+- required some patching -> sometimes quite heavily
+- enabled user execution in 2019
+- retired LD_PRELOAD
+
+cannot exfiltrate some data from the home directory or other directories
+kinda confident peoples won't be able to execute arbitrary code
+but was way too slow for some compilers
+
+#### nsjail
+
+used by Google for their capture-the-flag
+
+- google's namespace jail
+- limits CPU, FS size
+- Hand-written allowlist
+- 2020: user execution
+- 2021: non-WIDE compilers
+
+Gives you very fine grain control of the sandbox
+simple/easy to configure
+replaced all of our sandboxing with this
+
+#### defense in depth
+
+- limiting what attackers can get, even if they break the first lines of defense
+
+#### problems
+
+- cgroup v2  race
+- symlink attack -> specific cases when symlinks mean the same thing in the sandbox and host system, for some specific reasons
+
+#### Conclusion
+
+- tough to run RCE - remote code execution - as a service
+- luckily "bad guys" dont seem to want to hack us
+
+#### Storage
+
+- only part of the project that is not open-source, for securiy reason
+
+#### What do we store ?
+
+#### Initial
+
+was all `sudo apt install gcc-9`, etc. -> that does not scale
+
+with docker images, you have to add your new `RUN` at the end, so you dont invalidate previous cache entries -> unclear, etc. -> did not scale
+
+- baked into Docker image -> didnt scale
+- baked into AWS VM image -> didnt scale
+
+#### Enter NFS
+
+- NFS ? now you have **two** problems.
+
+NFS is great. but some problems too
+
+#### problems
+
+- performance -> you can't configure **caching** for NFS -> major caching issues -> bursting the bandwith
+- kernel upgrade issu
+
+#### cefs
+
+A few scripts on top of squashfs -> compiler explorer file system
+
+- squashfs archives for each compiler
+- mounted at boot time
+
+we stop going back to NFS for what might have got changed -> solving multiples problem at once
+can now map all squashfs images and load them -> takes some startup time, but then it's fast
+
+#### Ideally
+
+terrible startup time, but performances are good
+
+- fewer mounts
+- most things never change -> almost all immutable
+- but some things actually sometimes changes
+
+#### autofs
+
+some kind of a fake/virtual FS
+
+- mount on first access -> avoid startup time
+- script maps name to image
+- unmount when idle
+
+did not really worked that way
+
+#### cefs v2
+
+steps, transition along the way to move from v1 to v2
+
+- install a compiler to an existing location -> squashfs image
+- but instead, name it after the hash of the file -> squash it into one image, throw the install away
+- stable path -> content hash (same bytes, same path)
+- symlink can be used to replace the directory -> no need to reboot the machine to update configuration
+- one image per compiler -> thousands of mounts
+- then consolidate all in one image -> atomically switch all in one.
+- consolidate: repoint symlinks into one packed image.
+- garbage collection frees the orphaned images
+
+#### Before and after
+
+- mounts: 2,182 vs ~25
+- mount time: 30-50s vs. 18s
+
+#### Issues
+
+- CPU usage (v1) -> run top and say "what the hell this is running 100% cpu to mount squash images" -> it was systemd
+  - `systemd` create a dedicated thing to babysit every mount -> I filed a bug
+- nsjail ELOOP with autofs (v2)
+  - the jail message "need to mount xxx" goes to the host, which is great, but then don't go back into the jail
+
+#### Much more
+
+- Windows, ARM64, some machine with GPUs (which is very expensive)
+- NFS/Samba
+- Compiler CI system
+  - github is great for CI, but when you have dozens of compilers to build and test every night -> you need your own system
+
+#### Ligntning FQAs
+
+- How long do short links last ?
+  - goo.gl shut down -> but godbolt will keep going with their shortlinks
+  - scrapped most of goo.gl existing stuffs
+- how do we colourise ? -> using compiler informations
+- HJow do we filter ? how do we show the interesting bit of code ?
+- How do we handle so many ASMs ?
+- How many compilations do we do -> see stats.compiler-explorer.com
+
+This is a community project, nothing's a secret !
+
+#### Compiler explorer, LLC
+
+- Now a company for legal reasons
+
+#### Income
+
+- sponsors
+- community spoort
+- merchs
+- AWS credits
+- total: 88k
+
+That's not bad, but again that's a free open-source project
+
+#### Costs
+
+- Total: 51k
+- saved: 11k (44k in reserves)
+
+I want to make sure this all project outlive me. I heard that quick-bench is now gone, that's sad.
+
+#### Questions
+
+My question: "Which new challenges and/or features are you looking the most forward to ? Anything exciting you're already working on ?"
+
+- the time I spend on CE is getting a bit down since I have a job now.
+- But I wanna keep a personnal touch on this
+- I would really wanna get a great visualizer, and emulator for x86 -> that's exciting for me
+- my retiremenet dream would be to merge my dreams of simulation, CE, etc. all my passions into one thing
+
+Jens's question: what about the mobile experience ?
+
+- limited by what monica/monico (?) which is an embedded thing as Visual Studio do -> but we'll work on it
+- hard because they are lots of layouts
 
 #### My takeaway
 

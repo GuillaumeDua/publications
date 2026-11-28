@@ -4470,23 +4470,24 @@ However, I'm really excited about playing/testing with modules right now ! Espec
 
 ## 📅 11/28/2026
 
-### 🗣️ **Kerstin Keller**: Another Kind of Bug - The Subtleties of ODR Violations
+### 🗣️ **Andreas Reischuck**: Simplifying Qt MOC with C++26 reflections
 
-<!-- Slot: 09:00 - Track B (Opal), hybrid -->
-<!-- Alternative track of interest:
-       - Mathieu Ropert (Track E, Amethyst), "The Performance Mindset" - C++ FrUG -->
-<!-- Summary, paraphrased from https://meetingcpp.com/mcpp/schedule/talkview.php?th=e7fbe646abfad72719bfc3d791fa7e1051388267
-     Crashes that appear only in some environments, often caused by ABI incompatibility or ODR violations in
-     how the program is composed. Covers static and dynamic libraries, linkage and symbol visibility, and
-     component design. -->
+<!-- Slot: 09:00 - Track C (Jade), hybrid -->
+<!-- Attended in place of Kerstin Keller's canceled talk "Another Kind of Bug - The Subtleties of ODR Violations" (Track B, Opal) -->
+<!-- Summary, paraphrased from the Meeting C++ schedule page:
+     Verdigris stands in for the Qt Meta Object Compiler with a pile of macros and other C++ tricks.
+     C++26 reflection looks like a good fit to get rid of that complexity: both parts are introduced,
+     then ideas to improve the implementation. -->
 
 [🎥 Video](), [📄 slidedeck]()
 
-TODO: switched to 9:00:00 - Track C (Jade) - Andreas Reischuck: Simplifying Qt MOC with C++26 reflections,
-since Kerstin Keller 's talk was canceled
+#### Qt MOC
 
 Qt moc -> meta object compiler
 object, slot, signal, properies
+
+the example on the slide: `class Thermostat : public QObject` with `Q_OBJECT`, `Q_PROPERTY(double target READ target WRITE setTarget NOTIFY targetChanged)`, a `setTarget(double)` slot and a `targetChanged(double)` signal.
+moc is a code generator, `X.h` -> `moc` -> `moc_X.cpp`: it parses the C++ class, handles the preprocessor macros, and struggles with C++ templates.
 
 Question: what does the moc compiler exactly generates ?
 
@@ -4495,11 +4496,31 @@ Question: what does the moc compiler exactly generates ?
 Question: do we need the qt moc compiler ? No !
 Some projects changed that: Verdigris, since C++14
 
+for `Thermostat`: the `staticMetaObject` data tables, `qt_static_metacall` (signal and property handling), `qt_metacall`, `metaObject()`, `qt_metacast`, and the signal body itself -> `QMetaObject::activate(this, &staticMetaObject, /*SignalIndex*/ 0, &value)`
+
 #### Verdigris example
 
 using macros to provide implementations: object, slot, signal, properties
 
 `W_OBJECT_IMPL(T)` to state the object is generated
+
+"Replacing Qt MOC since C++14":
+
+```cpp
+class Thermostat : public QObject {
+    W_OBJECT(Thermostat)
+
+    void setTarget(double);
+    W_SLOT(setTarget);
+
+    void targetChanged(double value)
+        W_SIGNAL(targetChanged, value);
+
+    W_PROPERTY(double, target READ target WRITE setTarget
+                       NOTIFY targetChanged);
+};
+W_OBJECT_IMPL(Thermostat)
+```
 
 #### Veredigris magic
 
@@ -4513,9 +4534,16 @@ using macros to provide implementations: object, slot, signal, properties
 
 in two steps, for visual studio compiler reasons
 
+- step 1: `W_PROPERTY(...)` -> `W_MACRO_MSVC_EXPAND(W_PROPERTY2(__VA_ARGS__))`, where `READ`, `WRITE` and `NOTIFY` are themselves macros expanding to `&W_ThisType::` (and `w_internal::Notify{}`) -> the property arguments turn into member pointers
+- step 2: `W_PROPERTY2(TYPE, NAME, ...)` -> `W_STATE_APPEND(PropertyState, w_internal::makeMetaPropertyInfo<TYPE>(viewLiteral(#NAME), viewLiteral(#TYPE), ...))`, which is where the names become strings
+
 #### building MetaPropertyInfo
 
 property writers
+
+`makeMetaPropertyInfo<T>` creates a `MetaPropertyInfo<T>{.name = name, .typeStr = type}`, then hands the rest to `parseProperty<0>`.
+one `parseProperty` overload per kind of argument (getter, setter, notify): each sets its field and the matching string from `names[I]`, and recurses with `I + 1` or `I + 2`.
+what comes out is a single aggregate: name, type, getter, setter, notify, their strings, and `.flags = Readable | Writable | Notify`.
 
 #### Storing state
 
@@ -4523,32 +4551,57 @@ we still need a way to write/save information while the class value is still in-
 
 trick: non-standard `__COUNTER__` macro -> increase value at each use
 
+- `W_STATE_APPEND(STATE, ...)` -> `W_STATE_STORE(STATE, W_STATE_COUNT(STATE), __VA_ARGS__)`
+- `W_STATE_COUNT(STATE)` -> `stateCount<__COUNTER__, STATE##Tag, W_ThisType**>()`, a `consteval` function probing `w_state(index<N>, State{}, TPP{})` with `if constexpr (requires { ... })` and returning the first unused index
+- `W_STATE_STORE` then declares a hidden friend: `friend constexpr auto w_state(Index<COUNT>, STATE##Tag, W_ThisType**) { return (__VA_ARGS__); }`
+
 [...]
 
 so finally, we have implemented `w_state` thanks to `W_PROPERTY`, in a way/system that it works for hundreds properties
+
+the class ends up carrying its own metadata as a chain of hidden friends, one per index, found back by ADL on `W_ThisType**`.
+fully expanded for the Thermostat property: `friend constexpr auto w_state(Index<0>, PropertyStateTag, Thermostat**)` returning the `MetaPropertyInfo<...>` with `.flags = Designable | Scriptable | Stored | Readable | Writable | Notify`.
 
 #### Verdigris advantages: only C++
 
 Can C++26 help here ? Of course, othwersie there wont be this talk !
 
+the slide weighs both sides: just C++, compatible with Qt MOC, templates allowed - against names repeated everywhere, ordering that matters, and too many macros.
+
 #### reflection opereator: `^^`
 
 reflect on:
 
-- namespaces
-- types
+- namespaces -> `^^std`, `^^::`
+- types -> `^^int`, `^^std::set<int>`
+- class templates -> `^^std::vector`
+- function templates -> `^^std::exchange`
+- variables -> `^^std::cout`
 
 #### std::meta::info
 
+`constexpr std::meta::info r{^^int};` -> `std::meta::display_string_of(r)` is `"int"`.
+through an alias, `using Integer = int;` and `^^Integer`: `std::meta::has_identifier(r)` holds and `std::meta::identifier_of(r)` is `"Integer"` -> the alias survives the reflection.
+
 #### std::meta::info - class members
+
+`std::meta::members_of(r, std::meta::access_context::current())` -> a `std::vector<std::meta::info>`, and for `struct X { int value; }`, `members[0] == ^^X::value`
 
 #### std::meta::info - function arguments
 
+`std::meta::parameters_of(r)` on `^^demo` -> one `info` per parameter, and `std::meta::type_of(params[0]) == ^^int`
+
 #### splice specifier `[: :]`
+
+- a variable or parameter -> `return [: r :];`
+- a type -> `typename [: r :] x = 3;`
+- a template -> `return template [: r :]<int>(x, 3);`
 
 #### custom annotation
 
 - ref the other talk on that
+
+define a plain `struct Range { int min; int max; };`, use it as `[[= Range{0, 100}]] int volume = 50;`, read it back with `std::meta::annotations_of(member)[0]` and `std::meta::extract<Range>(annotation)`
 
 #### C++26 reflection summary
 
@@ -4561,8 +4614,9 @@ What works
 
 Limitations
 
-- no expression reflection
-- 
+- no expression reflection -> `^^(x + 7)` does not work
+- cannot directly declare or implement functions
+- cannot compose expressions or statements
 
 #### The transformation
 
@@ -4572,31 +4626,81 @@ design choices on how to design API
 
 The `W_OBJECT_IMPL(T)` still remains, tho.
 
+the class, after:
+
+```cpp
+class SampleObject : public BaseObject {
+    W_OBJECT
+
+public:
+    [[= w_signal]] void nameChanged(std::string name) W_SIGNAL_IMPL;
+
+    [[= w_slot]] void onClicked(std::string const& value);
+
+    [[= w_invokable]] void debugMessage(std::string value);
+
+    [[= w_property]]
+    int m_age = {};
+};
+W_OBJECT_IMPL(SampleObject)
+```
+
+every name is written once: the type name leaves `W_OBJECT`, the separate `W_SLOT` / `W_SIGNAL` / `W_INVOKABLE` declarations become annotations on the function itself, and the whole `W_PROPERTY(int, age READ getAge WRITE setAge NOTIFY ageChanged)` line collapses into `[[= w_property]]` on the member.
+
 #### W_OBJECT macro
 
 no more macro magic
 much simpler now
 
+from `W_OBJECT_COMMON(TYPE)` and its `W_ThisType`, `W_UnscopedName`, `FriendHelper`, `w_flagAlias`, `W_MetaObjectCreatorHelper` and a `W_BaseType` dug out of `getParentObjectHelper(&W_ThisType::qt_metacast)`, down to three lines: `Q_OBJECT`, `QT_ANNOTATE_CLASS(qt_fake, "")`, `W_META_CLASS_COMMON`
+
 #### W_SIGNAL_IMPL
 
 still wrapped in a macro, but now without macro magic -> use C++26 reflection instead
 
+- `std::meta::current_function()` gives the signal itself, `std::define_static_array(std::meta::parameters_of(...))` its parameters
+- `template for (constexpr auto param : w_parameters)` fills a `std::array<void const*, w_parameters.size() + 1>` (slot 0 left for the return value) with `std::addressof(static_cast<typename [: std::meta::type_of(param) :]&>([: std::meta::variable_of(param) :]))`
+- then `return w_signalActivate<w_signal_info>(this, w_args_array);`
+
 #### Signal activation
 
-- `signalIndex(&&Obj, fun)` -> lookup on existing signal function, provide a number
+- `signalIndex(^^Obj, fun)` -> lookup on existing signal function, provide a number
 - supports void and non-void signals
+
+the owning class comes from the signal itself: `using Obj = typename [: std::meta::parent_of(fun) :];`.
+`if constexpr (std::meta::is_void_type(std::meta::return_type_of(fun)))` -> straight `QMetaObject::activate(self, &Obj::staticMetaObject, index, ...)`, otherwise a `typename [: std::meta::return_type_of(fun) :] r{}` is placed in `args[0]` and returned.
 
 #### Signal index
 
 Much simpler and standard now thanks to reflection
 
+a `consteval` walk over `std::meta::members_of(clazz, std::meta::access_context::unchecked())`: skip what is not a function, stop at the signal, and count on the way the members carrying a `SignalAnnotation` in their `annotations_of`.
+
 #### W_OBJECT_IMPL
+
+still a macro, but a forwarding one: `staticMetaObject = reflect_impl::createMetaObject<TYPE>()`, and `qt_static_metacall`, `metaObject()`, `qt_metacast` and `qt_metacall` each delegate to a `reflect_impl::` function template.
+
+#### createMetaObject
+
+fills the `QMetaObject` aggregate: `.superdata = parentMetaObject(^^T)`, the string data, the data tables, `.static_metacall = qtStaticMetacall<T>`, the related meta objects and the meta types.
+a `createNamespaceMetaObject()` variant does the same for a namespace, with `static_assert(std::meta::is_namespace(Owner))`.
+
+#### metaData and buildMetaData
+
+`buildMetaData<type>()` is `consteval` and runs `fillMetaData` twice: once with a `LayoutBuilder` to size the tables (string count and size, int count, meta type count), once with a `DataBuilder` to fill them.
+`metaData<T>` is then one `constexpr` variable template per class.
 
 #### Conclusion
 
 Removed:
 
 - all name repetition
+- signature disambiguations
+- compile time state hacks
+- template hacks
+
+stamped across the slide: **experimental**.
+closing line: "Declare it once. Reflect the rest." - Andreas Reischuck, HicknHack Software GmbH.
 
 
 For comnpiler support: now only gcc-16.2 supports/implements C++26 static reflection. But clang and msvc are coming.
@@ -4739,11 +4843,12 @@ If you enjoyed this trip-report:
 
 Still to attend:
 
-- [ ] 11/28: the four talks, the lightning talks (if any ?) and the closing panel
+- [ ] 11/28: Guy Davidson (10:20), Klaus Iglberger (11:40), Jens Weller (14:00), the lightning talks (if any ?) and the closing panel
 
 Writing:
 
-- [ ] rewrite the raw notes into the report proper -> 6 sections still carry a `<!-- TODO: content -->` marker
+- [ ] rewrite the raw notes into the report proper -> 5 sections still carry a `<!-- TODO: content -->` marker
+- [ ] Kerstin Keller: her talk was canceled and moved to "later" -> keep the section with a note, or drop it
 - [ ] 12 of the 15 `#### My takeaway` sections are empty
 - [ ] introduction: this year's framing, and what to keep of the recurring-themes list
 - [ ] opening section: keynote/talk/track counts, onsite and remote attendance, sponsors, code of conduct and trust & safety team
@@ -4759,10 +4864,11 @@ To check:
 - [ ] Daniela Engert, "Results" and the two build-time sections: the percentages read off the chart screenshots
 - [ ] Daniela Engert, "Demo": the header build prints "found no greeting" and the module build "found a greeting"
 - [ ] Daniela Engert: the three slides still to insert as images (rule of Chiel, the four-way comparison table, the result charts)
+- [ ] Andreas Reischuck: the talkview link for the summary comment, and whether the Verdigris fork is public somewhere
 
 Before publishing:
 
-- [ ] fill the 16 `[🎥 Video]()` and `[📄 slidedeck]()` pairs, once Meeting C++ publishes them
+- [ ] fill the 18 `[🎥 Video]()` and `[📄 slidedeck]()` pairs, once Meeting C++ publishes them
 - [ ] replace the cover image -> the placeholder is the conference's own title card, reuse rights not stated
 - [ ] rename the file to the real publication date
 - [ ] remove the post from `exclude:` in `_config.yml`

@@ -4738,7 +4738,8 @@ Mixing C++26 static reflection and preprocessor macros can be convenient, but I'
 <!-- Slot: 10:20 - Track A (Saphir), hybrid -->
 <!-- Alternative tracks of interest:
        - Raymi Klingers (Track B, Opal), "1500 Archers, One State: Cross-Platform Determinism in Age of Empires"
-       - Koen Samyn (Track D, online), "Zero Cost Scripting Languages For Game Engines With C++26 Reflection" -->
+       - Koen Samyn (Track D, online), "Zero Cost Scripting Languages For Game Engines With C++26 Reflection"
+-->
 <!-- Summary, paraphrased from https://meetingcpp.com/mcpp/schedule/talkview.php?th=414814a1f2afc6aca39e237ff200830670c92856
      An introduction to C++ profiles: opt-in sets of enforceable safety rules living in the source code,
      meant to migrate existing codebases toward memory and type safety without splitting the language into
@@ -4746,7 +4747,263 @@ Mixing C++26 static reflection and preprocessor macros can be convenient, but I'
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+Eight papers back this talk, all listed on the opening slide - see *Additional resources* below.
+
+The hour ahead:
+
+- guarantees and enforcement
+- initialization in real C++
+- lifetimes, relocation and ownership
+- summaries, evidence and open questions
+- what to try next
+
+Source revisions: February-December 2025 and September-October 2026 -> experimental syntax and capabilities may change.
+
+The chalennnges: semantic edge-cases
+distinguish ordinary
+
+#### Guarantees and a shared framework
+
+A profile is a set of guarantees enforced at compile time and/or run time.
+
+- a specific profile defines a property, and the restrictions needed to preserve it
+- the Profiles framework requests enforcement, advertises module guarantees, checks required guarantees, and supports local suppression and header exemption
+
+it's all about restriction
+
+Start with some property we want to guarantee
+
+should not altern:
+
+- overload resolution
+- SFINAE
+- etc.
+
+despite it's part of the function signature
+
+each community might have different standards/restriction (for instance, MISRA)
+
+what are the permitted observable behaviors, compared to undefined or errorneous behaviors for a spcific piece of code ?
+
+#### Opt-in enforcement
+
+identitfy the region that needs separate evidence
+
+Proposed framework syntax:
+
+```cpp
+[[profiles::enforce(std::init)]];
+[[profiles::exempt(std::init,
+    quote_header: "legacy.h")]];
+#include "legacy.h"
+#include <string>
+
+int answer() { return 42; }
+
+[[profiles::suppress(std::init,
+    justification: "Legacy code audited separately")]]
+void legacy_initialization() { /* reviewed code */ }
+```
+
+`enforce` turns the profile on, `exempt` takes a named header out of the checked region, and `suppress` carries a justification for a piece of code reviewed by other means.
+Suppression deliberately reduces the checked region.
+
+#### initialization in everyday codoe
+
+undefined -> errorneous behavior
+current profiles makes you fix the behavior: it does not invent the default. it check the program we wrote, against the profile rules.
+
+`int value; if (bonus) value = 10; return value;` is a profile violation: the false branch leaves `value` uninitialized.
+The current C++ repair is `int value = 0;` -> the default value belongs to the algorithm, not to the profile.
+
+#### implicit initialization still counts
+
+the profiles preserves existing initialization semantics
+
+- zero initialized
+- constructed
+- profile error for uninitialized values
+
+A missing initializer does not always mean uninitialized storage: a namespace-scope `int` is zero-initialized, a local `std::string` or `std::vector<int>` is constructed, and only a local `int count;` is a profile error.
+
+#### constructor obligations
+
+contracts are redundant checks that program already satisfy
+
+```cpp
+class Counter {
+  int limit_ = 100;
+  int value_;
+public:
+  explicit Counter(int start)
+    pre (start >= 0 && start <= 100)
+    : value_{start} {}
+};
+```
+
+Default member initializer for `limit_`, constructor member initializer for `value_`: removing `value_{start}` leaves `value_` uninitialized.
+Contracts express domain conditions, and profiles could constrain their use.
+
+#### non-local static initialization
+
+`int limit = load_limit();` is non-local dynamic initialization.
+Current C++ alternatives: constant initialization with `constinit int limit = 100;`, or a function-local static with controlled first use.
+
+#### explicit deferred initialization
+
+does not avoid all initialization problem: we might still have recursive initialization problem for instance. but we want to make it explicit when it comes to the initialization orders.
+
+deferred initialization carries a control-flow obligation
+
+`int value [[uninit]];` marks an intentional lack of initialization: `value = 7;` initializes it, and the later `int copy = value;` is then permitted.
+`int other [[uninit]] = 9;` is a profile error: the marker does not initialize, and it does not erase a constructor.
+
+#### handles the unitialized memory
+
+`[[uninit]]`
+
+`void prepare(X* p [[ref_to_uninit]]);` accepts an uninitialized referent.
+Calling `consume(&x)` after `prepare(&x)` is still an error, because `prepare` promises no completion; `X y{7}; consume(&y);` is the ordinary initialized case.
+
+#### a checked initializing obligation
+
+`[[must_init]]` -> P4222R3
+
+veryfiy the obligation
+
+The obligation sits on the callee: `void initialize(int* p [[must_init]])` must write through `p`, which is what makes `int value [[uninit]]; initialize(&value); return value;` well-formed.
+
+#### construction and destruction
+
+a second destruction on the same object cause a lifetime errro
+
+Symmetrically on the construction side, with `X* p [[ref_to_uninit]]` pointing at raw storage: `std::construct_at(p, 1)` begins the lifetime, and a second `std::construct_at(p, 2)` is a profile error since the object is already live.
+Teaching excerpt: storage acquisition and failure handling are omitted from the slide.
+
+#### generic code and mixed initialization
+
+profile cannot:
+
+- change overload resolution
+- change template instanciation
+- change SFINAE
+
+For `struct Record { int id; std::string name; };`, `Record b;` leaves `id` uninitialized while `name` is constructed.
+A whole-object `[[uninit]]` cannot cancel a member's existing construction, and in `template <class T> void example() { T x; }` which case applies depends on `T`.
+
+#### partially filled
+
+P4422's summary example: a `char buffer[1024]` filled by `int len = read(buffer, 1024);`.
+Success initializes `[0, len)` rather than the whole buffer, so `buffer[len]` is still out of the initialized region, and on failure no buffer contents are established.
+Hence the `[[profiles::suppress(std::init, justification: "read initializes a prefix")]]` on the declaration.
+
+#### invalidation guarantees
+
+pointers in a wide sens: pointers, references, lambda capturing points, class with pointer members, etc.
+
+An alias must refer to an existing object -> `int* bad() { int local = 5; return &local; }` lets a dangling pointer escape.
+Null and bounds checks belong to separate guarantees.
+
+#### relocation across call
+
+distinguish garantees in our code, and what static analysis can use
+
+Three steps make the error: an iterator aliases an element, a call may relocate the elements, and the later access needs validity.
+So in `auto p = v.begin(); grow(v); *p = 7;`, where `grow` does a `push_back`, the write is flagged as a possible invalidation.
+
+#### conservative defaults and verified expecetions
+
+The default is conservative: any call is presumed invalidating.
+`[[not_invalidating]]` is the verified exception, so `int& first = v.front(); scale(v);` keeps `first` valid when `scale` carries the attribute.
+
+#### Ownership transfert
+
+most developers must still prefer RAII -> still the normal application interface
+
+`void dispose(int* p [[owner]])` consumes the deletion responsibility: after `dispose(p)`, a `delete p` in the caller is an error.
+The attribute only tracks responsibility, it does not delete anything by itself.
+
+#### escaping aliases
+
+lifetime traps
+
+Both `return [&value]{ return value; };` and `return std::vector<int*>{&value};` on a local `value` do the same thing: an enclosing object carries an alias beyond the referent's lifetime.
+
+#### suppression boundaries
+
+The P4418 bridge: `no_dangling(...)` wrapped around a factory call is an explicit claim at a boundary the analysis cannot see through.
+Preferred when feasible: restructure the lifetimes, or supply verified call facts.
+
+#### the missing facts at a call
+
+One declaration, different invalidation effects: `void normalize(std::vector<double>& v);` can be defined as `for (double& x : v) x *= 2;` or as `v.push_back(1.0);`, and only the second invalidates `double& x = v.front();`.
+The declaration alone does not say which.
+
+#### function summaries
+
+<!-- TODO: add full slide here -->
+
+P4422 proposes a YAML sidecar describing a function: `expects` for the requirements, `outcomes` with per-case `ensures` and `writes`, and `complete` for whether every exit is modeled.
+Missing claims mean unknown, and complete outcomes need an explicit claim.
+
+#### verified and assumed summaries
+
+Two regimes:
+
+- verified -> the checker sees the definition and validates the summary, so a body change must still satisfy the unchanged interface facts
+- assumed -> the body is unavailable, the summary joins the trusted base, and results must record the assumption for that external boundary
+
+Headers and modules can carry the same call facts: `export module Kai.Utils [[profiles::enforce(acme::type)]];` on the provider side, `import Kai.Utils [[profiles::require(acme::type)]];` on the consumer side.
+
+#### what implementations demonstrate
+
+Dated, bounded evidence from P4415R0:
+
+- 19/19 adversarial invalidation cases caught on a GCC branch, reported after the factory fix
+- initialization -> experimental Clang and GCC agree on the core rules
+- same meaning -> Clang's tested LLVM IR remains byte-identical
+- capability gaps -> the report gives Clang no invalidation profile
+
+Test coverage does not establish production readiness, nor universal cost.
+
+#### UB and profile-defined behaviors
+
+Hypothetical arithmetic profiles, with a 32-bit `int` and `a + b` overflowing: `Psat` saturates and takes the positive branch, `Pwrap` wraps and takes the error path, `Pthrow` throws, and with no profile it stays undefined behavior.
+P4401 asks whether correctness may rely on a profile-defined outcome.
+
+#### profiles are coming, details still move
+
+Ordinary code can stay ordinary: the hard work sits at raw-storage and library boundaries.
+
+A useful pilot: one component, one profile, a pinned compiler revision -> preview the diagnostics, fix the genuine defects, review the narrow suppressions.
+
+Watch list: attribute spellings and portable rules, verified library effects and profile-defined behavior.
+
+#### Questions
+
+In slide 18, what if `[[owner]]` annotation is present in one place and missed in other place where the variable is used? Would that lead to compiler error/warning?
+
+My question: "I wonder how using profiles and contracts will impact the build performances ? Also, for a given CI, does this mean we as developper need to create more matrix entries to check all possible/availble profiles ?"
+
+- TBD: to be decided. we have 4 different semantics + 2 for asserts. also we the always_enforce
+- this is early proposal stuffs -> raise your concerns to the paper authors
+
+Why standardize a bunch of clang-tidy checks ? this is basically glorified clang-tidy checks, that we all already use nowadays
+
+- to make it standard, so the whole C++ is safer
+
+#### Additional resources
+
+The eight papers, as listed on the opening slide:
+
+- P3704R1 *What are profiles?* - Bjarne Stroustrup, 22 October 2026
+- P4222R3 *An initialization profile* - Bjarne Stroustrup, 22 October 2026
+- P4418R0 *An invalidation profile* - Bjarne Stroustrup, 22 October 2026
+- P3589R3 *C++ Profiles: The Framework* - Gabriel Dos Reis, 1 December 2025
+- P4415R0 *Profiles: implementation status and experience* - Wong, Stasiowski, Voutilainen, 22 October 2026
+- P4422R0 *Function Summaries for Scaling Code Analysis of C++* - Gabriel Dos Reis, 23 October 2026
+- P4401R0 *UB and profile-defined behavior* - Herb Sutter, 20 September 2026
+- P2900R14 *Contracts for C++* - Berne et al., 13 February 2025
 
 #### My takeaway
 
@@ -4843,13 +5100,12 @@ If you enjoyed this trip-report:
 
 Still to attend:
 
-- [ ] 11/28: Guy Davidson (10:20), Klaus Iglberger (11:40), Jens Weller (14:00), the lightning talks (if any ?) and the closing panel
+- [ ] 11/28: Klaus Iglberger (11:40), Jens Weller (14:00), the lightning talks (if any ?) and the closing panel
 
 Writing:
 
-- [ ] rewrite the raw notes into the report proper -> 5 sections still carry a `<!-- TODO: content -->` marker
-- [ ] Kerstin Keller: her talk was canceled and moved to "later" -> keep the section with a note, or drop it
-- [ ] 12 of the 15 `#### My takeaway` sections are empty
+- [ ] rewrite the raw notes into the report proper -> 4 sections still carry a `<!-- TODO: content -->` marker
+- [ ] 12 of the 14 `#### My takeaway` sections are empty
 - [ ] introduction: this year's framing, and what to keep of the recurring-themes list
 - [ ] opening section: keynote/talk/track counts, onsite and remote attendance, sponsors, code of conduct and trust & safety team
 - [ ] "Allow me a digression here": write it, or drop the section
@@ -4865,10 +5121,12 @@ To check:
 - [ ] Daniela Engert, "Demo": the header build prints "found no greeting" and the module build "found a greeting"
 - [ ] Daniela Engert: the three slides still to insert as images (rule of Chiel, the four-way comparison table, the result charts)
 - [ ] Andreas Reischuck: the talkview link for the summary comment, and whether the Verdigris fork is public somewhere
+- [ ] Guy Davidson, "Profiles are coming": the eight paper numbers, authors and dates read off the opening slide
+- [ ] Guy Davidson, "Profiles are coming": the "function summaries" slide still to insert as an image
 
 Before publishing:
 
-- [ ] fill the 18 `[🎥 Video]()` and `[📄 slidedeck]()` pairs, once Meeting C++ publishes them
+- [ ] fill the 16 `[🎥 Video]()` and `[📄 slidedeck]()` pairs, once Meeting C++ publishes them
 - [ ] replace the cover image -> the placeholder is the conference's own title card, reuse rights not stated
 - [ ] rename the file to the real publication date
 - [ ] remove the post from `exclude:` in `_config.yml`

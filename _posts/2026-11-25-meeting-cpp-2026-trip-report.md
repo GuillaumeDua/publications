@@ -4996,14 +4996,16 @@ Why standardize a bunch of clang-tidy checks ? this is basically glorified clang
 
 The eight papers, as listed on the opening slide:
 
-- P3704R1 *What are profiles?* - Bjarne Stroustrup, 22 October 2026
-- P4222R3 *An initialization profile* - Bjarne Stroustrup, 22 October 2026
-- P4418R0 *An invalidation profile* - Bjarne Stroustrup, 22 October 2026
-- P3589R3 *C++ Profiles: The Framework* - Gabriel Dos Reis, 1 December 2025
-- P4415R0 *Profiles: implementation status and experience* - Wong, Stasiowski, Voutilainen, 22 October 2026
-- P4422R0 *Function Summaries for Scaling Code Analysis of C++* - Gabriel Dos Reis, 23 October 2026
-- P4401R0 *UB and profile-defined behavior* - Herb Sutter, 20 September 2026
-- P2900R14 *Contracts for C++* - Berne et al., 13 February 2025
+- [P3704R1](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3704r1.pdf) *What are profiles?* - Bjarne Stroustrup, 22 October 2026
+- [P4222R3](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4222r3.pdf) *An initialization profile* - Bjarne Stroustrup, 22 October 2026
+- [P4418R0](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4418r0.pdf) *An invalidation profile* - Bjarne Stroustrup, 22 October 2026
+- [P3589R3](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3589r3.pdf) *C++ Profiles: The Framework* - Gabriel Dos Reis, 1 December 2025
+- [P4415R0](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4415r0.pdf) *Profiles: implementation status and experience* - Wong, Stasiowski, Voutilainen, 22 October 2026
+- [P4422R0](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4422r0.pdf) *Function Summaries for Scaling Code Analysis of C++* - Gabriel Dos Reis, 23 October 2026
+- [P4401R0](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4401r0.pdf) *UB and profile-defined behavior* - Herb Sutter, 20 September 2026
+- [P2900R14](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2900r14.pdf) *Contracts for C++* - Berne et al., 13 February 2025
+
+Dates as the slide gives them. The wg21 index dates P3589R3 at 2026-07-21 and P4401R0 at 2026-10-19.
 
 #### My takeaway
 
@@ -5121,7 +5123,7 @@ To check:
 - [ ] Daniela Engert, "Demo": the header build prints "found no greeting" and the module build "found a greeting"
 - [ ] Daniela Engert: the three slides still to insert as images (rule of Chiel, the four-way comparison table, the result charts)
 - [ ] Andreas Reischuck: the talkview link for the summary comment, and whether the Verdigris fork is public somewhere
-- [ ] Guy Davidson, "Profiles are coming": the eight paper numbers, authors and dates read off the opening slide
+- [ ] Guy Davidson, "Profiles are coming": decide whether to keep the slide's dates or the wg21 index ones (they disagree for P3589R3 and P4401R0)
 - [ ] Guy Davidson, "Profiles are coming": the "function summaries" slide still to insert as an image
 
 Before publishing:

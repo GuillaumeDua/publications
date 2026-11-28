@@ -4174,6 +4174,8 @@ static_assert(
 
 <!-- TODO -->
 
+Antoine nailed it ! First talk at a meetingcpp conference, he was so stressed, and once on stage he definitly delivered.
+
 ### 🗣️ **Daniela Engert**: Same C++, but quicker to the finish line
 
 <!-- Slot: 17:15 - Track A (Saphir), hybrid -->
@@ -4454,13 +4456,15 @@ Cited on the slides:
 - *Include Guards and their Optimization* -> `IncludeGuardian.io`
 - Odin Holmes, *Type Based Template Metaprogramming is Not Dead*, C++Now 2017
 
-
-
-
-
 #### My takeaway
 
 <!-- TODO -->
+
+As we move more and more logic to the compile-time realm, projects get increasingly slower to build.
+Nothing I really experience so far, but on legacy or existing codebases.
+I never had to dive into this topic too deeply: what I often do is cleanup the build-system: how CMakelists.txt are structured (moving from legacy cmake to modern/contemporain cmake), spliting the project into clean, well-defined, fine-grain targets, etc.
+And so far, it allowed me to increase performances by at least x10 factor. A few years ago for instance, some project was about 20+ minutes to build. Once the cmake build was cleaned up, it was less than 2 minutes for a full cache generation. And yeah, dependency management was performed with CPM, and the code was about 95% header-only.
+However, I'm really excited about playing/testing with modules right now ! Especially to check what gains can I get when dealing with projects relying on tons of 3rd parties, including large frameworks like Qt.
 
 <!-- 18:30-19:30 - Social reception, sponsored by Hudson River Trading. -->
 
@@ -4478,11 +4482,152 @@ Cited on the slides:
 
 [🎥 Video](), [📄 slidedeck]()
 
-<!-- TODO: content -->
+TODO: switched to 9:00:00 - Track C (Jade) - Andreas Reischuck: Simplifying Qt MOC with C++26 reflections,
+since Kerstin Keller 's talk was canceled
+
+Qt moc -> meta object compiler
+object, slot, signal, properies
+
+Question: what does the moc compiler exactly generates ?
+
+#### Qt MOC generated code
+
+Question: do we need the qt moc compiler ? No !
+Some projects changed that: Verdigris, since C++14
+
+#### Verdigris example
+
+using macros to provide implementations: object, slot, signal, properties
+
+`W_OBJECT_IMPL(T)` to state the object is generated
+
+#### Veredigris magic
+
+3 steps:
+
+- preprocessor macros
+- compile-time data collection
+- qt meta data and meta call generation
+
+#### W_PROPERTY macro
+
+in two steps, for visual studio compiler reasons
+
+#### building MetaPropertyInfo
+
+property writers
+
+#### Storing state
+
+we still need a way to write/save information while the class value is still in-flight
+
+trick: non-standard `__COUNTER__` macro -> increase value at each use
+
+[...]
+
+so finally, we have implemented `w_state` thanks to `W_PROPERTY`, in a way/system that it works for hundreds properties
+
+#### Verdigris advantages: only C++
+
+Can C++26 help here ? Of course, othwersie there wont be this talk !
+
+#### reflection opereator: `^^`
+
+reflect on:
+
+- namespaces
+- types
+
+#### std::meta::info
+
+#### std::meta::info - class members
+
+#### std::meta::info - function arguments
+
+#### splice specifier `[: :]`
+
+#### custom annotation
+
+- ref the other talk on that
+
+#### C++26 reflection summary
+
+What works
+
+- reflect C++ entities and types
+- including type aliases
+- splicite type and variables, with template  support
+- std::meta::info can be a template argument
+
+Limitations
+
+- no expression reflection
+- 
+
+#### The transformation
+
+A few improvements to make things simpler, compared to macros
+
+design choices on how to design API
+
+The `W_OBJECT_IMPL(T)` still remains, tho.
+
+#### W_OBJECT macro
+
+no more macro magic
+much simpler now
+
+#### W_SIGNAL_IMPL
+
+still wrapped in a macro, but now without macro magic -> use C++26 reflection instead
+
+#### Signal activation
+
+- `signalIndex(&&Obj, fun)` -> lookup on existing signal function, provide a number
+- supports void and non-void signals
+
+#### Signal index
+
+Much simpler and standard now thanks to reflection
+
+#### W_OBJECT_IMPL
+
+#### Conclusion
+
+Removed:
+
+- all name repetition
+
+
+For comnpiler support: now only gcc-16.2 supports/implements C++26 static reflection. But clang and msvc are coming.
+
+#### Questions
+
+My question: "One the compilers supports for C++26 static reflection will  be available for clang, msvc, and others,
+do you think this Verdigris improvements can be used in production code ?
+Or do you expect this might introduce some regression or limitations when moving a pure Qt codebase to this new Verdigris ?"
+
+- there's always some complication when migrating a large part of your system.
+- but for now we're using verdigris for our applications, and it works
+- moving to this new verdigris - getting rid of most macros and using reflection instead - might introduce some changes, but I don't expect so much
+- I will encourage you if you have a complexe codebase - like template on qobject - to move on verdigris
+
+What are the performances (runtime and compile-time/build) improvements when moving to verdigris
+
+- depends too much on the project itself
+- no benchmarks for this for now
+- use verdigris because it helps you achieve things you could not before, not performances first.
+
+Qt in currently investigating what reflection could bring to their moc system.
+
+
+
 
 #### My takeaway
 
 <!-- TODO -->
+
+Mixing C++26 static reflection and preprocessor macros can be convenient, but I'm a bit sceptic about using such technic in production code for now. As hidden implementation details, sure why not - only if/when I'll have to.
 
 ### 🗣️ **Guy Davidson**: Profiles are coming
 
